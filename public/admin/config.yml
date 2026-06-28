@@ -3,6 +3,7 @@ backend:
   repo: altpsyche/kaaya-org
   branch: main
   base_url: https://api.netlify.com
+  site_id: 8e46abbd-8b87-4ce9-9e16-8f064fb6f561
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
