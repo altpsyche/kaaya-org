@@ -1,0 +1,29 @@
+---
+interface Principle {
+  number: number;
+  title: string;
+  subtitle: string;
+  body: string;
+}
+
+interface Props {
+  principles: Principle[];
+}
+
+const { principles } = Astro.props;
+---
+
+<ol class="space-y-8">
+  {principles.map((p) => (
+    <li class="flex gap-6">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[--color-primary] text-sm font-bold text-white">
+        {p.number}
+      </span>
+      <div>
+        <h3 class="font-semibold text-[--color-text]">{p.title}</h3>
+        <p class="mt-0.5 text-sm font-medium text-[--color-primary-light]">{p.subtitle}</p>
+        <p class="mt-2 text-sm leading-relaxed text-[--color-text-muted]">{p.body}</p>
+      </div>
+    </li>
+  ))}
+</ol>

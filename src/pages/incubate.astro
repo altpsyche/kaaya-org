@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/ui/Hero.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import QuoteBlock from '../components/ui/QuoteBlock.astro';
+import IncubationCard from '../components/ui/IncubationCard.astro';
+
+const incubations = [
+  {
+    name: 'Padav Fellowship',
+    by: 'Jagmohan Bangani',
+    description: 'Jagmohan Bangani, a visionary artist from Uttarakhand, partnered with Kaaya to establish a mentorship hub for emerging young artists from the remote mountain region. While Jagmohan provided the creative mentorship, artists network, and craft support, Kaaya served as the essential anchor — the \'padav\' — offering its campus, logistical framework, and relaxed natural ambience to transform his dream into a living reality for promoting arts and artists in the region. In the process, the Bangani Art Foundation has been established to continue supporting arts and artists in the Himalayan region.',
+    links: [
+      { label: 'Read about Padav Fellowship 2026', href: '/blog/a-reflection-on-padav-2026' },
+      { label: 'About the Padav programme', href: '/blog/padav-fellowships' },
+    ],
+  },
+  {
+    name: 'Anutraaya',
+    by: 'Asambhava',
+    description: 'Asambhava is an entrepreneur concerned with what happens to knowledge when the conditions that produced it disappear. Anutraaya is the name for this inquiry — where the traditional is not preserved in a museum but practised in a living environment. Using Kaaya and the neighbouring village of Tilwari as the ground for this experiment, the initiative seeks to translate ancestral wisdom into resilient pathways for the future. Step into Anutraaya\'s journey of rethinking food, language and craft so everyday life in the hills can stay rooted and resilient.',
+    links: [
+      { label: 'Read the story', href: '/blog/aritram' },
+    ],
+  },
+];
+---
+
+<Base
+  title="Incubate | Kaaya Learning Centre"
+  description="Kaaya's Plug 'n' Play incubation model for seedling ideas — Padav Fellowship and Anutraaya."
+>
+  <Hero heading="Incubate" subheading="A place for ideas that are still becoming" />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <SectionHeader title="A place for ideas that are still becoming" />
+      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+        <p>
+          Some ideas need more than a desk and a screen. They need a room, a community, a field, a kiln,
+          a kitchen — or simply time and honest ground conditions. At Kaaya, we offer the space for
+          seedling concepts to take root in reality before they face the scale of the marketplace.
+        </p>
+        <p>
+          Through our Plug 'n' Play model, we invite innovators to inhabit the campus. Kaaya may provide
+          the physical space, engage in co-creation, or act as an active field partner — testing and
+          refining ideas in a living environment, alongside a community that has its own knowledge and its
+          own pace.
+        </p>
+      </div>
+
+      <div class="mt-8 flex gap-10 text-center">
+        <div>
+          <p class="text-4xl font-bold text-[--color-primary]">2</p>
+          <p class="mt-1 text-sm text-[--color-text-muted]">ideas currently being incubated</p>
+        </div>
+        <div>
+          <p class="text-4xl font-bold text-[--color-earth]">∞</p>
+          <p class="mt-1 text-sm text-[--color-text-muted]">ideas this place can hold, if they are the right ones</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader title="Current Incubations" />
+      <div class="grid gap-6 sm:grid-cols-2">
+        {incubations.map((item) => (
+          <IncubationCard
+            name={item.name}
+            by={item.by}
+            description={item.description}
+            links={item.links}
+          />
+        ))}
+      </div>
+      <QuoteBlock
+        quote="Kaaya does not incubate ideas for you. It incubates them with you — and sometimes, in spite of you, the place itself becomes part of what you are making."
+      />
+    </section>
+
+    <section>
+      <SectionHeader
+        title="Bring your idea to life at Kaaya"
+        subtitle="We are looking for serious, thoughtful concepts that seek more than just a backdrop. Begin with an honest conversation about what you hope to build."
+      />
+      <form
+        name="incubate-inquiry"
+        method="POST"
+        data-netlify="true"
+        class="max-w-xl space-y-5"
+      >
+        <input type="hidden" name="form-name" value="incubate-inquiry" />
+        <div>
+          <label for="name" class="block text-sm font-medium text-[--color-text] mb-1">Name <span class="text-[--color-accent]">*</span></label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium text-[--color-text] mb-1">Phone</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="about" class="block text-sm font-medium text-[--color-text] mb-1">About you in short <span class="text-[--color-accent]">*</span></label>
+          <textarea
+            id="about"
+            name="about"
+            required
+            rows={3}
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none resize-none"
+          />
+        </div>
+        <div>
+          <label for="idea" class="block text-sm font-medium text-[--color-text] mb-1">Your idea brief <span class="text-[--color-accent]">*</span></label>
+          <textarea
+            id="idea"
+            name="idea"
+            required
+            rows={5}
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none resize-none"
+          />
+        </div>
+        <div>
+          <label for="doc" class="block text-sm font-medium text-[--color-text] mb-1">Your work / doc / video link</label>
+          <input
+            type="url"
+            id="doc"
+            name="doc"
+            placeholder="https://"
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+          />
+        </div>
+        <button
+          type="submit"
+          class="rounded-[--radius-card] bg-[--color-accent] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+        >
+          Share your idea
+        </button>
+      </form>
+    </section>
+
+  </div>
+</Base>

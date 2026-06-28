@@ -1,0 +1,33 @@
+---
+interface Link {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  name: string;
+  by: string;
+  description: string;
+  links?: Link[];
+}
+
+const { name, by, description, links = [] } = Astro.props;
+---
+
+<div class="rounded-[--radius-card] border border-[--color-border] bg-[--color-surface] p-8">
+  <p class="text-xs font-semibold uppercase tracking-widest text-[--color-accent]">Incubated by {by}</p>
+  <h3 class="mt-2 text-xl font-bold text-[--color-text]">{name}</h3>
+  <p class="mt-4 leading-relaxed text-[--color-text-muted]">{description}</p>
+  {links.length > 0 && (
+    <div class="mt-6 flex flex-wrap gap-3">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="text-sm font-medium text-[--color-primary] underline-offset-2 hover:underline"
+        >
+          {link.label} →
+        </a>
+      ))}
+    </div>
+  )}
+</div>

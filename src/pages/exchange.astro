@@ -1,0 +1,192 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/ui/Hero.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import QuoteBlock from '../components/ui/QuoteBlock.astro';
+import ValueTable from '../components/ui/ValueTable.astro';
+import PillarList from '../components/ui/PillarList.astro';
+
+const exchangeHeaders = ["Visitor's Action", "Kaaya's Gain", "Community Benefit"];
+const exchangeRows = [
+  ['School pays for eco-camp', 'Revenue to cover costs', 'Income for local cooks, guides, resource persons'],
+  ['Family buys crafts', 'Revenue from product sales', 'Better prices for local artisans'],
+  ['NGO holds workshop', 'Income funds operations', 'Internships for local youth'],
+  ['Visitor buys at Farmer\'s Market', 'Strengthened reputation', 'Farmers earn more, grow more diverse crops'],
+];
+
+const institutionHeaders = ['Institutional Engagement', "Kaaya's Role", 'Community Benefit'];
+const institutionRows = [
+  [
+    'Setu Aayog / ISVC — converges government schemes for digital access, agriculture, tourism, and watershed management in the Tilwari cluster',
+    'Host campus and coordination node for the Smart Village Centre programme',
+    'Households gain e-governance, financial inclusion, and telemedicine access; youth certified as guides; farmers linked to premium markets under the Bhadraj Valley brand',
+  ],
+  [
+    'UMSVY — Uttarakhand Mahila Samekit Vikas Yojana — runs a two-year programme for women\'s economic development',
+    'Training venue, mobilisation support, and processing infrastructure',
+    '250 women trained in processing, packaging, and marketing of agricultural produce; projected net income of ₹5,450 per woman per month',
+  ],
+];
+
+const pillars = [
+  {
+    number: 1,
+    title: 'Digital & governance platform',
+    body: 'E-governance desk, mini-bank, and telemedicine linkages — a single convergence node for public services.',
+  },
+  {
+    number: 2,
+    title: 'Community-led tourism economy',
+    body: 'Homestay registrations, youth guide certifications, trekking circuits retaining 60–70% of tourism spend locally.',
+  },
+  {
+    number: 3,
+    title: 'Farmers to better margins',
+    body: '\'Bhadraj Valley\' brand, micro-processing units for dehydration and packaging, organic crop premiums.',
+  },
+  {
+    number: 4,
+    title: 'Watershed & eco-regeneration',
+    body: 'Climate-smart agriculture, spring-shed recharge, and poly-tunnels to guard farming systems.',
+  },
+  {
+    number: 5,
+    title: 'Women, youth & social inclusion',
+    body: 'SC households and women\'s SHGs in leadership roles within central cooperatives — not as beneficiaries but as decision-makers.',
+  },
+];
+
+const partners = ['UMSVY', 'K-Green Life', 'PMKVY 2.0', 'Bhadraj Valley'];
+---
+
+<Base
+  title="Exchange | Kaaya Learning Centre"
+  description="Kaaya's Value Exchange System, Sunday Market circular economy, and institutional partnerships."
+>
+  <Hero heading="Exchange" subheading="Sustaining ourselves and the neighbourhoods" />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <SectionHeader title="The Value Exchange System" />
+      <p class="mb-6 max-w-2xl text-[--color-text-muted] leading-relaxed">
+        Kaaya sustains itself not by extracting value from the community it sits within — but by
+        designing transactions that move value through it.
+      </p>
+      <ValueTable headers={exchangeHeaders} rows={exchangeRows} />
+      <p class="mt-4 text-xs italic text-[--color-text-muted] max-w-2xl">
+        This isn't a definitive solution, and navigating market pressures is a daily effort. However,
+        as the process continues to iterate, these community-rooted loops become incredibly relevant &amp; sustainable.
+      </p>
+    </section>
+
+    <section>
+      <SectionHeader title="The first step in a circular economy" subtitle="Sunday Market" />
+      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+        <p>
+          The Sunday market is where the village economy breathes. Here, farmers and kitchen gardeners
+          bring their surplus produce, selling directly to neighbours at normal retail prices. There is no
+          middleman, no charity — just direct value exchange among villagers.
+        </p>
+        <p>
+          Kaaya supports this by helping process surplus through solar drying, dehydration, and pickling,
+          ensuring nothing goes to waste. Students participate by mapping household consumption —
+          understanding where money leaves the village and where it might stay. A formal agreement with
+          UMSVY strengthens this further, training women's groups in processing, packaging, and branding
+          of agricultural produce.
+        </p>
+      </div>
+      <QuoteBlock
+        quote="A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the cash that could have stayed in the neighbourhood disappears into a distant supply chain"
+      />
+    </section>
+
+    <section>
+      <SectionHeader title="When institutions engage, the logic holds" />
+      <ValueTable headers={institutionHeaders} rows={institutionRows} />
+      <p class="mt-4 text-xs italic text-[--color-text-muted]">
+        Both programmes are live. Neither required Kaaya to become something it wasn't.
+      </p>
+    </section>
+
+    <section>
+      <SectionHeader
+        title="Scaling communal growth, not power"
+        subtitle="Five strategic pillars for the Tilwari cluster"
+      />
+      <PillarList pillars={pillars} />
+      <QuoteBlock
+        quote="Kaaya is not trying to scale a model. It is trying to demonstrate one — in one village, with enough rigour and honesty that others can judge for themselves whether it travels"
+      />
+    </section>
+
+    <section>
+      <SectionHeader title="Our Valued Partners" />
+      <div class="flex flex-wrap gap-4">
+        {partners.map((p) => (
+          <span class="rounded-full border border-[--color-border] px-5 py-2 text-sm font-medium text-[--color-text-muted]">
+            {p}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader
+        title="Become a Partner in Our Circular Ecosystem"
+        subtitle="We warmly invite forward-thinking organisations, impact investors, and community leaders to join the Kaaya ecosystem."
+      />
+      <form
+        name="partnership-inquiry"
+        method="POST"
+        data-netlify="true"
+        class="max-w-xl space-y-5"
+      >
+        <input type="hidden" name="form-name" value="partnership-inquiry" />
+        <div>
+          <label for="org" class="block text-sm font-medium text-[--color-text] mb-1">Organisation name</label>
+          <input
+            type="text"
+            id="org"
+            name="org"
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="contact" class="block text-sm font-medium text-[--color-text] mb-1">Contact person</label>
+          <input
+            type="text"
+            id="contact"
+            name="contact"
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-[--color-text] mb-1">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+          />
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-medium text-[--color-text] mb-1">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows={5}
+            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none resize-none"
+          />
+        </div>
+        <button
+          type="submit"
+          class="rounded-[--radius-card] bg-[--color-accent] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+        >
+          Reach out
+        </button>
+      </form>
+    </section>
+
+  </div>
+</Base>

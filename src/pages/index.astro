@@ -1,40 +1,82 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { formatDate } from '../lib/utils';
+import Hero from '../components/ui/Hero.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import NavCard from '../components/ui/NavCard.astro';
+import PostList from '../components/ui/PostList.astro';
+import Button from '../components/ui/Button.astro';
 
-const posts = (await getCollection('blog'))
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5);
+  .slice(0, 3);
+
+const navCards = [
+  {
+    title: 'Place',
+    description: 'Who we are, where we are, and what we are still learning',
+    href: '/place',
+  },
+  {
+    title: 'Learn',
+    description: 'Programmes for those who want to learn alongside us',
+    href: '/learn',
+  },
+  {
+    title: 'Incubate',
+    description: 'Ideas that need a place to grow — the Plug \'n\' Play model',
+    href: '/incubate',
+  },
+  {
+    title: 'Exchange',
+    description: 'How we sustain ourselves and the neighbourhoods',
+    href: '/exchange',
+  },
+  {
+    title: 'Visit',
+    description: 'Accommodation, rates, and how to find us',
+    href: '/visit',
+  },
+];
 ---
 
-<Base>
-  <section class="mx-auto max-w-4xl px-6 py-20">
-    <h1 class="text-5xl font-bold text-neutral-900">Kaaya</h1>
-    <p class="mt-4 text-xl text-neutral-600">A place of being.</p>
+<Base
+  title="Kaaya Learning Centre — A small experiment in sustainable living"
+  description="Kaaya Learning Centre is a mud-built campus in Tilwari, Dehradun where urban and rural communities meet, learn from each other, and find that the exchange is worth making."
+>
+  <Hero
+    heading="It's about Re-imagining"
+    subheading="Tilwari, Dehradun · Himalayan Foothills, India"
+    cta={{ label: 'Learn about Kaaya', href: '/place' }}
+  />
+
+  <section class="mx-auto max-w-5xl px-6 py-16">
+    <div class="max-w-2xl">
+      <h2 class="text-xl font-semibold text-[--color-text]">A small experiment in sustainable living</h2>
+      <p class="mt-4 leading-relaxed text-[--color-text-muted]">
+        Kaaya Learning Centre is a mud-built campus in the village of Tilwari where urban and rural
+        communities meet, learn from each other, and find that the exchange is worth making.
+      </p>
+    </div>
   </section>
 
-  {posts.length > 0 && (
-    <section class="mx-auto max-w-4xl px-6 pb-20">
-      <h2 class="mb-8 text-2xl font-semibold text-neutral-900">Recent posts</h2>
-      <ul class="space-y-6">
-        {posts.map((post) => (
-          <li>
-            <a href={`/blog/${post.id}`} class="group block">
-              <time class="text-sm text-neutral-500">
-                {formatDate(post.data.pubDate)}
-              </time>
-              <h3 class="mt-1 text-lg font-medium text-neutral-900 group-hover:text-primary transition-colors">
-                {post.data.title}
-              </h3>
-              <p class="mt-1 text-neutral-600">{post.data.description}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-      <a href="/blog" class="mt-10 inline-block text-sm font-medium text-primary hover:underline">
-        All posts →
-      </a>
+  <section class="mx-auto max-w-5xl px-6 pb-16">
+    <SectionHeader title="What Kaaya is" />
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {navCards.map((card) => (
+        <NavCard title={card.title} description={card.description} href={card.href} />
+      ))}
+    </div>
+  </section>
+
+  {recentPosts.length > 0 && (
+    <section class="mx-auto max-w-5xl px-6 pb-20">
+      <SectionHeader title="Latest from Kaaya" />
+      <PostList posts={recentPosts} />
+      <div class="mt-8">
+        <Button href="/blog" label="View All Updates" variant="ghost" />
+      </div>
     </section>
   )}
 </Base>

@@ -1,0 +1,37 @@
+---
+import { formatDate } from '../../lib/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  pubDate: Date;
+  heroImage?: string;
+  author?: string;
+  readTime?: string;
+}
+
+const { title, description, href, pubDate, heroImage, author, readTime } = Astro.props;
+---
+
+<a href={href} class="group block rounded-[--radius-card] overflow-hidden border border-[--color-border] bg-[--color-surface] hover:border-[--color-primary] transition-colors">
+  {heroImage && (
+    <img
+      src={heroImage}
+      alt=""
+      class="aspect-video w-full object-cover"
+      loading="lazy"
+    />
+  )}
+  <div class="p-5">
+    <div class="flex items-center gap-2 text-xs text-[--color-text-muted]">
+      <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+      {author && <><span>·</span><span>{author}</span></>}
+      {readTime && <><span>·</span><span>{readTime}</span></>}
+    </div>
+    <h3 class="mt-2 font-semibold text-[--color-text] group-hover:text-[--color-primary] transition-colors leading-snug">
+      {title}
+    </h3>
+    <p class="mt-1 text-sm text-[--color-text-muted] line-clamp-2">{description}</p>
+  </div>
+</a>

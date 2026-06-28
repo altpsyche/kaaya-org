@@ -1,0 +1,27 @@
+---
+interface Pillar {
+  number: number;
+  title: string;
+  body: string;
+}
+
+interface Props {
+  pillars: Pillar[];
+}
+
+const { pillars } = Astro.props;
+---
+
+<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  {pillars.map((p) => (
+    <div class="rounded-[--radius-card] border border-[--color-border] bg-[--color-surface] p-6">
+      <div class="mb-3 flex items-center gap-3">
+        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-[--color-earth] text-xs font-bold text-white">
+          {p.number}
+        </span>
+        <h3 class="font-semibold text-[--color-text]">{p.title}</h3>
+      </div>
+      <p class="text-sm leading-relaxed text-[--color-text-muted]">{p.body}</p>
+    </div>
+  ))}
+</div>

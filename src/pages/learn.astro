@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/ui/Hero.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import QuoteBlock from '../components/ui/QuoteBlock.astro';
+import ProgramTable from '../components/ui/ProgramTable.astro';
+import NavCard from '../components/ui/NavCard.astro';
+
+const programs = [
+  {
+    duration: '1–5 days',
+    name: 'Short immersions',
+    description: 'Curriculum-linked outdoor camps built around the seed journey, the milk journey, and the soil journey. Children work with their hands and return with a different sense of where food comes from.',
+  },
+  {
+    duration: '1–5 weeks',
+    name: 'Project residencies',
+    description: 'Students narrow in on a specific local challenge and work on it collaboratively alongside the community — not as observers, but as participants in real problem-solving.',
+  },
+  {
+    duration: 'Up to 6 months',
+    name: 'Live projects & internships',
+    description: 'For college students and young professionals. The aim is not to apply what was learned in classrooms — but to discover what classrooms could not teach.',
+  },
+  {
+    duration: 'Summer',
+    name: 'Detox camps',
+    description: 'Spaces for urban children to form genuine friendships, explore independently, and simply be in nature for a while. When children arrive from different schools, without existing hierarchies or shared histories, something else becomes possible.',
+  },
+];
+
+const sessions = [
+  {
+    title: 'Hands-on pottery',
+    description: '3-hour sessions for groups up to 12. Working with clay, wheel, and kiln under local guidance.',
+    href: '/visit',
+  },
+  {
+    title: 'Forest & eco trails',
+    description: 'Guided walks through the surrounding landscape — streams, canopy, soil, and what lives in all of them.',
+    href: '/visit',
+  },
+  {
+    title: 'Nature art classes',
+    description: 'In collaboration with visiting practitioners. Making things from materials the land provides.',
+    href: '/visit',
+  },
+  {
+    title: 'Farm day picnics',
+    description: 'Outdoor-cooked meals in the mountains. Food grown nearby, prepared in the open air.',
+    href: '/visit',
+  },
+];
+---
+
+<Base
+  title="Learn | Kaaya Learning Centre"
+  description="Experiential learning programmes at Kaaya — immersions, residencies, internships, and hands-on sessions."
+>
+  <Hero heading="Learn" subheading="Learning alongside, not enrolling in" />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <SectionHeader title="Learning alongside" />
+      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+        <p>
+          Kaaya is not running courses. It is not in the business of teaching. What happens here is
+          closer to a shared inquiry — and the programmes below are invitations to join it, not enrol in it.
+        </p>
+        <p>
+          The dairy farmer who leads the milk journey knows what a cow eats, what it costs to keep her,
+          what rate he receives, how purity is tested. He knows this because his livelihood depends on it.
+          When students walk with him, they are not receiving instruction. They are entering a different
+          relationship with knowledge — one the classroom was not designed to provide.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader
+        title="Experience · Engage · Explore"
+        subtitle="Programmes by duration"
+      />
+      <ProgramTable programs={programs} />
+      <QuoteBlock
+        quote="We also value unstructured time. We let children feel bored. Boredom, we have found, is where the roots of imagination lie dormant"
+      />
+    </section>
+
+    <section>
+      <SectionHeader
+        title="Hands-on Sessions"
+        subtitle="These are not demonstrations. They are sessions for people who want to make something, learn something, or pay closer attention to the world around them."
+      />
+      <div class="grid gap-4 sm:grid-cols-2">
+        {sessions.map((s) => (
+          <NavCard title={s.title} description={s.description} href={s.href} />
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Base>

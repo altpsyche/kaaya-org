@@ -1,0 +1,34 @@
+---
+interface Row {
+  type: string;
+  details: string;
+  capacity: string;
+}
+
+interface Props {
+  rows: Row[];
+}
+
+const { rows } = Astro.props;
+---
+
+<div class="overflow-x-auto">
+  <table class="w-full border-collapse text-sm">
+    <thead>
+      <tr class="border-b-2 border-[--color-border] bg-[--color-surface]">
+        <th class="px-4 py-3 text-left font-semibold text-[--color-text]">Type</th>
+        <th class="px-4 py-3 text-left font-semibold text-[--color-text]">Details</th>
+        <th class="px-4 py-3 text-left font-semibold text-[--color-text]">Capacity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr class="border-b border-[--color-border] hover:bg-[--color-surface] transition-colors">
+          <td class="px-4 py-4 font-semibold text-[--color-primary] align-top">{row.type}</td>
+          <td class="px-4 py-4 text-[--color-text-muted] align-top">{row.details}</td>
+          <td class="px-4 py-4 text-[--color-text-muted] align-top">{row.capacity}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

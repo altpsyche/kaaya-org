@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/ui/Hero.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import PriceTable from '../components/ui/PriceTable.astro';
+import ContactBlock from '../components/ui/ContactBlock.astro';
+
+const accommodation = [
+  {
+    type: 'Mud Huts',
+    details: 'Large mud-walled hall · single beds',
+    capacity: 'Max 12 beds',
+  },
+  {
+    type: 'Family Rooms',
+    details: '3 units · double beds · attached bucket baths',
+    capacity: 'Max 6 beds',
+  },
+  {
+    type: 'Studio Rooms',
+    details: '2 units · one double + floor beds',
+    capacity: 'Max 8 beds',
+  },
+  {
+    type: 'Dormitory',
+    details: '2 units · twin sets on two floors',
+    capacity: 'Max 8 beds',
+  },
+];
+
+const facilities = [
+  'Conference hall with audio-visual facility',
+  'Natural outdoor informal sit-outs for group discussions',
+  'Hands-on pottery (3 hr, max 12 participants)',
+  'Forest / eco trail (3 hr)',
+  'Nature art class (3 hr session)',
+  'Farm day picnic — Half day (excludes travel)',
+];
+---
+
+<Base
+  title="Visit | Kaaya Learning Centre"
+  description="Accommodation, pricing, facilities, and directions to Kaaya Learning Centre in Tilwari, Dehradun."
+>
+  <Hero heading="Visit" subheading="Come and see what's happening here" />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <SectionHeader title="Staying at Kaaya" />
+      <PriceTable rows={accommodation} />
+      <p class="mt-4 text-sm text-[--color-text-muted]">
+        Accommodation is on a shared, eco-oriented basis. Please carry your own personal hygiene items;
+        towels are available on request. An advance of 50% is required on booking confirmation.
+      </p>
+    </section>
+
+    <section>
+      <SectionHeader title="What a stay costs" />
+      <div class="max-w-xl space-y-4">
+        <div class="rounded-[--radius-card] border border-[--color-border] bg-[--color-surface] p-6">
+          <p class="text-2xl font-bold text-[--color-primary]">₹1,200 – ₹2,100</p>
+          <p class="mt-1 text-sm text-[--color-text-muted]">per bed per day · varies by purpose, facilities, and meal plan</p>
+        </div>
+        <div class="space-y-3">
+          <h3 class="font-semibold text-[--color-text]">Meal Plans</h3>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div class="rounded-[--radius-card] border border-[--color-border] p-4">
+              <p class="font-medium text-[--color-text] text-sm">Basic</p>
+              <p class="mt-1 text-xs text-[--color-text-muted]">Breakfast, lunch, dinner, two teas</p>
+            </div>
+            <div class="rounded-[--radius-card] border border-[--color-border] p-4">
+              <p class="font-medium text-[--color-text] text-sm">Custom</p>
+              <p class="mt-1 text-xs text-[--color-text-muted]">On request — ask us when you inquire</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader title="Facilities & Experiences" />
+      <ul class="space-y-2">
+        {facilities.map((f) => (
+          <li class="flex items-start gap-2 text-sm text-[--color-text-muted]">
+            <span class="mt-0.5 text-[--color-accent]">→</span>
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section>
+      <SectionHeader title="Come and see" subtitle="We are approximately 20 km from Dehradun city" />
+      <ContactBlock />
+    </section>
+
+  </div>
+</Base>

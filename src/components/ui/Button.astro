@@ -1,0 +1,20 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'primary' | 'ghost';
+}
+
+const { href, label, variant = 'primary' } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'inline-block rounded-[--radius-card] px-6 py-3 text-sm font-semibold transition-colors',
+    variant === 'primary' && 'bg-[--color-accent] text-white hover:opacity-90',
+    variant === 'ghost' && 'border border-[--color-border] text-[--color-text] hover:border-[--color-accent] hover:text-[--color-accent]',
+  ]}
+>
+  {label}
+</a>

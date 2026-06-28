@@ -1,0 +1,45 @@
+---
+interface Props {
+  categories: string[];
+}
+
+const { categories } = Astro.props;
+---
+
+<nav aria-label="Filter by category" class="mb-8">
+  <div class="flex flex-wrap gap-2">
+    {categories.map((cat, i) => (
+      <button
+        type="button"
+        data-category={cat}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        class="rounded-full border border-[--color-border] px-4 py-1.5 text-sm text-[--color-text-muted] transition-colors hover:border-[--color-primary] hover:text-[--color-primary] aria-selected:border-[--color-primary] aria-selected:bg-[--color-primary] aria-selected:text-white"
+      >
+        {cat}
+      </button>
+    ))}
+  </div>
+</nav>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-category]');
+  const posts = document.querySelectorAll<HTMLElement>('[data-post-item]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const selected = btn.dataset.category!;
+
+      buttons.forEach((b) => b.setAttribute('aria-selected', 'false'));
+      btn.setAttribute('aria-selected', 'true');
+
+      posts.forEach((post) => {
+        if (selected === 'All Posts') {
+          post.hidden = false;
+        } else {
+          const cats = post.dataset.postCategories ?? '';
+          post.hidden = !cats.split(',').map((c) => c.trim()).includes(selected);
+        }
+      });
+    });
+  });
+</script>

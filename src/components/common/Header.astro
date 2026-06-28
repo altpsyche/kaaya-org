@@ -1,12 +1,40 @@
 ---
 import { SITE } from '../../data/site';
+
+const nav = [
+  { label: 'Place', href: '/place' },
+  { label: 'Learn', href: '/learn' },
+  { label: 'Incubate', href: '/incubate' },
+  { label: 'Exchange', href: '/exchange' },
+  { label: 'Visit', href: '/visit' },
+  { label: 'Blog', href: '/blog' },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<header class="border-b border-neutral-200 bg-white">
-  <nav class="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-    <a href="/" class="text-xl font-semibold text-neutral-900">{SITE.title}</a>
-    <ul class="flex gap-6 text-sm text-neutral-600">
-      <li><a href="/blog" class="hover:text-neutral-900 transition-colors">Blog</a></li>
+<header class="border-b border-[--color-border] bg-white sticky top-0 z-10">
+  <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 gap-4">
+    <a href="/" class="text-base font-bold text-[--color-primary] shrink-0">{SITE.title}</a>
+    <ul class="flex overflow-x-auto gap-1 text-sm scrollbar-none">
+      {nav.map(({ label, href }) => {
+        const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
+        return (
+          <li>
+            <a
+              href={href}
+              class:list={[
+                'whitespace-nowrap rounded px-3 py-1.5 font-medium transition-colors',
+                isActive
+                  ? 'text-[--color-primary] bg-[--color-surface]'
+                  : 'text-[--color-text-muted] hover:text-[--color-text]',
+              ]}
+            >
+              {label}
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </nav>
 </header>

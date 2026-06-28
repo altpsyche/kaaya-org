@@ -1,0 +1,20 @@
+---
+import { SITE } from '../../data/site';
+---
+
+<address class="not-italic space-y-2 text-sm text-[--color-text-muted]">
+  <p class="font-semibold text-[--color-text]">{SITE.title}</p>
+  <p>{SITE.address}</p>
+  <p>Managed by {SITE.managedBy}</p>
+  <p>
+    <a href={`mailto:${SITE.email}`} class="hover:text-[--color-primary] transition-colors">{SITE.email}</a>
+  </p>
+  <p>
+    {SITE.phone.map((p, i) => (
+      <>
+        <a href={`tel:${p}`} class="hover:text-[--color-primary] transition-colors">{p}</a>
+        {i < SITE.phone.length - 1 && <span> · </span>}
+      </>
+    ))}
+  </p>
+</address>

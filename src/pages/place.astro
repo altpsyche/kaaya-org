@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/ui/Hero.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import QuoteBlock from '../components/ui/QuoteBlock.astro';
+import PrincipleList from '../components/ui/PrincipleList.astro';
+
+const principles = [
+  {
+    number: 1,
+    title: 'On Connect',
+    subtitle: 'Understanding the urban‑rural disconnect',
+    body: 'In a world of supermarkets, online shopping, and smartphones, the gap between where people live and where their food, their water, and their knowledge come from keeps widening. At Kaaya, we think this costs both sides something critically important. Cities lose their relationship with the land. Villages lose their sense of worth. We are trying, in a small way, to demonstrate that the exchange runs both directions — and that both sides are better for it.',
+  },
+  {
+    number: 2,
+    title: 'On Value',
+    subtitle: 'A single transaction can ripple outward',
+    body: 'At Kaaya, we have reimagined a design that creates value as ripple effects. When a school arrives for a camp, local cooks prepare the meals, local guides lead the trails, local resource persons take the sessions. When a family buys a jar of pickle from the café, a farmer\'s surplus becomes income rather than waste. The transaction doesn\'t just cover costs — it moves through the neighbourhood. This is what we mean by exchange rather than charity: not generosity, but design.',
+  },
+  {
+    number: 3,
+    title: 'On Creation',
+    subtitle: 'We built upon what we have',
+    body: 'We did not bring in architects to build Kaaya. We used the soil that was excavated, the building skills the community already had, their knowledge of different soils. We did what we call appreciative inquiry — exploring possibilities not by looking at problems first, but by appreciating what was already around us: what the community already has, what it already knows, and how we might help make it work better.',
+  },
+  {
+    number: 4,
+    title: 'On Knowing',
+    subtitle: 'Knowledge lives in the people who use it',
+    body: 'Our resource person for the milk journey knows what a cow eats, what it costs to keep her, what rate he receives for his milk, how purity is tested, what the government scheme offers — not because he studied it, but because his livelihood depends on it. That is a different category of knowledge from what any curriculum can provide. Sustainability does not always require innovation. Sometimes it requires attention.',
+  },
+  {
+    number: 5,
+    title: 'On Learning',
+    subtitle: 'Nature teaches what classrooms cannot',
+    body: 'Students who come to Kaaya have usually already studied the topics we work with — food systems, ecology, climate change, rural economics. What they miss is field context: the experience of holding soil that is alive, of following milk from a cow they have milked themselves. We also value unstructured time. We let children feel bored. Boredom, we have found, is where the roots of imagination lie dormant.',
+  },
+  {
+    number: 6,
+    title: 'On Living',
+    subtitle: 'Fostering integrated connections',
+    body: 'Sustainability is not just a practice but a way of living. In Tilwari, we are learning how to live in alignment with the rhythms of the valley — recognising that our well-being is tied to the well-being of our neighbours, our animals, and our environment. This is what makes Kaaya a living learning centre, where every day offers a new lesson in coexistence and connection.',
+  },
+];
+---
+
+<Base
+  title="Place | Kaaya Learning Centre"
+  description="About Kaaya's origins, mud construction philosophy, and core beliefs."
+>
+  <Hero heading="Place" subheading="Where Kaaya began, and what it keeps asking" />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <SectionHeader title="It began simply enough" />
+      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+        <p>
+          Kaaya is about re-imagining. It began with a few people deciding to live in a village — to see
+          what happens. That question has not been answered. It is still being asked, every day, in the way
+          the campus is built, the way the community is engaged, and the way visitors are received.
+        </p>
+        <p>
+          This experiment grew into Kaaya, a word that translates to 'body' in Sanskrit — reflecting a
+          focus on the physical and tangible aspects of sustainable living, from the mud we build with to
+          the food we grow.
+        </p>
+        <p>
+          Today, Kaaya Learning Centre is managed as a social enterprise under K-Green Life Pvt Ltd. We
+          operate as a bridge between urban curiosity and rural wisdom, ensuring that the growth is both
+          inclusive and environmentally conscious, fostering a community where everyone has a stake in the
+          future.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader title="We built from what the land offered" />
+      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+        <p>
+          The structures at Kaaya are a testament to the wisdom of mud construction. Using local soil
+          excavated directly from the site, we have created walls that breathe, providing natural
+          insulation against the Himalayan climate. The campus layout follows the natural contours of the
+          land, cluster-style, encouraging communal interaction while respecting the privacy of individual
+          huts.
+        </p>
+        <p>
+          The Annexe Project represents our most recent evolution — a space dedicated to deeper learning
+          and longer stays. It integrates traditional building techniques with modern sensibilities, proving
+          that sustainable living doesn't mean a compromise on comfort or aesthetic. Every beam has a story
+          of local craftsmanship embedded within it.
+        </p>
+      </div>
+      <QuoteBlock
+        quote="We didn't want to spend too much money, so we had to save cost. Instead of importing materials or outside labour, Kaaya relied on what already existed within the village — local soil, local skills, and local knowledge."
+        attribution="Founder, Kaaya Learning Centre"
+      />
+    </section>
+
+    <section>
+      <SectionHeader
+        title="These are not conclusions"
+        subtitle="They are what the place keeps asking"
+      />
+      <PrincipleList principles={principles} />
+    </section>
+
+    <section>
+      <SectionHeader title="The Neighbourhoods" subtitle="Latest updates" />
+      <div class="grid gap-8 sm:grid-cols-2">
+        <div class="space-y-3">
+          <h3 class="font-semibold text-[--color-text]">Kitchen Gardens — Neighbours as organic growers</h3>
+          <p class="text-sm leading-relaxed text-[--color-text-muted]">
+            Tilwari village sits in the Doon Valley, a landscape under real pressure. Around 65% of
+            households in the area are classified as Below Poverty Line or Antyodaya. Farming has become
+            increasingly unviable. Young people leave.
+          </p>
+          <p class="text-sm leading-relaxed text-[--color-text-muted]">
+            We believe bridging the urban-rural gap can tap into energy, creativity, and possibility on
+            both sides. Kaaya does not pretend to have solved these problems — but we are trying, carefully
+            and incrementally, to show a different way of being in this place.
+          </p>
+        </div>
+        <div class="space-y-3">
+          <h3 class="font-semibold text-[--color-text]">Farmer's Market — An upcoming initiative at Kaaya</h3>
+          <QuoteBlock
+            quote="A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the cash that could have stayed in the neighbourhood disappears into a distant supply chain"
+          />
+          <a href="/blog/towards-farmers-market" class="text-sm font-medium text-[--color-primary] hover:underline underline-offset-2">
+            Read more →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</Base>
