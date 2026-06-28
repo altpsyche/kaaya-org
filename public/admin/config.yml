@@ -1,0 +1,91 @@
+backend:
+  name: git-gateway
+  repo: altpsyche/kaaya-org
+  branch: main
+  identity_url: https://auth.decapbridge.com/sites/ef6904eb-77c4-48c8-b441-d782f91deb1d
+  gateway_url: https://gateway.decapbridge.com
+  commit_messages:
+    create: Create {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    update: Update {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    delete: Delete {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    uploadMedia: Upload "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    deleteMedia: Delete "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
+
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
+site_url: https://kaaya-org.netlify.app
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  # 6 fixed page files — client can edit hero image/heading/subheading per page
+  - name: pages
+    label: Pages
+    files:
+      - label: Home
+        name: home
+        file: src/content/pages/home.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+      - label: Place
+        name: place
+        file: src/content/pages/place.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+      - label: Learn
+        name: learn
+        file: src/content/pages/learn.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+      - label: Incubate
+        name: incubate
+        file: src/content/pages/incubate.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+      - label: Exchange
+        name: exchange
+        file: src/content/pages/exchange.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+      - label: Visit
+        name: visit
+        file: src/content/pages/visit.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+
+  # Blog posts — Markdown with YAML frontmatter
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Published Date", name: "pubDate", widget: "datetime"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+      - {label: "Author", name: "author", widget: "string", required: false}
+      - {label: "Read Time", name: "readTime", widget: "string", required: false}
+      - {label: "Categories", name: "categories", widget: "list", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
