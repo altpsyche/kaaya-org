@@ -3,7 +3,7 @@ backend:
   repo: altpsyche/kaaya-org
   branch: main
   auth_type: pkce
-  app_id: YOUR_GITHUB_CLIENT_ID
+  app_id: Ov23lilpEsrddb4zFAQD
 
 media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
