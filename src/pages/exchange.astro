@@ -156,12 +156,12 @@ const marketPs = marketParagraphs ?? [
         subtitle="We warmly invite forward-thinking organisations, impact investors, and community leaders to join the Kaaya ecosystem."
       />
       <form
-        name="partnership-inquiry"
         method="POST"
-        data-netlify="true"
+        action="https://api.web3forms.com/submit"
         class="max-w-xl space-y-5"
       >
-        <input type="hidden" name="form-name" value="partnership-inquiry" />
+        <input type="hidden" name="access_key" value="WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="Partnership Inquiry" />
         <div>
           <label for="org" class="block text-sm font-medium text-[--color-text] mb-1">Organisation name</label>
           <input

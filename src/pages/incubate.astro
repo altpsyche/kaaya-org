@@ -95,12 +95,12 @@ const introPs = introParagraphs ?? [
         subtitle="We are looking for serious, thoughtful concepts that seek more than just a backdrop. Begin with an honest conversation about what you hope to build."
       />
       <form
-        name="incubate-inquiry"
         method="POST"
-        data-netlify="true"
+        action="https://api.web3forms.com/submit"
         class="max-w-xl space-y-5"
       >
-        <input type="hidden" name="form-name" value="incubate-inquiry" />
+        <input type="hidden" name="access_key" value="WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="Incubate Inquiry" />
         <div>
           <label for="name" class="block text-sm font-medium text-[--color-text] mb-1">Name <span class="text-[--color-accent]">*</span></label>
           <input
