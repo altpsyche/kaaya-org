@@ -4,7 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://kaaya.org',
+  site: 'https://altpsyche.github.io',
+  base: '/kaaya-org',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

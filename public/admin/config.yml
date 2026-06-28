@@ -13,7 +13,7 @@ backend:
     openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
 
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
-site_url: https://kaaya.org
+site_url: https://altpsyche.github.io/kaaya-org
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
