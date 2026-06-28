@@ -1,0 +1,22 @@
+backend:
+  name: github
+  repo: GITHUB_USERNAME/kaaya_org   # ← replace with your GitHub username
+  branch: main
+  auth_type: pkce
+  app_id: YOUR_GITHUB_CLIENT_ID     # ← replace after creating GitHub OAuth App
+
+media_folder: "src/assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }

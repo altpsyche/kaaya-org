@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(55% 0.18 250);
+  --color-primary-light: oklch(70% 0.15 250);
+  --color-secondary: oklch(70% 0.12 180);
+  --color-accent: oklch(65% 0.20 30);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
