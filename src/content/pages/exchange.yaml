@@ -1,1 +1,84 @@
-{}
+heroHeading: Exchange
+heroSubheading: Sustaining ourselves and the neighbourhoods
+exchangeHeaders:
+  - "Visitor's Action"
+  - "Kaaya's Gain"
+  - Community Benefit
+exchangeRows:
+  - visitorAction: School pays for eco-camp
+    kaayaGain: Revenue to cover costs
+    communityBenefit: Income for local cooks, guides, resource persons
+  - visitorAction: Family buys crafts
+    kaayaGain: Revenue from product sales
+    communityBenefit: Better prices for local artisans
+  - visitorAction: NGO holds workshop
+    kaayaGain: Income funds operations
+    communityBenefit: Internships for local youth
+  - visitorAction: "Visitor buys at Farmer's Market"
+    kaayaGain: Strengthened reputation
+    communityBenefit: Farmers earn more, grow more diverse crops
+marketParagraphs:
+  - >-
+    The Sunday market is where the village economy breathes. Here, farmers and kitchen gardeners
+    bring their surplus produce, selling directly to neighbours at normal retail prices. There is no
+    middleman, no charity — just direct value exchange among villagers.
+  - >-
+    Kaaya supports this by helping process surplus through solar drying, dehydration, and pickling,
+    ensuring nothing goes to waste. Students participate by mapping household consumption —
+    understanding where money leaves the village and where it might stay. A formal agreement with
+    UMSVY strengthens this further, training women's groups in processing, packaging, and branding
+    of agricultural produce.
+marketQuote:
+  quote: >-
+    A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the
+    cash that could have stayed in the neighbourhood disappears into a distant supply chain
+institutionHeaders:
+  - Institutional Engagement
+  - "Kaaya's Role"
+  - Community Benefit
+institutionRows:
+  - engagement: >-
+      Setu Aayog / ISVC — converges government schemes for digital access, agriculture, tourism, and
+      watershed management in the Tilwari cluster
+    kaayaRole: Host campus and coordination node for the Smart Village Centre programme
+    communityBenefit: >-
+      Households gain e-governance, financial inclusion, and telemedicine access; youth certified as
+      guides; farmers linked to premium markets under the Bhadraj Valley brand
+  - engagement: >-
+      UMSVY — Uttarakhand Mahila Samekit Vikas Yojana — runs a two-year programme for women's
+      economic development
+    kaayaRole: Training venue, mobilisation support, and processing infrastructure
+    communityBenefit: >-
+      250 women trained in processing, packaging, and marketing of agricultural produce; projected
+      net income of ₹5,450 per woman per month
+pillars:
+  - number: 1
+    title: Digital & governance platform
+    body: >-
+      E-governance desk, mini-bank, and telemedicine linkages — a single convergence node for public
+      services.
+  - number: 2
+    title: Community-led tourism economy
+    body: >-
+      Homestay registrations, youth guide certifications, trekking circuits retaining 60–70% of
+      tourism spend locally.
+  - number: 3
+    title: Farmers to better margins
+    body: "'Bhadraj Valley' brand, micro-processing units for dehydration and packaging, organic crop premiums."
+  - number: 4
+    title: Watershed & eco-regeneration
+    body: Climate-smart agriculture, spring-shed recharge, and poly-tunnels to guard farming systems.
+  - number: 5
+    title: Women, youth & social inclusion
+    body: >-
+      SC households and women's SHGs in leadership roles within central cooperatives — not as
+      beneficiaries but as decision-makers.
+partners:
+  - UMSVY
+  - K-Green Life
+  - PMKVY 2.0
+  - Bhadraj Valley
+finalQuote:
+  quote: >-
+    Kaaya is not trying to scale a model. It is trying to demonstrate one — in one village, with
+    enough rigour and honesty that others can judge for themselves whether it travels

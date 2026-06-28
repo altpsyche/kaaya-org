@@ -19,7 +19,6 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
-  # 6 fixed page files — client can edit hero image/heading/subheading per page
   - name: pages
     label: Pages
     files:
@@ -31,6 +30,17 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - {label: "Intro Heading", name: "introHeading", widget: "string", required: false}
+          - {label: "Intro Text", name: "introText", widget: "text", required: false}
+          - label: "Nav Cards"
+            name: "navCards"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "URL", name: "href", widget: "string"}
+
       - label: Place
         name: place
         file: src/content/pages/place.yaml
@@ -39,6 +49,43 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Section 1 Paragraphs"
+            name: "section1Paragraphs"
+            widget: "list"
+            required: false
+          - label: "Section 2 Paragraphs"
+            name: "section2Paragraphs"
+            widget: "list"
+            required: false
+          - label: "Section 2 Quote"
+            name: "section2Quote"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+          - label: "Principles"
+            name: "principles"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Number", name: "number", widget: "number", value_type: "int"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "string"}
+              - {label: "Body", name: "body", widget: "text"}
+          - label: "Neighbourhoods"
+            name: "neighbourhoods"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Body", name: "body", widget: "text", required: false}
+              - {label: "Quote", name: "quote", widget: "text", required: false}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+              - {label: "Link Label", name: "linkLabel", widget: "string", required: false}
+              - {label: "Link URL", name: "linkHref", widget: "string", required: false}
+
       - label: Learn
         name: learn
         file: src/content/pages/learn.yaml
@@ -47,6 +94,35 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Intro Paragraphs"
+            name: "introParagraphs"
+            widget: "list"
+            required: false
+          - label: "Programs"
+            name: "programs"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Duration", name: "duration", widget: "string"}
+              - {label: "Programme Name", name: "name", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+          - label: "Programs Quote"
+            name: "programsQuote"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+          - label: "Hands-on Sessions"
+            name: "sessions"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "URL", name: "href", widget: "string"}
+
       - label: Incubate
         name: incubate
         file: src/content/pages/incubate.yaml
@@ -55,6 +131,38 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Intro Paragraphs"
+            name: "introParagraphs"
+            widget: "list"
+            required: false
+          - {label: "Stat 1 — Value", name: "stat1Value", widget: "string", required: false}
+          - {label: "Stat 1 — Label", name: "stat1Label", widget: "string", required: false}
+          - {label: "Stat 2 — Value", name: "stat2Value", widget: "string", required: false}
+          - {label: "Stat 2 — Label", name: "stat2Label", widget: "string", required: false}
+          - label: "Incubations"
+            name: "incubations"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Incubated By", name: "by", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - label: "Links"
+                name: "links"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "Label", name: "label", widget: "string"}
+                  - {label: "URL", name: "href", widget: "string"}
+          - label: "Incubations Quote"
+            name: "incubationsQuote"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+
       - label: Exchange
         name: exchange
         file: src/content/pages/exchange.yaml
@@ -63,6 +171,63 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Exchange Table — Headers"
+            name: "exchangeHeaders"
+            widget: "list"
+            required: false
+          - label: "Exchange Table — Rows"
+            name: "exchangeRows"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Visitor's Action", name: "visitorAction", widget: "string"}
+              - {label: "Kaaya's Gain", name: "kaayaGain", widget: "string"}
+              - {label: "Community Benefit", name: "communityBenefit", widget: "text"}
+          - label: "Sunday Market Paragraphs"
+            name: "marketParagraphs"
+            widget: "list"
+            required: false
+          - label: "Sunday Market Quote"
+            name: "marketQuote"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+          - label: "Institution Table — Headers"
+            name: "institutionHeaders"
+            widget: "list"
+            required: false
+          - label: "Institution Table — Rows"
+            name: "institutionRows"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Institutional Engagement", name: "engagement", widget: "text"}
+              - {label: "Kaaya's Role", name: "kaayaRole", widget: "text"}
+              - {label: "Community Benefit", name: "communityBenefit", widget: "text"}
+          - label: "Pillars"
+            name: "pillars"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Number", name: "number", widget: "number", value_type: "int"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Body", name: "body", widget: "text"}
+          - label: "Partners"
+            name: "partners"
+            widget: "list"
+            required: false
+          - label: "Final Quote"
+            name: "finalQuote"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+
       - label: Visit
         name: visit
         file: src/content/pages/visit.yaml
@@ -71,6 +236,28 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Accommodation"
+            name: "accommodation"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Type", name: "type", widget: "string"}
+              - {label: "Details", name: "details", widget: "string"}
+              - {label: "Capacity", name: "capacity", widget: "string"}
+          - {label: "Price Range", name: "priceRange", widget: "string", required: false}
+          - {label: "Price Note", name: "priceNote", widget: "string", required: false}
+          - label: "Meal Plans"
+            name: "mealPlans"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+          - label: "Facilities"
+            name: "facilities"
+            widget: "list"
+            required: false
+          - {label: "Directions Note", name: "directionsNote", widget: "string", required: false}
 
   # Blog posts — Markdown with YAML frontmatter
   - name: blog

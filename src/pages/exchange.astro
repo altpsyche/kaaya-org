@@ -7,29 +7,47 @@ import QuoteBlock from '../components/ui/QuoteBlock.astro';
 import ValueTable from '../components/ui/ValueTable.astro';
 import PillarList from '../components/ui/PillarList.astro';
 
-const exchangeHeaders = ["Visitor's Action", "Kaaya's Gain", "Community Benefit"];
-const exchangeRows = [
-  ['School pays for eco-camp', 'Revenue to cover costs', 'Income for local cooks, guides, resource persons'],
-  ['Family buys crafts', 'Revenue from product sales', 'Better prices for local artisans'],
-  ['NGO holds workshop', 'Income funds operations', 'Internships for local youth'],
-  ['Visitor buys at Farmer\'s Market', 'Strengthened reputation', 'Farmers earn more, grow more diverse crops'],
-];
+const pageData = await getEntry('pages', 'exchange');
+const {
+  heroImage, heroHeading, heroSubheading,
+  exchangeHeaders: cmsExchangeHeaders,
+  exchangeRows: cmsExchangeRows,
+  marketParagraphs,
+  marketQuote,
+  institutionHeaders: cmsInstitutionHeaders,
+  institutionRows: cmsInstitutionRows,
+  pillars: cmsPillars,
+  partners: cmsPartners,
+  finalQuote,
+} = pageData?.data ?? {};
 
-const institutionHeaders = ['Institutional Engagement', "Kaaya's Role", 'Community Benefit'];
-const institutionRows = [
-  [
-    'Setu Aayog / ISVC — converges government schemes for digital access, agriculture, tourism, and watershed management in the Tilwari cluster',
-    'Host campus and coordination node for the Smart Village Centre programme',
-    'Households gain e-governance, financial inclusion, and telemedicine access; youth certified as guides; farmers linked to premium markets under the Bhadraj Valley brand',
-  ],
-  [
-    'UMSVY — Uttarakhand Mahila Samekit Vikas Yojana — runs a two-year programme for women\'s economic development',
-    'Training venue, mobilisation support, and processing infrastructure',
-    '250 women trained in processing, packaging, and marketing of agricultural produce; projected net income of ₹5,450 per woman per month',
-  ],
-];
+const exchangeHeaders = cmsExchangeHeaders ?? ["Visitor's Action", "Kaaya's Gain", "Community Benefit"];
+const exchangeRows = cmsExchangeRows
+  ? cmsExchangeRows.map((r) => [r.visitorAction, r.kaayaGain, r.communityBenefit])
+  : [
+      ['School pays for eco-camp', 'Revenue to cover costs', 'Income for local cooks, guides, resource persons'],
+      ['Family buys crafts', 'Revenue from product sales', 'Better prices for local artisans'],
+      ['NGO holds workshop', 'Income funds operations', 'Internships for local youth'],
+      ['Visitor buys at Farmer\'s Market', 'Strengthened reputation', 'Farmers earn more, grow more diverse crops'],
+    ];
 
-const pillars = [
+const institutionHeaders = cmsInstitutionHeaders ?? ['Institutional Engagement', "Kaaya's Role", 'Community Benefit'];
+const institutionRows = cmsInstitutionRows
+  ? cmsInstitutionRows.map((r) => [r.engagement, r.kaayaRole, r.communityBenefit])
+  : [
+      [
+        'Setu Aayog / ISVC — converges government schemes for digital access, agriculture, tourism, and watershed management in the Tilwari cluster',
+        'Host campus and coordination node for the Smart Village Centre programme',
+        'Households gain e-governance, financial inclusion, and telemedicine access; youth certified as guides; farmers linked to premium markets under the Bhadraj Valley brand',
+      ],
+      [
+        'UMSVY — Uttarakhand Mahila Samekit Vikas Yojana — runs a two-year programme for women\'s economic development',
+        'Training venue, mobilisation support, and processing infrastructure',
+        '250 women trained in processing, packaging, and marketing of agricultural produce; projected net income of ₹5,450 per woman per month',
+      ],
+    ];
+
+const pillars = cmsPillars ?? [
   {
     number: 1,
     title: 'Digital & governance platform',
@@ -57,10 +75,12 @@ const pillars = [
   },
 ];
 
-const partners = ['UMSVY', 'K-Green Life', 'PMKVY 2.0', 'Bhadraj Valley'];
+const partners = cmsPartners ?? ['UMSVY', 'K-Green Life', 'PMKVY 2.0', 'Bhadraj Valley'];
 
-const pageData = await getEntry('pages', 'exchange');
-const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
+const marketPs = marketParagraphs ?? [
+  'The Sunday market is where the village economy breathes. Here, farmers and kitchen gardeners bring their surplus produce, selling directly to neighbours at normal retail prices. There is no middleman, no charity — just direct value exchange among villagers.',
+  'Kaaya supports this by helping process surplus through solar drying, dehydration, and pickling, ensuring nothing goes to waste. Students participate by mapping household consumption — understanding where money leaves the village and where it might stay. A formal agreement with UMSVY strengthens this further, training women\'s groups in processing, packaging, and branding of agricultural produce.',
+];
 ---
 
 <Base
@@ -91,21 +111,11 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
     <section>
       <SectionHeader title="The first step in a circular economy" subtitle="Sunday Market" />
       <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
-        <p>
-          The Sunday market is where the village economy breathes. Here, farmers and kitchen gardeners
-          bring their surplus produce, selling directly to neighbours at normal retail prices. There is no
-          middleman, no charity — just direct value exchange among villagers.
-        </p>
-        <p>
-          Kaaya supports this by helping process surplus through solar drying, dehydration, and pickling,
-          ensuring nothing goes to waste. Students participate by mapping household consumption —
-          understanding where money leaves the village and where it might stay. A formal agreement with
-          UMSVY strengthens this further, training women's groups in processing, packaging, and branding
-          of agricultural produce.
-        </p>
+        {marketPs.map((p) => <p>{p}</p>)}
       </div>
       <QuoteBlock
-        quote="A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the cash that could have stayed in the neighbourhood disappears into a distant supply chain"
+        quote={marketQuote?.quote ?? "A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the cash that could have stayed in the neighbourhood disappears into a distant supply chain"}
+        attribution={marketQuote?.attribution}
       />
     </section>
 
@@ -124,7 +134,8 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
       />
       <PillarList pillars={pillars} />
       <QuoteBlock
-        quote="Kaaya is not trying to scale a model. It is trying to demonstrate one — in one village, with enough rigour and honesty that others can judge for themselves whether it travels"
+        quote={finalQuote?.quote ?? "Kaaya is not trying to scale a model. It is trying to demonstrate one — in one village, with enough rigour and honesty that others can judge for themselves whether it travels"}
+        attribution={finalQuote?.attribution}
       />
     </section>
 

@@ -1,1 +1,30 @@
-{}
+heroHeading: Visit
+heroSubheading: "Come and see what's happening here"
+accommodation:
+  - type: Mud Huts
+    details: Large mud-walled hall · single beds
+    capacity: Max 12 beds
+  - type: Family Rooms
+    details: 3 units · double beds · attached bucket baths
+    capacity: Max 6 beds
+  - type: Studio Rooms
+    details: 2 units · one double + floor beds
+    capacity: Max 8 beds
+  - type: Dormitory
+    details: 2 units · twin sets on two floors
+    capacity: Max 8 beds
+priceRange: "₹1,200 – ₹2,100"
+priceNote: per bed per day · varies by purpose, facilities, and meal plan
+mealPlans:
+  - name: Basic
+    description: Breakfast, lunch, dinner, two teas
+  - name: Custom
+    description: On request — ask us when you inquire
+facilities:
+  - Conference hall with audio-visual facility
+  - Natural outdoor informal sit-outs for group discussions
+  - Hands-on pottery (3 hr, max 12 participants)
+  - Forest / eco trail (3 hr)
+  - Nature art class (3 hr session)
+  - Farm day picnic — Half day (excludes travel)
+directionsNote: We are approximately 20 km from Dehradun city

@@ -7,7 +7,16 @@ import QuoteBlock from '../components/ui/QuoteBlock.astro';
 import ProgramTable from '../components/ui/ProgramTable.astro';
 import NavCard from '../components/ui/NavCard.astro';
 
-const programs = [
+const pageData = await getEntry('pages', 'learn');
+const {
+  heroImage, heroHeading, heroSubheading,
+  introParagraphs,
+  programs: cmsPrograms,
+  programsQuote,
+  sessions: cmsSessions,
+} = pageData?.data ?? {};
+
+const programs = cmsPrograms ?? [
   {
     duration: '1–5 days',
     name: 'Short immersions',
@@ -30,7 +39,7 @@ const programs = [
   },
 ];
 
-const sessions = [
+const sessions = cmsSessions ?? [
   {
     title: 'Hands-on pottery',
     description: '3-hour sessions for groups up to 12. Working with clay, wheel, and kiln under local guidance.',
@@ -53,8 +62,10 @@ const sessions = [
   },
 ];
 
-const pageData = await getEntry('pages', 'learn');
-const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
+const introPs = introParagraphs ?? [
+  'Kaaya is not running courses. It is not in the business of teaching. What happens here is closer to a shared inquiry — and the programmes below are invitations to join it, not enrol in it.',
+  'The dairy farmer who leads the milk journey knows what a cow eats, what it costs to keep her, what rate he receives, how purity is tested. He knows this because his livelihood depends on it. When students walk with him, they are not receiving instruction. They are entering a different relationship with knowledge — one the classroom was not designed to provide.',
+];
 ---
 
 <Base
@@ -72,16 +83,7 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
     <section>
       <SectionHeader title="Learning alongside" />
       <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
-        <p>
-          Kaaya is not running courses. It is not in the business of teaching. What happens here is
-          closer to a shared inquiry — and the programmes below are invitations to join it, not enrol in it.
-        </p>
-        <p>
-          The dairy farmer who leads the milk journey knows what a cow eats, what it costs to keep her,
-          what rate he receives, how purity is tested. He knows this because his livelihood depends on it.
-          When students walk with him, they are not receiving instruction. They are entering a different
-          relationship with knowledge — one the classroom was not designed to provide.
-        </p>
+        {introPs.map((p) => <p>{p}</p>)}
       </div>
     </section>
 
@@ -92,7 +94,8 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
       />
       <ProgramTable programs={programs} />
       <QuoteBlock
-        quote="We also value unstructured time. We let children feel bored. Boredom, we have found, is where the roots of imagination lie dormant"
+        quote={programsQuote?.quote ?? "We also value unstructured time. We let children feel bored. Boredom, we have found, is where the roots of imagination lie dormant"}
+        attribution={programsQuote?.attribution}
       />
     </section>
 

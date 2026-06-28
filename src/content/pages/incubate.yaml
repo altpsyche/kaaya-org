@@ -1,1 +1,48 @@
-{}
+heroHeading: Incubate
+heroSubheading: A place for ideas that are still becoming
+introParagraphs:
+  - >-
+    Some ideas need more than a desk and a screen. They need a room, a community, a field, a kiln,
+    a kitchen — or simply time and honest ground conditions. At Kaaya, we offer the space for
+    seedling concepts to take root in reality before they face the scale of the marketplace.
+  - >-
+    Through our Plug 'n' Play model, we invite innovators to inhabit the campus. Kaaya may provide
+    the physical space, engage in co-creation, or act as an active field partner — testing and
+    refining ideas in a living environment, alongside a community that has its own knowledge and its
+    own pace.
+stat1Value: "2"
+stat1Label: ideas currently being incubated
+stat2Value: "∞"
+stat2Label: ideas this place can hold, if they are the right ones
+incubations:
+  - name: Padav Fellowship
+    by: Jagmohan Bangani
+    description: >-
+      Jagmohan Bangani, a visionary artist from Uttarakhand, partnered with Kaaya to establish a
+      mentorship hub for emerging young artists from the remote mountain region. While Jagmohan
+      provided the creative mentorship, artists network, and craft support, Kaaya served as the
+      essential anchor — the 'padav' — offering its campus, logistical framework, and relaxed natural
+      ambience to transform his dream into a living reality for promoting arts and artists in the
+      region. In the process, the Bangani Art Foundation has been established to continue supporting
+      arts and artists in the Himalayan region.
+    links:
+      - label: Read about Padav Fellowship 2026
+        href: /blog/a-reflection-on-padav-2026
+      - label: About the Padav programme
+        href: /blog/padav-fellowships
+  - name: Anutraaya
+    by: Asambhava
+    description: >-
+      Asambhava is an entrepreneur concerned with what happens to knowledge when the conditions that
+      produced it disappear. Anutraaya is the name for this inquiry — where the traditional is not
+      preserved in a museum but practised in a living environment. Using Kaaya and the neighbouring
+      village of Tilwari as the ground for this experiment, the initiative seeks to translate ancestral
+      wisdom into resilient pathways for the future. Step into Anutraaya's journey of rethinking food,
+      language and craft so everyday life in the hills can stay rooted and resilient.
+    links:
+      - label: Read the story
+        href: /blog/aritram
+incubationsQuote:
+  quote: >-
+    Kaaya does not incubate ideas for you. It incubates them with you — and sometimes, in spite of
+    you, the place itself becomes part of what you are making.

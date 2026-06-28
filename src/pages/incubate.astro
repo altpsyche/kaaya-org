@@ -6,7 +6,16 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import QuoteBlock from '../components/ui/QuoteBlock.astro';
 import IncubationCard from '../components/ui/IncubationCard.astro';
 
-const incubations = [
+const pageData = await getEntry('pages', 'incubate');
+const {
+  heroImage, heroHeading, heroSubheading,
+  introParagraphs,
+  stat1Value, stat1Label, stat2Value, stat2Label,
+  incubations: cmsIncubations,
+  incubationsQuote,
+} = pageData?.data ?? {};
+
+const incubations = cmsIncubations ?? [
   {
     name: 'Padav Fellowship',
     by: 'Jagmohan Bangani',
@@ -26,8 +35,10 @@ const incubations = [
   },
 ];
 
-const pageData = await getEntry('pages', 'incubate');
-const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
+const introPs = introParagraphs ?? [
+  'Some ideas need more than a desk and a screen. They need a room, a community, a field, a kiln, a kitchen — or simply time and honest ground conditions. At Kaaya, we offer the space for seedling concepts to take root in reality before they face the scale of the marketplace.',
+  'Through our Plug \'n\' Play model, we invite innovators to inhabit the campus. Kaaya may provide the physical space, engage in co-creation, or act as an active field partner — testing and refining ideas in a living environment, alongside a community that has its own knowledge and its own pace.',
+];
 ---
 
 <Base
@@ -45,27 +56,17 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
     <section>
       <SectionHeader title="A place for ideas that are still becoming" />
       <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
-        <p>
-          Some ideas need more than a desk and a screen. They need a room, a community, a field, a kiln,
-          a kitchen — or simply time and honest ground conditions. At Kaaya, we offer the space for
-          seedling concepts to take root in reality before they face the scale of the marketplace.
-        </p>
-        <p>
-          Through our Plug 'n' Play model, we invite innovators to inhabit the campus. Kaaya may provide
-          the physical space, engage in co-creation, or act as an active field partner — testing and
-          refining ideas in a living environment, alongside a community that has its own knowledge and its
-          own pace.
-        </p>
+        {introPs.map((p) => <p>{p}</p>)}
       </div>
 
       <div class="mt-8 flex gap-10 text-center">
         <div>
-          <p class="text-4xl font-bold text-[--color-primary]">2</p>
-          <p class="mt-1 text-sm text-[--color-text-muted]">ideas currently being incubated</p>
+          <p class="text-4xl font-bold text-[--color-primary]">{stat1Value ?? '2'}</p>
+          <p class="mt-1 text-sm text-[--color-text-muted]">{stat1Label ?? 'ideas currently being incubated'}</p>
         </div>
         <div>
-          <p class="text-4xl font-bold text-[--color-earth]">∞</p>
-          <p class="mt-1 text-sm text-[--color-text-muted]">ideas this place can hold, if they are the right ones</p>
+          <p class="text-4xl font-bold text-[--color-earth]">{stat2Value ?? '∞'}</p>
+          <p class="mt-1 text-sm text-[--color-text-muted]">{stat2Label ?? 'ideas this place can hold, if they are the right ones'}</p>
         </div>
       </div>
     </section>
@@ -83,7 +84,8 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
         ))}
       </div>
       <QuoteBlock
-        quote="Kaaya does not incubate ideas for you. It incubates them with you — and sometimes, in spite of you, the place itself becomes part of what you are making."
+        quote={incubationsQuote?.quote ?? "Kaaya does not incubate ideas for you. It incubates them with you — and sometimes, in spite of you, the place itself becomes part of what you are making."}
+        attribution={incubationsQuote?.attribution}
       />
     </section>
 

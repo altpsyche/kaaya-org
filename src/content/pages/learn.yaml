@@ -1,1 +1,52 @@
-{}
+heroHeading: Learn
+heroSubheading: Learning alongside, not enrolling in
+introParagraphs:
+  - >-
+    Kaaya is not running courses. It is not in the business of teaching. What happens here is closer
+    to a shared inquiry — and the programmes below are invitations to join it, not enrol in it.
+  - >-
+    The dairy farmer who leads the milk journey knows what a cow eats, what it costs to keep her, what
+    rate he receives, how purity is tested. He knows this because his livelihood depends on it. When
+    students walk with him, they are not receiving instruction. They are entering a different
+    relationship with knowledge — one the classroom was not designed to provide.
+programs:
+  - duration: 1–5 days
+    name: Short immersions
+    description: >-
+      Curriculum-linked outdoor camps built around the seed journey, the milk journey, and the soil
+      journey. Children work with their hands and return with a different sense of where food comes from.
+  - duration: 1–5 weeks
+    name: Project residencies
+    description: >-
+      Students narrow in on a specific local challenge and work on it collaboratively alongside the
+      community — not as observers, but as participants in real problem-solving.
+  - duration: Up to 6 months
+    name: Live projects & internships
+    description: >-
+      For college students and young professionals. The aim is not to apply what was learned in
+      classrooms — but to discover what classrooms could not teach.
+  - duration: Summer
+    name: Detox camps
+    description: >-
+      Spaces for urban children to form genuine friendships, explore independently, and simply be in
+      nature for a while. When children arrive from different schools, without existing hierarchies or
+      shared histories, something else becomes possible.
+programsQuote:
+  quote: >-
+    We also value unstructured time. We let children feel bored. Boredom, we have found, is where the
+    roots of imagination lie dormant
+sessions:
+  - title: Hands-on pottery
+    description: 3-hour sessions for groups up to 12. Working with clay, wheel, and kiln under local guidance.
+    href: /visit
+  - title: Forest & eco trails
+    description: >-
+      Guided walks through the surrounding landscape — streams, canopy, soil, and what lives in all
+      of them.
+    href: /visit
+  - title: Nature art classes
+    description: In collaboration with visiting practitioners. Making things from materials the land provides.
+    href: /visit
+  - title: Farm day picnics
+    description: Outdoor-cooked meals in the mountains. Food grown nearby, prepared in the open air.
+    href: /visit

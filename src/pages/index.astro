@@ -13,9 +13,13 @@ const recentPosts = allPosts
   .slice(0, 3);
 
 const pageData = await getEntry('pages', 'home');
-const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
+const {
+  heroImage, heroHeading, heroSubheading,
+  introHeading, introText,
+  navCards: cmsNavCards,
+} = pageData?.data ?? {};
 
-const navCards = [
+const navCards = cmsNavCards ?? [
   {
     title: 'Place',
     description: 'Who we are, where we are, and what we are still learning',
@@ -57,10 +61,9 @@ const navCards = [
 
   <section class="mx-auto max-w-5xl px-6 py-16">
     <div class="max-w-2xl">
-      <h2 class="text-xl font-semibold text-[--color-text]">A small experiment in sustainable living</h2>
+      <h2 class="text-xl font-semibold text-[--color-text]">{introHeading ?? 'A small experiment in sustainable living'}</h2>
       <p class="mt-4 leading-relaxed text-[--color-text-muted]">
-        Kaaya Learning Centre is a mud-built campus in the village of Tilwari where urban and rural
-        communities meet, learn from each other, and find that the exchange is worth making.
+        {introText ?? 'Kaaya Learning Centre is a mud-built campus in the village of Tilwari where urban and rural communities meet, learn from each other, and find that the exchange is worth making.'}
       </p>
     </div>
   </section>

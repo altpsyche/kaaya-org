@@ -6,7 +6,15 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import QuoteBlock from '../components/ui/QuoteBlock.astro';
 import PrincipleList from '../components/ui/PrincipleList.astro';
 
-const principles = [
+const pageData = await getEntry('pages', 'place');
+const {
+  heroImage, heroHeading, heroSubheading,
+  section1Paragraphs, section2Paragraphs, section2Quote,
+  principles: cmsPrinciples,
+  neighbourhoods: cmsNeighbourhoods,
+} = pageData?.data ?? {};
+
+const principles = cmsPrinciples ?? [
   {
     number: 1,
     title: 'On Connect',
@@ -45,8 +53,29 @@ const principles = [
   },
 ];
 
-const pageData = await getEntry('pages', 'place');
-const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
+const neighbourhoods = cmsNeighbourhoods ?? [
+  {
+    title: 'Kitchen Gardens — Neighbours as organic growers',
+    body: 'Tilwari village sits in the Doon Valley, a landscape under real pressure. Around 65% of households in the area are classified as Below Poverty Line or Antyodaya. Farming has become increasingly unviable. Young people leave.\n\nWe believe bridging the urban-rural gap can tap into energy, creativity, and possibility on both sides. Kaaya does not pretend to have solved these problems — but we are trying, carefully and incrementally, to show a different way of being in this place.',
+  },
+  {
+    title: "Farmer's Market — An upcoming initiative at Kaaya",
+    quote: 'A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the cash that could have stayed in the neighbourhood disappears into a distant supply chain',
+    linkLabel: 'Read more',
+    linkHref: '/blog/towards-farmers-market',
+  },
+];
+
+const s1Paragraphs = section1Paragraphs ?? [
+  'Kaaya is about re-imagining. It began with a few people deciding to live in a village — to see what happens. That question has not been answered. It is still being asked, every day, in the way the campus is built, the way the community is engaged, and the way visitors are received.',
+  'This experiment grew into Kaaya, a word that translates to \'body\' in Sanskrit — reflecting a focus on the physical and tangible aspects of sustainable living, from the mud we build with to the food we grow.',
+  'Today, Kaaya Learning Centre is managed as a social enterprise under K-Green Life Pvt Ltd. We operate as a bridge between urban curiosity and rural wisdom, ensuring that the growth is both inclusive and environmentally conscious, fostering a community where everyone has a stake in the future.',
+];
+
+const s2Paragraphs = section2Paragraphs ?? [
+  'The structures at Kaaya are a testament to the wisdom of mud construction. Using local soil excavated directly from the site, we have created walls that breathe, providing natural insulation against the Himalayan climate. The campus layout follows the natural contours of the land, cluster-style, encouraging communal interaction while respecting the privacy of individual huts.',
+  'The Annexe Project represents our most recent evolution — a space dedicated to deeper learning and longer stays. It integrates traditional building techniques with modern sensibilities, proving that sustainable living doesn\'t mean a compromise on comfort or aesthetic. Every beam has a story of local craftsmanship embedded within it.',
+];
 ---
 
 <Base
@@ -64,45 +93,18 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
     <section>
       <SectionHeader title="It began simply enough" />
       <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
-        <p>
-          Kaaya is about re-imagining. It began with a few people deciding to live in a village — to see
-          what happens. That question has not been answered. It is still being asked, every day, in the way
-          the campus is built, the way the community is engaged, and the way visitors are received.
-        </p>
-        <p>
-          This experiment grew into Kaaya, a word that translates to 'body' in Sanskrit — reflecting a
-          focus on the physical and tangible aspects of sustainable living, from the mud we build with to
-          the food we grow.
-        </p>
-        <p>
-          Today, Kaaya Learning Centre is managed as a social enterprise under K-Green Life Pvt Ltd. We
-          operate as a bridge between urban curiosity and rural wisdom, ensuring that the growth is both
-          inclusive and environmentally conscious, fostering a community where everyone has a stake in the
-          future.
-        </p>
+        {s1Paragraphs.map((p) => <p>{p}</p>)}
       </div>
     </section>
 
     <section>
       <SectionHeader title="We built from what the land offered" />
       <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
-        <p>
-          The structures at Kaaya are a testament to the wisdom of mud construction. Using local soil
-          excavated directly from the site, we have created walls that breathe, providing natural
-          insulation against the Himalayan climate. The campus layout follows the natural contours of the
-          land, cluster-style, encouraging communal interaction while respecting the privacy of individual
-          huts.
-        </p>
-        <p>
-          The Annexe Project represents our most recent evolution — a space dedicated to deeper learning
-          and longer stays. It integrates traditional building techniques with modern sensibilities, proving
-          that sustainable living doesn't mean a compromise on comfort or aesthetic. Every beam has a story
-          of local craftsmanship embedded within it.
-        </p>
+        {s2Paragraphs.map((p) => <p>{p}</p>)}
       </div>
       <QuoteBlock
-        quote="We didn't want to spend too much money, so we had to save cost. Instead of importing materials or outside labour, Kaaya relied on what already existed within the village — local soil, local skills, and local knowledge."
-        attribution="Founder, Kaaya Learning Centre"
+        quote={section2Quote?.quote ?? "We didn't want to spend too much money, so we had to save cost. Instead of importing materials or outside labour, Kaaya relied on what already existed within the village — local soil, local skills, and local knowledge."}
+        attribution={section2Quote?.attribution ?? "Founder, Kaaya Learning Centre"}
       />
     </section>
 
@@ -117,28 +119,22 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
     <section>
       <SectionHeader title="The Neighbourhoods" subtitle="Latest updates" />
       <div class="grid gap-8 sm:grid-cols-2">
-        <div class="space-y-3">
-          <h3 class="font-semibold text-[--color-text]">Kitchen Gardens — Neighbours as organic growers</h3>
-          <p class="text-sm leading-relaxed text-[--color-text-muted]">
-            Tilwari village sits in the Doon Valley, a landscape under real pressure. Around 65% of
-            households in the area are classified as Below Poverty Line or Antyodaya. Farming has become
-            increasingly unviable. Young people leave.
-          </p>
-          <p class="text-sm leading-relaxed text-[--color-text-muted]">
-            We believe bridging the urban-rural gap can tap into energy, creativity, and possibility on
-            both sides. Kaaya does not pretend to have solved these problems — but we are trying, carefully
-            and incrementally, to show a different way of being in this place.
-          </p>
-        </div>
-        <div class="space-y-3">
-          <h3 class="font-semibold text-[--color-text]">Farmer's Market — An upcoming initiative at Kaaya</h3>
-          <QuoteBlock
-            quote="A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the cash that could have stayed in the neighbourhood disappears into a distant supply chain"
-          />
-          <a href="/blog/towards-farmers-market" class="text-sm font-medium text-[--color-primary] hover:underline underline-offset-2">
-            Read more →
-          </a>
-        </div>
+        {neighbourhoods.map((n) => (
+          <div class="space-y-3">
+            <h3 class="font-semibold text-[--color-text]">{n.title}</h3>
+            {n.body?.split(/\n\n+/).filter((p) => p.trim()).map((p) => (
+              <p class="text-sm leading-relaxed text-[--color-text-muted]">{p.trim()}</p>
+            ))}
+            {n.quote && (
+              <QuoteBlock quote={n.quote} attribution={n.attribution} />
+            )}
+            {n.linkLabel && n.linkHref && (
+              <a href={n.linkHref} class="text-sm font-medium text-[--color-primary] hover:underline underline-offset-2">
+                {n.linkLabel} →
+              </a>
+            )}
+          </div>
+        ))}
       </div>
     </section>
 

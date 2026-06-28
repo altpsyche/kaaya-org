@@ -6,7 +6,17 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import PriceTable from '../components/ui/PriceTable.astro';
 import ContactBlock from '../components/ui/ContactBlock.astro';
 
-const accommodation = [
+const pageData = await getEntry('pages', 'visit');
+const {
+  heroImage, heroHeading, heroSubheading,
+  accommodation: cmsAccommodation,
+  priceRange, priceNote,
+  mealPlans: cmsMealPlans,
+  facilities: cmsFacilities,
+  directionsNote,
+} = pageData?.data ?? {};
+
+const accommodation = cmsAccommodation ?? [
   {
     type: 'Mud Huts',
     details: 'Large mud-walled hall · single beds',
@@ -29,7 +39,12 @@ const accommodation = [
   },
 ];
 
-const facilities = [
+const mealPlans = cmsMealPlans ?? [
+  { name: 'Basic', description: 'Breakfast, lunch, dinner, two teas' },
+  { name: 'Custom', description: 'On request — ask us when you inquire' },
+];
+
+const facilities = cmsFacilities ?? [
   'Conference hall with audio-visual facility',
   'Natural outdoor informal sit-outs for group discussions',
   'Hands-on pottery (3 hr, max 12 participants)',
@@ -37,9 +52,6 @@ const facilities = [
   'Nature art class (3 hr session)',
   'Farm day picnic — Half day (excludes travel)',
 ];
-
-const pageData = await getEntry('pages', 'visit');
-const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
 ---
 
 <Base
@@ -67,20 +79,18 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
       <SectionHeader title="What a stay costs" />
       <div class="max-w-xl space-y-4">
         <div class="rounded-[--radius-card] border border-[--color-border] bg-[--color-surface] p-6">
-          <p class="text-2xl font-bold text-[--color-primary]">₹1,200 – ₹2,100</p>
-          <p class="mt-1 text-sm text-[--color-text-muted]">per bed per day · varies by purpose, facilities, and meal plan</p>
+          <p class="text-2xl font-bold text-[--color-primary]">{priceRange ?? '₹1,200 – ₹2,100'}</p>
+          <p class="mt-1 text-sm text-[--color-text-muted]">{priceNote ?? 'per bed per day · varies by purpose, facilities, and meal plan'}</p>
         </div>
         <div class="space-y-3">
           <h3 class="font-semibold text-[--color-text]">Meal Plans</h3>
           <div class="grid gap-3 sm:grid-cols-2">
-            <div class="rounded-[--radius-card] border border-[--color-border] p-4">
-              <p class="font-medium text-[--color-text] text-sm">Basic</p>
-              <p class="mt-1 text-xs text-[--color-text-muted]">Breakfast, lunch, dinner, two teas</p>
-            </div>
-            <div class="rounded-[--radius-card] border border-[--color-border] p-4">
-              <p class="font-medium text-[--color-text] text-sm">Custom</p>
-              <p class="mt-1 text-xs text-[--color-text-muted]">On request — ask us when you inquire</p>
-            </div>
+            {mealPlans.map((plan) => (
+              <div class="rounded-[--radius-card] border border-[--color-border] p-4">
+                <p class="font-medium text-[--color-text] text-sm">{plan.name}</p>
+                <p class="mt-1 text-xs text-[--color-text-muted]">{plan.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -99,7 +109,7 @@ const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
     </section>
 
     <section>
-      <SectionHeader title="Come and see" subtitle="We are approximately 20 km from Dehradun city" />
+      <SectionHeader title="Come and see" subtitle={directionsNote ?? 'We are approximately 20 km from Dehradun city'} />
       <ContactBlock />
     </section>
 
