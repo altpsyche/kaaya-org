@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "astro build && firebase deploy --only hosting"
+    "deploy": "astro build"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
