@@ -1,9 +1,9 @@
 backend:
   name: github
-  repo: GITHUB_USERNAME/kaaya_org   # ← replace with your GitHub username
+  repo: altpsyche/kaaya-org
   branch: main
   auth_type: pkce
-  app_id: YOUR_GITHUB_CLIENT_ID     # ← replace after creating GitHub OAuth App
+  app_id: YOUR_GITHUB_CLIENT_ID
 
 media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
