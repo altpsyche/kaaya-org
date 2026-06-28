@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
 import Hero from '../components/ui/Hero.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import QuoteBlock from '../components/ui/QuoteBlock.astro';
@@ -57,13 +58,20 @@ const pillars = [
 ];
 
 const partners = ['UMSVY', 'K-Green Life', 'PMKVY 2.0', 'Bhadraj Valley'];
+
+const pageData = await getEntry('pages', 'exchange');
+const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
 ---
 
 <Base
   title="Exchange | Kaaya Learning Centre"
   description="Kaaya's Value Exchange System, Sunday Market circular economy, and institutional partnerships."
 >
-  <Hero heading="Exchange" subheading="Sustaining ourselves and the neighbourhoods" />
+  <Hero
+    heading={heroHeading ?? 'Exchange'}
+    subheading={heroSubheading ?? 'Sustaining ourselves and the neighbourhoods'}
+    image={heroImage ?? undefined}
+  />
 
   <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
 

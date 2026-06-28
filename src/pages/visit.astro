@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
 import Hero from '../components/ui/Hero.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import PriceTable from '../components/ui/PriceTable.astro';
@@ -36,13 +37,20 @@ const facilities = [
   'Nature art class (3 hr session)',
   'Farm day picnic — Half day (excludes travel)',
 ];
+
+const pageData = await getEntry('pages', 'visit');
+const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
 ---
 
 <Base
   title="Visit | Kaaya Learning Centre"
   description="Accommodation, pricing, facilities, and directions to Kaaya Learning Centre in Tilwari, Dehradun."
 >
-  <Hero heading="Visit" subheading="Come and see what's happening here" />
+  <Hero
+    heading={heroHeading ?? 'Visit'}
+    subheading={heroSubheading ?? "Come and see what's happening here"}
+    image={heroImage ?? undefined}
+  />
 
   <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
 

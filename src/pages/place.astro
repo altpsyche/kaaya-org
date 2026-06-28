@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
 import Hero from '../components/ui/Hero.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import QuoteBlock from '../components/ui/QuoteBlock.astro';
@@ -43,13 +44,20 @@ const principles = [
     body: 'Sustainability is not just a practice but a way of living. In Tilwari, we are learning how to live in alignment with the rhythms of the valley — recognising that our well-being is tied to the well-being of our neighbours, our animals, and our environment. This is what makes Kaaya a living learning centre, where every day offers a new lesson in coexistence and connection.',
   },
 ];
+
+const pageData = await getEntry('pages', 'place');
+const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
 ---
 
 <Base
   title="Place | Kaaya Learning Centre"
   description="About Kaaya's origins, mud construction philosophy, and core beliefs."
 >
-  <Hero heading="Place" subheading="Where Kaaya began, and what it keeps asking" />
+  <Hero
+    heading={heroHeading ?? 'Place'}
+    subheading={heroSubheading ?? 'Where Kaaya began, and what it keeps asking'}
+    image={heroImage ?? undefined}
+  />
 
   <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
 

@@ -2,13 +2,10 @@
 title: If Everyone Is a Social Enterprise, What Does the Term Actually Mean?
 pubDate: 2026-06-24
 description: A conversation with Santosh Passi about social entrepreneurship, the Kaaya value exchange model, and sustaining impact.
-heroImage: https://static.wixstatic.com/media/962a2a_2ee0d67e773d42279fdbca6c8dacedd5~mv2.jpg
 categories: [Eco System, Reflections, Community Updates]
 author: Zahara Czar
 readTime: 3 min read
 ---
-
-<!-- TODO: replace heroImage with self-hosted image -->
 
 A decade ago, the development sector spoke the language of NGOs, charities, and philanthropy. Today, a new term dominates the conversation: social entrepreneurship. Businesses are social enterprises. NGOs are social enterprises. Startups are social enterprises. Everyone seems to be creating social impact.
 

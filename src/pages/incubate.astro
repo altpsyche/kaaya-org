@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
 import Hero from '../components/ui/Hero.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import QuoteBlock from '../components/ui/QuoteBlock.astro';
@@ -24,13 +25,20 @@ const incubations = [
     ],
   },
 ];
+
+const pageData = await getEntry('pages', 'incubate');
+const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
 ---
 
 <Base
   title="Incubate | Kaaya Learning Centre"
   description="Kaaya's Plug 'n' Play incubation model for seedling ideas — Padav Fellowship and Anutraaya."
 >
-  <Hero heading="Incubate" subheading="A place for ideas that are still becoming" />
+  <Hero
+    heading={heroHeading ?? 'Incubate'}
+    subheading={heroSubheading ?? 'A place for ideas that are still becoming'}
+    image={heroImage ?? undefined}
+  />
 
   <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
 

@@ -2,13 +2,10 @@
 title: Re-imagining the Kaccha Ghar
 pubDate: 2026-06-24
 description: Mud houses, colonial history, and what it means to build sustainably in the Himalayan foothills.
-heroImage: https://static.wixstatic.com/media/962a2a_6f604b049d9146959d22600e3b77abaa~mv2.jpg
 categories: [Sustainable Living, Making of Kaaya, Kaaya Living, Reflections]
 author: Zahara Czar
 readTime: 5 min read
 ---
-
-<!-- TODO: replace heroImage with self-hosted image -->
 
 The village of Tilwari in Uttarakhand is witnessing a quiet rise in newly constructed mud houses. For generations, mud homes were a natural part of rural Indian life, they are practical, locally sourced, and deeply connected to the environment. Yet over time, cement replaced mud as the symbol of development and modernity. Today, however, mud architecture is slowly finding its way back, not only in villages but also among urban populations searching for a slower and more intentional way of living.
 

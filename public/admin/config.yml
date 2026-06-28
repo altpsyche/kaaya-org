@@ -4,8 +4,8 @@ backend:
   branch: main
   base_url: https://api.netlify.com
 
-media_folder: "src/assets/uploads"
-public_folder: "/assets/uploads"
+media_folder: "public/uploads"
+public_folder: "/uploads"
 
 collections:
   - name: "blog"
@@ -51,3 +51,49 @@ collections:
           - "Program/Events"
           - "Reflections"
       - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "pages"
+    label: "Page Settings"
+    files:
+      - name: "home"
+        label: "Home"
+        file: "src/content/pages/home.yaml"
+        fields:
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Hero Heading", name: "heroHeading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false }
+      - name: "place"
+        label: "Place"
+        file: "src/content/pages/place.yaml"
+        fields:
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Hero Heading", name: "heroHeading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false }
+      - name: "learn"
+        label: "Learn"
+        file: "src/content/pages/learn.yaml"
+        fields:
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Hero Heading", name: "heroHeading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false }
+      - name: "incubate"
+        label: "Incubate"
+        file: "src/content/pages/incubate.yaml"
+        fields:
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Hero Heading", name: "heroHeading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false }
+      - name: "exchange"
+        label: "Exchange"
+        file: "src/content/pages/exchange.yaml"
+        fields:
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Hero Heading", name: "heroHeading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false }
+      - name: "visit"
+        label: "Visit"
+        file: "src/content/pages/visit.yaml"
+        fields:
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Hero Heading", name: "heroHeading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false }

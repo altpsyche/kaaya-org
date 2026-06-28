@@ -2,13 +2,10 @@
 title: Making of Kaaya
 pubDate: 2026-06-24
 description: The beginnings to embrace nature — how Kaaya evolved from a small experiment in 2011 to a living learning centre.
-heroImage: https://static.wixstatic.com/media/962a2a_624a56b5bac54d29b6f3fbf33254ad72~mv2.jpg
 categories: [Making of Kaaya, Kaaya Living, Eco System]
 author: Kaaya Centre
 readTime: 5 min read
 ---
-
-<!-- TODO: replace heroImage with self-hosted image -->
 
 In the larger pursuit of "development and growth", many of us tend to lose our connection with nature, self, family, community, and the neighbourhoods. Somehow, we seem to forget that it is our immediate environment, the microcosm, the people, their habitat, soil, water, air, trees etc – sustain us and nurture life.
 

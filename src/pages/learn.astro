@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
 import Hero from '../components/ui/Hero.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import QuoteBlock from '../components/ui/QuoteBlock.astro';
@@ -51,13 +52,20 @@ const sessions = [
     href: '/visit',
   },
 ];
+
+const pageData = await getEntry('pages', 'learn');
+const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
 ---
 
 <Base
   title="Learn | Kaaya Learning Centre"
   description="Experiential learning programmes at Kaaya — immersions, residencies, internships, and hands-on sessions."
 >
-  <Hero heading="Learn" subheading="Learning alongside, not enrolling in" />
+  <Hero
+    heading={heroHeading ?? 'Learn'}
+    subheading={heroSubheading ?? 'Learning alongside, not enrolling in'}
+    image={heroImage ?? undefined}
+  />
 
   <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
 

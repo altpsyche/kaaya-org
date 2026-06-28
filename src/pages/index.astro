@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Hero from '../components/ui/Hero.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import NavCard from '../components/ui/NavCard.astro';
@@ -11,6 +11,9 @@ const allPosts = await getCollection('blog');
 const recentPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+const pageData = await getEntry('pages', 'home');
+const { heroImage, heroHeading, heroSubheading } = pageData?.data ?? {};
 
 const navCards = [
   {
@@ -46,9 +49,10 @@ const navCards = [
   description="Kaaya Learning Centre is a mud-built campus in Tilwari, Dehradun where urban and rural communities meet, learn from each other, and find that the exchange is worth making."
 >
   <Hero
-    heading="It's about Re-imagining"
-    subheading="Tilwari, Dehradun · Himalayan Foothills, India"
+    heading={heroHeading ?? "It's about Re-imagining"}
+    subheading={heroSubheading ?? 'Tilwari, Dehradun · Himalayan Foothills, India'}
     cta={{ label: 'Learn about Kaaya', href: '/place' }}
+    image={heroImage ?? undefined}
   />
 
   <section class="mx-auto max-w-5xl px-6 py-16">
