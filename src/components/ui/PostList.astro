@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import PostCard from './PostCard.astro';
-import { url } from '../../lib/url';
 
 interface Props {
   posts: CollectionEntry<'blog'>[];
@@ -15,7 +14,7 @@ const { posts } = Astro.props;
     <PostCard
       title={post.data.title}
       description={post.data.description}
-      href={url(`/blog/${post.id}`)}
+      href={`/blog/${post.id}`}
       pubDate={post.data.pubDate}
       heroImage={post.data.heroImage}
       author={post.data.author}
