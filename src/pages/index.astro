@@ -6,6 +6,7 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import NavCard from '../components/ui/NavCard.astro';
 import PostList from '../components/ui/PostList.astro';
 import Button from '../components/ui/Button.astro';
+import { url } from '../lib/url';
 
 const allPosts = await getCollection('blog');
 const recentPosts = allPosts
@@ -19,7 +20,7 @@ const {
   navCards: cmsNavCards,
 } = pageData?.data ?? {};
 
-const navCards = cmsNavCards ?? [
+const navCards = (cmsNavCards ?? [
   {
     title: 'Place',
     description: 'Who we are, where we are, and what we are still learning',
@@ -45,7 +46,7 @@ const navCards = cmsNavCards ?? [
     description: 'Accommodation, rates, and how to find us',
     href: '/visit',
   },
-];
+]).map((card) => ({ ...card, href: url(card.href) }));
 ---
 
 <Base
@@ -55,7 +56,7 @@ const navCards = cmsNavCards ?? [
   <Hero
     heading={heroHeading ?? "It's about Re-imagining"}
     subheading={heroSubheading ?? 'Tilwari, Dehradun · Himalayan Foothills, India'}
-    cta={{ label: 'Learn about Kaaya', href: '/place' }}
+    cta={{ label: 'Learn about Kaaya', href: url('/place') }}
     image={heroImage ?? undefined}
   />
 
@@ -82,7 +83,7 @@ const navCards = cmsNavCards ?? [
       <SectionHeader title="Latest from Kaaya" />
       <PostList posts={recentPosts} />
       <div class="mt-8">
-        <Button href="/blog" label="View All Updates" variant="ghost" />
+        <Button href={url('/blog')} label="View All Updates" variant="ghost" />
       </div>
     </section>
   )}

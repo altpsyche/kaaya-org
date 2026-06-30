@@ -1,4 +1,6 @@
 ---
+import { url } from '../../lib/url';
+
 interface Props {
   heading: string;
   subheading?: string;
@@ -14,7 +16,7 @@ const { heading, subheading, cta, image } = Astro.props;
     'relative flex min-h-[400px] items-center px-6 py-20',
     image ? 'bg-cover bg-center' : 'bg-gradient-to-br from-[--color-primary] to-[--color-secondary]',
   ]}
-  style={image ? `background-image: url('${image}')` : undefined}
+  style={image ? `background-image: url('${url(image)}')` : undefined}
 >
   {image && <div class="absolute inset-0 bg-black/50" />}
   <div class="relative mx-auto max-w-4xl">

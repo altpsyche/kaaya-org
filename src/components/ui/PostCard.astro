@@ -1,5 +1,6 @@
 ---
 import { formatDate } from '../../lib/utils';
+import { url } from '../../lib/url';
 
 interface Props {
   title: string;
@@ -17,7 +18,7 @@ const { title, description, href, pubDate, heroImage, author, readTime } = Astro
 <a href={href} class="group block rounded-[--radius-card] overflow-hidden border border-[--color-border] bg-[--color-surface] hover:border-[--color-primary] transition-colors">
   {heroImage && (
     <img
-      src={heroImage}
+      src={url(heroImage)}
       alt=""
       class="aspect-video w-full object-cover"
       loading="lazy"
