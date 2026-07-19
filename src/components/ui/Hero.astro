@@ -14,18 +14,20 @@ const { heading, subheading, cta, image } = Astro.props;
 <section
   class:list={[
     'relative flex min-h-[400px] items-center px-6 py-20',
-    image ? 'bg-cover bg-center' : 'bg-gradient-to-br from-[--color-primary] to-[--color-secondary]',
+    image
+      ? 'bg-cover bg-center'
+      : 'bg-gradient-to-br from-(--color-primary) via-(--color-earth) to-(--color-accent)',
   ]}
   style={image ? `background-image: url('${url(image)}')` : undefined}
 >
-  {image && <div class="absolute inset-0 bg-black/50" />}
+  {image && <div class="absolute inset-0 bg-(--color-hero-overlay)" />}
   <div class="relative mx-auto max-w-4xl">
-    <h1 class="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">{heading}</h1>
-    {subheading && <p class="mt-4 text-lg text-white/80 sm:text-xl">{subheading}</p>}
+    <h1 class="text-4xl font-bold text-(--color-on-hero) sm:text-5xl lg:text-6xl">{heading}</h1>
+    {subheading && <p class="mt-4 text-lg text-(--color-on-hero)/85 sm:text-xl">{subheading}</p>}
     {cta && (
       <a
         href={cta.href}
-        class="mt-8 inline-block rounded-[--radius-card] bg-white px-6 py-3 text-sm font-semibold text-[--color-primary] transition-opacity hover:opacity-90"
+        class="mt-8 inline-block rounded-(--radius-card) bg-(--color-on-hero) px-6 py-3 text-sm font-semibold text-(--color-primary) shadow-sm transition-opacity hover:opacity-90"
       >
         {cta.label}
       </a>

@@ -1,0 +1,95 @@
+/*
+ * theme.css — single source of truth for all colour.
+ *
+ * Layer 1: PRIMITIVES — raw palette ramps (terracotta / clay / ochre / sage / warm neutrals).
+ *          Plain custom properties; not utilities. Edit these to reshape the palette.
+ * Layer 2: SEMANTIC (light) — maps meaning -> primitive. Components consume these via
+ *          `text-(--color-text)`, `bg-(--color-surface)`, etc.
+ * Layer 3: SEMANTIC (dark)  — same tokens re-mapped under :root[data-theme="dark"].
+ *
+ * To add a whole new brand later: copy the two semantic blocks under a new
+ * `:root[data-theme="dark"][data-brand="x"]` / `:root[data-brand="x"]` selector. Nothing
+ * else in the codebase needs to change — every component already reads these tokens.
+ */
+
+:root {
+  /* ---- Layer 1: primitives ------------------------------------------------ */
+
+  /* Warm neutrals (sand / paper / bark) — hue ~70, low chroma */
+  --sand-50:  oklch(97.5% 0.010 78);
+  --sand-100: oklch(95.0% 0.014 76);
+  --sand-200: oklch(90.5% 0.018 74);
+  --sand-300: oklch(84.0% 0.020 72);
+  --sand-400: oklch(70.0% 0.020 68);
+  --sand-500: oklch(56.0% 0.020 64);
+  --sand-600: oklch(46.0% 0.022 60);
+  --sand-700: oklch(37.0% 0.022 58);
+  --sand-800: oklch(29.0% 0.020 55);
+  --sand-900: oklch(23.0% 0.016 52);
+  --sand-950: oklch(18.5% 0.014 50);
+
+  /* Terracotta / rust — hue ~42 */
+  --terracotta-300: oklch(78% 0.09 45);
+  --terracotta-400: oklch(70% 0.12 44);
+  --terracotta-500: oklch(62% 0.14 43);
+  --terracotta-600: oklch(56% 0.145 42);
+  --terracotta-700: oklch(48% 0.13 40);
+
+  /* Ochre / amber — hue ~70 */
+  --ochre-400: oklch(74% 0.12 72);
+  --ochre-500: oklch(66% 0.13 68);
+  --ochre-600: oklch(60% 0.13 65);
+
+  /* Clay brown — hue ~55 */
+  --clay-500: oklch(50% 0.06 55);
+  --clay-400: oklch(60% 0.07 55);
+
+  /* Sage (subtle green support, for future forest theme / accents) */
+  --sage-400: oklch(72% 0.05 140);
+  --sage-600: oklch(52% 0.06 145);
+
+  /* ---- Layer 2: semantic (light) ----------------------------------------- */
+  --color-bg:            var(--sand-50);
+  --color-surface:       var(--sand-100);
+  --color-surface-2:     var(--sand-200);
+  --color-text:          var(--sand-900);
+  --color-text-muted:    var(--sand-600);
+  --color-border:        var(--sand-200);
+
+  --color-primary:       var(--terracotta-600);
+  --color-primary-light: var(--terracotta-400);
+  --color-accent:        var(--ochre-600);
+  --color-earth:         var(--clay-500);
+
+  --color-on-primary:    var(--sand-50);   /* text/icon on terracotta or accent fills */
+  --color-hero-overlay:  oklch(23% 0.016 52 / 0.55); /* warm scrim over hero photos */
+  --color-on-hero:       var(--sand-50);   /* hero text over gradient/photo */
+
+  /* texture grain strength per mode */
+  --grain-opacity: 0.05;
+
+  color-scheme: light;
+}
+
+/* ---- Layer 3: semantic (dark) -------------------------------------------- */
+:root[data-theme="dark"] {
+  --color-bg:            var(--sand-950);
+  --color-surface:       var(--sand-900);
+  --color-surface-2:     var(--sand-800);
+  --color-text:          var(--sand-100);
+  --color-text-muted:    var(--sand-400);
+  --color-border:        var(--sand-800);
+
+  --color-primary:       var(--terracotta-400);
+  --color-primary-light: var(--terracotta-300);
+  --color-accent:        var(--ochre-400);
+  --color-earth:         var(--clay-400);
+
+  --color-on-primary:    var(--sand-950);  /* dark text on lifted terracotta/accent in dark */
+  --color-hero-overlay:  oklch(16% 0.012 50 / 0.62);
+  --color-on-hero:       var(--sand-50);
+
+  --grain-opacity: 0.07;
+
+  color-scheme: dark;
+}

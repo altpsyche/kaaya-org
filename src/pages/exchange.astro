@@ -97,12 +97,12 @@ const marketPs = marketParagraphs ?? [
 
     <section>
       <SectionHeader title="The Value Exchange System" />
-      <p class="mb-6 max-w-2xl text-[--color-text-muted] leading-relaxed">
+      <p class="mb-6 max-w-2xl text-(--color-text-muted) leading-relaxed">
         Kaaya sustains itself not by extracting value from the community it sits within — but by
         designing transactions that move value through it.
       </p>
       <ValueTable headers={exchangeHeaders} rows={exchangeRows} />
-      <p class="mt-4 text-xs italic text-[--color-text-muted] max-w-2xl">
+      <p class="mt-4 text-xs italic text-(--color-text-muted) max-w-2xl">
         This isn't a definitive solution, and navigating market pressures is a daily effort. However,
         as the process continues to iterate, these community-rooted loops become incredibly relevant &amp; sustainable.
       </p>
@@ -110,7 +110,7 @@ const marketPs = marketParagraphs ?? [
 
     <section>
       <SectionHeader title="The first step in a circular economy" subtitle="Sunday Market" />
-      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+      <div class="max-w-2xl space-y-4 text-(--color-text-muted) leading-relaxed">
         {marketPs.map((p) => <p>{p}</p>)}
       </div>
       <QuoteBlock
@@ -122,7 +122,7 @@ const marketPs = marketParagraphs ?? [
     <section>
       <SectionHeader title="When institutions engage, the logic holds" />
       <ValueTable headers={institutionHeaders} rows={institutionRows} />
-      <p class="mt-4 text-xs italic text-[--color-text-muted]">
+      <p class="mt-4 text-xs italic text-(--color-text-muted)">
         Both programmes are live. Neither required Kaaya to become something it wasn't.
       </p>
     </section>
@@ -143,7 +143,7 @@ const marketPs = marketParagraphs ?? [
       <SectionHeader title="Our Valued Partners" />
       <div class="flex flex-wrap gap-4">
         {partners.map((p) => (
-          <span class="rounded-full border border-[--color-border] px-5 py-2 text-sm font-medium text-[--color-text-muted]">
+          <span class="rounded-full border border-(--color-border) px-5 py-2 text-sm font-medium text-(--color-text-muted)">
             {p}
           </span>
         ))}
@@ -163,44 +163,44 @@ const marketPs = marketParagraphs ?? [
         <input type="hidden" name="access_key" value="f8b67b4c-e134-42e6-98a0-bcf9b7998bcd" />
         <input type="hidden" name="subject" value="Partnership Inquiry" />
         <div>
-          <label for="org" class="block text-sm font-medium text-[--color-text] mb-1">Organisation name</label>
+          <label for="org" class="block text-sm font-medium text-(--color-text) mb-1">Organisation name</label>
           <input
             type="text"
             id="org"
             name="org"
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
           />
         </div>
         <div>
-          <label for="contact" class="block text-sm font-medium text-[--color-text] mb-1">Contact person</label>
+          <label for="contact" class="block text-sm font-medium text-(--color-text) mb-1">Contact person</label>
           <input
             type="text"
             id="contact"
             name="contact"
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
           />
         </div>
         <div>
-          <label for="email" class="block text-sm font-medium text-[--color-text] mb-1">Email</label>
+          <label for="email" class="block text-sm font-medium text-(--color-text) mb-1">Email</label>
           <input
             type="email"
             id="email"
             name="email"
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
           />
         </div>
         <div>
-          <label for="message" class="block text-sm font-medium text-[--color-text] mb-1">Message</label>
+          <label for="message" class="block text-sm font-medium text-(--color-text) mb-1">Message</label>
           <textarea
             id="message"
             name="message"
             rows={5}
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none resize-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none resize-none"
           />
         </div>
         <button
           type="submit"
-          class="rounded-[--radius-card] bg-[--color-accent] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          class="rounded-(--radius-card) bg-(--color-accent) px-6 py-3 text-sm font-semibold text-(--color-on-primary) transition-opacity hover:opacity-90"
         >
           Reach out
         </button>

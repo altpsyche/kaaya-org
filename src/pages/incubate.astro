@@ -55,18 +55,18 @@ const introPs = introParagraphs ?? [
 
     <section>
       <SectionHeader title="A place for ideas that are still becoming" />
-      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+      <div class="max-w-2xl space-y-4 text-(--color-text-muted) leading-relaxed">
         {introPs.map((p) => <p>{p}</p>)}
       </div>
 
       <div class="mt-8 flex gap-10 text-center">
         <div>
-          <p class="text-4xl font-bold text-[--color-primary]">{stat1Value ?? '2'}</p>
-          <p class="mt-1 text-sm text-[--color-text-muted]">{stat1Label ?? 'ideas currently being incubated'}</p>
+          <p class="text-4xl font-bold text-(--color-primary)">{stat1Value ?? '2'}</p>
+          <p class="mt-1 text-sm text-(--color-text-muted)">{stat1Label ?? 'ideas currently being incubated'}</p>
         </div>
         <div>
-          <p class="text-4xl font-bold text-[--color-earth]">{stat2Value ?? '∞'}</p>
-          <p class="mt-1 text-sm text-[--color-text-muted]">{stat2Label ?? 'ideas this place can hold, if they are the right ones'}</p>
+          <p class="text-4xl font-bold text-(--color-earth)">{stat2Value ?? '∞'}</p>
+          <p class="mt-1 text-sm text-(--color-text-muted)">{stat2Label ?? 'ideas this place can hold, if they are the right ones'}</p>
         </div>
       </div>
     </section>
@@ -102,57 +102,57 @@ const introPs = introParagraphs ?? [
         <input type="hidden" name="access_key" value="f8b67b4c-e134-42e6-98a0-bcf9b7998bcd" />
         <input type="hidden" name="subject" value="Incubate Inquiry" />
         <div>
-          <label for="name" class="block text-sm font-medium text-[--color-text] mb-1">Name <span class="text-[--color-accent]">*</span></label>
+          <label for="name" class="block text-sm font-medium text-(--color-text) mb-1">Name <span class="text-(--color-accent)">*</span></label>
           <input
             type="text"
             id="name"
             name="name"
             required
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
           />
         </div>
         <div>
-          <label for="phone" class="block text-sm font-medium text-[--color-text] mb-1">Phone</label>
+          <label for="phone" class="block text-sm font-medium text-(--color-text) mb-1">Phone</label>
           <input
             type="tel"
             id="phone"
             name="phone"
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
           />
         </div>
         <div>
-          <label for="about" class="block text-sm font-medium text-[--color-text] mb-1">About you in short <span class="text-[--color-accent]">*</span></label>
+          <label for="about" class="block text-sm font-medium text-(--color-text) mb-1">About you in short <span class="text-(--color-accent)">*</span></label>
           <textarea
             id="about"
             name="about"
             required
             rows={3}
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none resize-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none resize-none"
           />
         </div>
         <div>
-          <label for="idea" class="block text-sm font-medium text-[--color-text] mb-1">Your idea brief <span class="text-[--color-accent]">*</span></label>
+          <label for="idea" class="block text-sm font-medium text-(--color-text) mb-1">Your idea brief <span class="text-(--color-accent)">*</span></label>
           <textarea
             id="idea"
             name="idea"
             required
             rows={5}
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none resize-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none resize-none"
           />
         </div>
         <div>
-          <label for="doc" class="block text-sm font-medium text-[--color-text] mb-1">Your work / doc / video link</label>
+          <label for="doc" class="block text-sm font-medium text-(--color-text) mb-1">Your work / doc / video link</label>
           <input
             type="url"
             id="doc"
             name="doc"
             placeholder="https://"
-            class="w-full rounded-[--radius-card] border border-[--color-border] px-4 py-2.5 text-sm text-[--color-text] focus:border-[--color-primary] focus:outline-none"
+            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
           />
         </div>
         <button
           type="submit"
-          class="rounded-[--radius-card] bg-[--color-accent] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          class="rounded-(--radius-card) bg-(--color-accent) px-6 py-3 text-sm font-semibold text-(--color-on-primary) transition-opacity hover:opacity-90"
         >
           Share your idea
         </button>

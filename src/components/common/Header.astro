@@ -1,6 +1,7 @@
 ---
 import { SITE } from '../../data/site';
 import { url } from '../../lib/url';
+import ThemeToggle from './ThemeToggle.astro';
 
 const nav = [
   { label: 'Place', href: url('/place') },
@@ -14,28 +15,31 @@ const nav = [
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<header class="border-b border-[--color-border] bg-white sticky top-0 z-10">
+<header class="border-b border-(--color-border) bg-(--color-bg)/90 backdrop-blur sticky top-0 z-10">
   <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 gap-4">
-    <a href={url('/')} class="text-base font-bold text-[--color-primary] shrink-0">{SITE.title}</a>
-    <ul class="flex overflow-x-auto gap-1 text-sm scrollbar-none">
-      {nav.map(({ label, href }) => {
-        const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
-        return (
-          <li>
-            <a
-              href={href}
-              class:list={[
-                'whitespace-nowrap rounded px-3 py-1.5 font-medium transition-colors',
-                isActive
-                  ? 'text-[--color-primary] bg-[--color-surface]'
-                  : 'text-[--color-text-muted] hover:text-[--color-text]',
-              ]}
-            >
-              {label}
-            </a>
-          </li>
-        );
-      })}
-    </ul>
+    <a href={url('/')} class="text-base font-bold text-(--color-primary) shrink-0">{SITE.title}</a>
+    <div class="flex items-center gap-2">
+      <ul class="flex overflow-x-auto gap-1 text-sm scrollbar-none">
+        {nav.map(({ label, href }) => {
+          const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
+          return (
+            <li>
+              <a
+                href={href}
+                class:list={[
+                  'whitespace-nowrap rounded px-3 py-1.5 font-medium transition-colors',
+                  isActive
+                    ? 'text-(--color-primary) bg-(--color-surface)'
+                    : 'text-(--color-text-muted) hover:text-(--color-text)',
+                ]}
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <ThemeToggle />
+    </div>
   </nav>
 </header>

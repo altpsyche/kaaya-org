@@ -15,7 +15,7 @@ interface Props {
 const { title, description, href, pubDate, heroImage, author, readTime } = Astro.props;
 ---
 
-<a href={href} class="group block rounded-[--radius-card] overflow-hidden border border-[--color-border] bg-[--color-surface] hover:border-[--color-primary] transition-colors">
+<a href={href} class="group block rounded-(--radius-card) overflow-hidden border border-(--color-border) bg-(--color-surface) hover:border-(--color-primary) transition-colors">
   {heroImage && (
     <img
       src={url(heroImage)}
@@ -25,14 +25,14 @@ const { title, description, href, pubDate, heroImage, author, readTime } = Astro
     />
   )}
   <div class="p-5">
-    <div class="flex items-center gap-2 text-xs text-[--color-text-muted]">
+    <div class="flex items-center gap-2 text-xs text-(--color-text-muted)">
       <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
       {author && <><span>·</span><span>{author}</span></>}
       {readTime && <><span>·</span><span>{readTime}</span></>}
     </div>
-    <h3 class="mt-2 font-semibold text-[--color-text] group-hover:text-[--color-primary] transition-colors leading-snug">
+    <h3 class="mt-2 font-semibold text-(--color-text) group-hover:text-(--color-primary) transition-colors leading-snug">
       {title}
     </h3>
-    <p class="mt-1 text-sm text-[--color-text-muted] line-clamp-2">{description}</p>
+    <p class="mt-1 text-sm text-(--color-text-muted) line-clamp-2">{description}</p>
   </div>
 </a>

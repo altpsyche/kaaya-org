@@ -92,14 +92,14 @@ const s2Paragraphs = section2Paragraphs ?? [
 
     <section>
       <SectionHeader title="It began simply enough" />
-      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+      <div class="max-w-2xl space-y-4 text-(--color-text-muted) leading-relaxed">
         {s1Paragraphs.map((p) => <p>{p}</p>)}
       </div>
     </section>
 
     <section>
       <SectionHeader title="We built from what the land offered" />
-      <div class="max-w-2xl space-y-4 text-[--color-text-muted] leading-relaxed">
+      <div class="max-w-2xl space-y-4 text-(--color-text-muted) leading-relaxed">
         {s2Paragraphs.map((p) => <p>{p}</p>)}
       </div>
       <QuoteBlock
@@ -121,15 +121,15 @@ const s2Paragraphs = section2Paragraphs ?? [
       <div class="grid gap-8 sm:grid-cols-2">
         {neighbourhoods.map((n) => (
           <div class="space-y-3">
-            <h3 class="font-semibold text-[--color-text]">{n.title}</h3>
+            <h3 class="font-semibold text-(--color-text)">{n.title}</h3>
             {n.body?.split(/\n\n+/).filter((p) => p.trim()).map((p) => (
-              <p class="text-sm leading-relaxed text-[--color-text-muted]">{p.trim()}</p>
+              <p class="text-sm leading-relaxed text-(--color-text-muted)">{p.trim()}</p>
             ))}
             {n.quote && (
               <QuoteBlock quote={n.quote} attribution={n.attribution} />
             )}
             {n.linkLabel && n.linkHref && (
-              <a href={n.linkHref} class="text-sm font-medium text-[--color-primary] hover:underline underline-offset-2">
+              <a href={n.linkHref} class="text-sm font-medium text-(--color-primary) hover:underline underline-offset-2">
                 {n.linkLabel} →
               </a>
             )}

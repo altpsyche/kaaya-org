@@ -13,7 +13,7 @@ const { categories } = Astro.props;
         type="button"
         data-category={cat}
         aria-selected={i === 0 ? 'true' : 'false'}
-        class="rounded-full border border-[--color-border] px-4 py-1.5 text-sm text-[--color-text-muted] transition-colors hover:border-[--color-primary] hover:text-[--color-primary] aria-selected:border-[--color-primary] aria-selected:bg-[--color-primary] aria-selected:text-white"
+        class="rounded-full border border-(--color-border) px-4 py-1.5 text-sm text-(--color-text-muted) transition-colors hover:border-(--color-primary) hover:text-(--color-primary) aria-selected:border-(--color-primary) aria-selected:bg-(--color-primary) aria-selected:text-(--color-on-primary)"
       >
         {cat}
       </button>
