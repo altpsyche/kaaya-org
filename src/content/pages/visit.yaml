@@ -1,5 +1,6 @@
+heroImage: public/uploads/20.jpg
 heroHeading: Visit
-heroSubheading: "Come and see what's happening here"
+heroSubheading: Come and see what's happening here
 accommodation:
   - type: Mud Huts
     details: Large mud-walled hall · single beds
@@ -13,7 +14,7 @@ accommodation:
   - type: Dormitory
     details: 2 units · twin sets on two floors
     capacity: Max 8 beds
-priceRange: "₹1,200 – ₹2,100"
+priceRange: ₹1,200 – ₹2,100
 priceNote: per bed per day · varies by purpose, facilities, and meal plan
 mealPlans:
   - name: Basic
