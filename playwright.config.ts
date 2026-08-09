@@ -11,7 +11,10 @@ import { defineConfig } from '@playwright/test';
  *
  * `--compatibility-date` is pinned because wrangler refuses to start when the
  * date is newer than its own binary supports, and it otherwise defaults to
- * today.
+ * today. `wrangler` is a devDependency (T10.6), so `npx` resolves the pinned
+ * version out of node_modules rather than fetching one — which is what makes
+ * the date above auditable against a known binary instead of whatever npx
+ * happened to download.
  */
 const PORT = 8788;
 

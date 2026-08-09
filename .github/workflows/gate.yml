@@ -5,9 +5,9 @@
 # phrase, a dead href and a lost YAML key alike, so a green build in CI proves
 # almost nothing on its own.
 #
-# The Playwright suites are deliberately absent — they run `wrangler pages dev`,
-# which npx fetches at runtime, and that belongs in its own workflow with a
-# cached toolchain rather than bolted onto this one (T10.6).
+# The Playwright suites run in their own job below: they need `wrangler pages
+# dev` in front of the build, which is slower and fails for different reasons
+# than a static check does.
 name: Gate
 
 on:
@@ -40,3 +40,21 @@ jobs:
       # paragraph shows up as a diff rather than as nothing.
       - if: github.event_name == 'pull_request'
         run: npm run gate:content ${{ github.event.pull_request.base.sha }}
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.18'
+          cache: npm
+
+      - run: npm ci
+
+      # No browser download: every test uses Playwright's `request` fixture,
+      # because `Host` is a forbidden header for a browser fetch and every
+      # behaviour under test depends on which host asked.
+      # playwright.config.ts builds and starts `wrangler pages dev dist` itself.
+      - run: npm test

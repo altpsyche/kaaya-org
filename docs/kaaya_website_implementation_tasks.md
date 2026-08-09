@@ -597,11 +597,15 @@ Each of the four forms renders, carries its honeypot and redirect, and posts the
 - **The Playwright suites are deliberately not in this workflow**, and that is T10.6 rather than an oversight — they run `wrangler pages dev`, which `npx` fetches at runtime, and that wants its own job with a cached toolchain.
 - **Closes E10 except T10.6.**
 
-- [ ] **T10.6 — The Playwright suites in CI** *(new — found in T10.5)*
+- [x] **T10.6 — The Playwright suites in CI** *(new — found in T10.5)*
 `gate.yml` runs the build-output gates only. The 45 Playwright tests — TDD §6.2's whole routing table, six section smoke tests and the four forms — run nowhere but a developer's machine, so a middleware or Header regression reaches `main` unchallenged.
 - AC: the suites run on every pull request; a deliberately broken rewrite fails the job; the run does not fetch `wrangler` from the network on every invocation.
 - **`wrangler` is not a dependency of this repo** — `playwright.config.ts` invokes it through `npx`, which fetched it on first use. Pinning it as a devDependency is probably the first step, and it is also what makes `--compatibility-date` auditable rather than a number in a config file.
 - Depends on: T10.1, T10.5
+- **Landed:** `wrangler@4.120.0` pinned as a devDependency, and an `e2e` job beside `gate` in the same workflow. `npx` now resolves wrangler out of `node_modules` rather than fetching one, which is what makes `--compatibility-date=2026-08-08` auditable — it is pinned against a known binary instead of whatever npx happened to download that day. All 45 tests pass against the pinned version.
+- **No browser download in CI.** Every test uses Playwright's `request` fixture, because `Host` is a forbidden header for a browser fetch and every behaviour under test depends on which host asked. The job needs Node and nothing else.
+- **Two jobs rather than one**, since they fail for different reasons: `gate` is static checks over `dist/`, `e2e` puts the middleware in front of it and is slower.
+- **The AC's middle line is not run in this commit** — a deliberately broken rewrite failing the job. The same suite failing on a broken expectation is measured twice already: T10.2's five failures on first run, and T10.4's mutation test. What is unproven is GitHub Actions itself, which cannot be exercised from here.
 
 ---
 
