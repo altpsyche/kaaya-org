@@ -1,0 +1,65 @@
+---
+/**
+ * Decision 20's consumer: an `<img>` that uses `scripts/images.mjs`'s webp
+ * derivatives when they exist and the original when they do not.
+ *
+ * The fallback is the point. `public/uploads/derived/` is generated and
+ * gitignored, and Decap writes an upload with no derivative at all, so this
+ * component reads the directory at build time and emits a plain `<img>` on the
+ * original whenever it finds nothing — a page renders correctly whether or not
+ * the pass has run.
+ *
+ * `<picture>` rather than a bare `srcset` because the candidates are all webp:
+ * a browser with `srcset` but without webp would otherwise pick a file it
+ * cannot decode, where a `<source type="image/webp">` it skips falls through to
+ * the original. The wrapper carries `display: contents` so it adds no inline
+ * box of its own and the caller's classes lay the image out exactly as a bare
+ * `<img>` did.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { asset } from '../../lib/links';
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  /** Widths the layout gives this image; only matters when derivatives exist. */
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const {
+  src,
+  alt,
+  class: className,
+  sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw',
+  loading = 'lazy',
+} = Astro.props;
+
+const DERIVED_DIR = 'public/uploads/derived';
+
+function derivativesFor(source: string) {
+  if (!source.startsWith('/uploads/') || !fs.existsSync(DERIVED_DIR)) return [];
+  const stem = path.basename(source, path.extname(source));
+  return fs
+    .readdirSync(DERIVED_DIR)
+    .map((file) => file.match(new RegExp(`^${stem}-(\\d+)\\.webp$`)))
+    .filter((m): m is RegExpMatchArray => m !== null)
+    .map((m) => ({ file: m[0], width: Number(m[1]) }))
+    .sort((a, b) => a.width - b.width);
+}
+
+const srcset = derivativesFor(src)
+  .map(({ file, width }) => `${asset(`/uploads/derived/${file}`)} ${width}w`)
+  .join(', ');
+---
+
+{srcset ? (
+  <picture class="contents">
+    <source type="image/webp" srcset={srcset} sizes={sizes} />
+    <img src={asset(src)} alt={alt} loading={loading} class={className} />
+  </picture>
+) : (
+  <img src={asset(src)} alt={alt} loading={loading} class={className} />
+)}

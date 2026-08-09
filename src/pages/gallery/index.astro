@@ -5,7 +5,8 @@ import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
 import ContactBlock from '../../components/ui/ContactBlock.astro';
-import { link, asset } from '../../lib/links';
+import { link } from '../../lib/links';
+import ResponsiveImage from '../../components/ui/ResponsiveImage.astro';
 
 const pageData = await getEntry('pages', 'gallery');
 const { heroImage, heroHeading, heroSubheading, introParagraphs, finalQuote } = pageData?.data ?? {};
@@ -62,10 +63,9 @@ const upcoming = (await getCollection('events'))
           {featured.map((work) => (
             <li class="rounded-(--radius-card) border border-(--color-border) overflow-hidden">
               {work.data.images[0] && (
-                <img
-                  src={asset(work.data.images[0])}
+                <ResponsiveImage
+                  src={work.data.images[0]}
                   alt={work.data.title}
-                  loading="lazy"
                   class="aspect-square w-full object-cover"
                 />
               )}

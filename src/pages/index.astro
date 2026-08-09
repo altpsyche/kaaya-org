@@ -6,7 +6,8 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import ContactBlock from '../components/ui/ContactBlock.astro';
 import PostList from '../components/ui/PostList.astro';
 import Button from '../components/ui/Button.astro';
-import { link, asset } from '../lib/links';
+import { link } from '../lib/links';
+import ResponsiveImage from '../components/ui/ResponsiveImage.astro';
 
 /* Build doc §8's scroll order: gallery content is the first thing below the
    hero, and a visitor must pass it before Place or Community are named. Three
@@ -74,10 +75,9 @@ const storyExits = storyLinks?.length ? storyLinks : [
         {highlights.map((work) => (
           <li class="rounded-(--radius-card) border border-(--color-border) overflow-hidden">
             {work.data.images[0] && (
-              <img
-                src={asset(work.data.images[0])}
+              <ResponsiveImage
+                src={work.data.images[0]}
                 alt={work.data.title}
-                loading="lazy"
                 class="aspect-square w-full object-cover"
               />
             )}
