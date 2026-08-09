@@ -238,6 +238,10 @@ The on-site destination T4.1's redirect targets. One page, reached from every ho
 A Web3Forms access key binds to one verified destination, so `connect@`, `info@` and `gallery@` need one each, held in a single map beside the component. `art@` receives no submissions (decision 16) and needs no key.
 - AC: all three inboxes each receive a test submission from their own form.
 - Depends on: T4.1, **external — `info@kaaya.org` created and monitored**
+- **Split in two, because the map and the keys block different things.** The map is what T4.4 and T7.5 need in order to name a destination; the keys themselves need mailboxes that do not exist. Step 1 lands the map under decision 21; step 2 is the AC and stays open.
+
+  1. **[x] The inbox map, with proxy keys** — `src/data/inboxes.ts` names the three destinations and `EnquiryForm` takes `inbox` instead of a pasted key. Measures: both live forms emit the same access key as before, so nothing about delivery changes. **Landed:** `inbox="connect"` on Incubate and Exchange, and `f8b67b4c…` still appears exactly once in each built page — the refactor is behaviour-identical, which is the only safe way to touch a form that is collecting real applications. One `KAAYA-PROXY(T4.3)` marker covers all three names; proxies 2 → 3. Naming the inbox at the call site is what makes the destination reviewable: `inbox="info"` says where a Booking enquiry goes, where a hex string says nothing and cannot be checked by eye.
+  2. **[ ] Real keys and a live submission per form** — **blocked**, and this is the AC. `info@kaaya.org` does not exist and `gallery@kaaya.org` is published on the retired gallery site but unverified against this Web3Forms account. A key cannot be issued for an address nobody has confirmed, so no proxy is possible here: a wrong key does not fail, it delivers somewhere else silently.
 
 - [ ] **T4.4 — Wire the Booking form**
 `Booking Enquiry` → `info@`, with arrival date, nights, guests and room type as structured fields rather than free text.
