@@ -72,7 +72,7 @@ Start a session with `/next`. Land a step with `/land`.
 
 `npm run gate` is build + vocab + links. `npm run gate:content <ref>` is separate because it takes an argument and only a content move earns it.
 
-`e2e/routing.spec.ts` holds TDD §6.2's table, one test per row, under `wrangler pages dev dist` — run with `npm test`. Not built yet, and named in the backlog rather than here: per-section smoke tests (T10.3), form tests (T10.4).
+`e2e/routing.spec.ts` holds TDD §6.2's table, one test per row, and `e2e/sections.spec.ts` one smoke test per host — both under `wrangler pages dev dist`, run with `npm test`. Not built yet, and named in the backlog rather than here: form tests (T10.4).
 
 ## Baselines
 
@@ -84,7 +84,7 @@ Numbers a session can check against. Update them in the same commit that moves t
 | banned-vocab hits |   0 across 10 files | `npm run gate:vocab` |
 | dead internal links | 0 dead, 0 misrouted across 682 internal hrefs on 26 pages | `npm run gate:links` |
 | content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
-| Playwright tests | 34 declared: 31 passed, 3 skipped | `npm test` — 2 harness, 32 routing rows; the 3 skips are T7.5 and T8.3 |
+| Playwright tests | 40 declared: 37 passed, 3 skipped | `npm test` — 2 harness, 32 routing rows, 6 section smoke; the 3 skips are T7.5 and T8.3 |
 | upload derivatives | 31 from 12 sources, 2.2 MB | `npm run images` — 9 ms warm |
 | `dist/` size | 23 MB, of which `uploads/` is 22 MB | `du -sh dist` after T7.10 |
 

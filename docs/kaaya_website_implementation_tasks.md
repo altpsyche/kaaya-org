@@ -509,10 +509,13 @@ One assertion per row of TDD §6.2's behaviour table — status plus `Location`,
 - **§6.2's "`happenings.kaaya.org/anything` → /blog" row is not unconditional, and this is the correction.** The leak guard runs first, so `happenings.kaaya.org/place/stay` redirects to `https://place.kaaya.org/stay` rather than to `/blog`. That is the better behaviour and the guard §6.3 asks for — the row means "anything that is not a section prefix or /blog". Both cases now have their own test. Correct the wording if that document is revised.
 - **A slash-less directory path on the preview host gets Pages' own 308**, not the middleware's — the same hop `asDirectory()` exists to keep out of public URLs. The preview row asserts the slash form; the 308 is the static host and is outside the table.
 
-- [ ] **T10.3 — Per-section smoke tests**
+- [x] **T10.3 — Per-section smoke tests**
 Page loads; nav hrefs are the expected absolute cross-subdomain URLs; each host renders its own row 2 nav. `link()` returns paths in dev, so assert against `astro build` output.
 - AC: one passing smoke test per section.
 - Depends on: T10.1, T2.5
+- **Landed:** `e2e/sections.spec.ts`, one test per host — home, gallery, place, community, events, happenings. Playwright baseline **34 → 40 declared: 37 passed, 3 skipped, 0 failed**. Each test asserts three things at once: the section's own page serves 200 rather than redirecting, row 1 carries all five cross-site links as absolute cross-subdomain URLs, and row 2 equals §5's table for that host — `['Artist']` on gallery, the four Place routes, the three Community routes, and empty on home, events and happenings.
+- **The negative assertion is the one that would catch a regression:** the header must contain no `href="/gallery…"`-style bare path, which is what `link()` emits when it takes its dev branch. A bare path renders and navigates fine on the apex, so nothing else in the repo notices it on a section host.
+- **Asserted over fetched HTML, not through a browser page.** `Host` is a forbidden header for a browser fetch, and every behaviour here depends on which host asked.
 
 - [ ] **T10.4 — Form tests**
 Each of the four forms renders, carries its honeypot and redirect, and posts the right subject.
