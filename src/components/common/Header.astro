@@ -1,27 +1,66 @@
 ---
 import { SITE } from '../../data/site';
-import { link } from '../../lib/links';
+import { link, SECTIONS } from '../../lib/links';
 import ThemeToggle from './ThemeToggle.astro';
 
-const nav = [
-  { label: 'Place', href: link('/place') },
-  { label: 'Learn', href: link('/community/learn') },
-  { label: 'Incubate', href: link('/community/incubate') },
-  { label: 'Exchange', href: link('/community/exchange') },
-  { label: 'Blog', href: link('/blog') },
+/**
+ * One Header for six hosts (TDD §5). Row 1 is the cross-site nav and renders
+ * everywhere; row 2 is the current section's own nav and is absent on three
+ * hosts. Which section is current comes from the path, never from an href —
+ * in a production build `link()` returns an absolute cross-subdomain URL, so
+ * comparing a path against one marks nothing active.
+ */
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const first = path.split('/')[1] ?? '';
+const section = first === 'blog' ? 'happenings' : SECTIONS.includes(first) ? first : 'home';
+
+// Gallery first and emphasised per build doc §8. Five is the ceiling — §5.
+const row1 = [
+  { label: 'Gallery', section: 'gallery', path: '/gallery', lead: true },
+  { label: 'Place', section: 'place', path: '/place' },
+  { label: 'Community', section: 'community', path: '/community' },
+  { label: 'Events', section: 'events', path: '/events' },
+  { label: 'Happenings', section: 'happenings', path: '/blog' },
 ];
 
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
-
-const linkClass = (href: string) => {
-  const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
-  return [
-    'block whitespace-nowrap rounded px-3 py-2 font-medium transition-colors',
-    isActive
-      ? 'text-(--color-primary) bg-(--color-surface)'
-      : 'text-(--color-text-muted) hover:text-(--color-text)',
-  ];
+/**
+ * Row 2 per §5's table. `home`, `events` and `happenings` have none: the
+ * homepage nav stays thin (build doc §1), events is one page whose categories
+ * are filters rather than routes, and happenings is one destination. Gallery
+ * carries no Art entry — decision 15 merged it into the gallery home.
+ */
+const row2 = {
+  gallery: [
+    { label: 'Shop', path: '/gallery/shop' },
+    { label: 'Artist', path: '/gallery/artist' },
+  ],
+  place: [
+    { label: 'Story', path: '/place/story' },
+    { label: 'Activities', path: '/place/activities' },
+    { label: 'Stay', path: '/place/stay' },
+    { label: 'Booking', path: '/place/booking' },
+  ],
+  community: [
+    { label: 'Learn', path: '/community/learn' },
+    { label: 'Incubate', path: '/community/incubate' },
+    { label: 'Exchange', path: '/community/exchange' },
+  ],
 };
+
+// Routes §5's table names that no epic has built yet. Linking to one is a dead
+// href, so the entry is withheld rather than shipped broken. T7.5 builds /shop
+// and T7.6 builds /artist; both entries appear the moment this set is emptied.
+const UNBUILT = new Set(['/gallery/shop', '/gallery/artist']);
+
+const sub = (row2[section] ?? []).filter((item) => !UNBUILT.has(item.path));
+
+const itemClass = (active: boolean, lead = false) => [
+  'block whitespace-nowrap rounded px-3 py-2 transition-colors',
+  lead ? 'font-semibold' : 'font-medium',
+  active
+    ? 'text-(--color-primary) bg-(--color-surface)'
+    : 'text-(--color-text-muted) hover:text-(--color-text)',
+];
 ---
 
 <header
@@ -32,11 +71,15 @@ const linkClass = (href: string) => {
     <a href={link('/')} class="text-base font-bold text-(--color-primary) shrink-0">{SITE.title}</a>
 
     <div class="flex items-center gap-2">
-      {/* Inline nav — hidden on mobile, shown from md up */}
+      {/* Row 1 — hidden on mobile, shown from md up */}
       <ul class="hidden md:flex items-center gap-1 text-sm">
-        {nav.map(({ label, href }) => (
+        {row1.map(({ label, section: s, path: p, lead }) => (
           <li>
-            <a href={href} class:list={linkClass(href)}>{label}</a>
+            <a
+              href={link(p)}
+              aria-current={section === s ? 'page' : undefined}
+              class:list={itemClass(section === s, lead)}
+            >{label}</a>
           </li>
         ))}
       </ul>
@@ -59,15 +102,52 @@ const linkClass = (href: string) => {
     </div>
   </nav>
 
-  {/* Mobile menu — collapsed by default, toggled open; always hidden from md up */}
+  {sub.length > 0 && (
+    <nav
+      aria-label={`${section} section`}
+      class="hidden md:block border-t border-(--color-border)"
+    >
+      <ul class="mx-auto flex max-w-5xl items-center gap-1 px-6 py-2 text-sm">
+        {sub.map(({ label, path: p }) => (
+          <li>
+            <a
+              href={link(p)}
+              aria-current={path === p ? 'page' : undefined}
+              class:list={itemClass(path === p)}
+            >{label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )}
+
+  {/* Mobile menu — collapsed by default, toggled open; always hidden from md up.
+      Both rows live here, since the section nav has nowhere else to go. */}
   <div id="mobile-nav" hidden class="md:hidden border-t border-(--color-border) px-6 py-3">
     <ul class="flex flex-col gap-1 text-sm">
-      {nav.map(({ label, href }) => (
+      {row1.map(({ label, section: s, path: p, lead }) => (
         <li>
-          <a href={href} class:list={linkClass(href)}>{label}</a>
+          <a
+            href={link(p)}
+            aria-current={section === s ? 'page' : undefined}
+            class:list={itemClass(section === s, lead)}
+          >{label}</a>
         </li>
       ))}
     </ul>
+    {sub.length > 0 && (
+      <ul class="mt-2 flex flex-col gap-1 border-t border-(--color-border) pt-2 text-sm">
+        {sub.map(({ label, path: p }) => (
+          <li>
+            <a
+              href={link(p)}
+              aria-current={path === p ? 'page' : undefined}
+              class:list={itemClass(path === p)}
+            >{label}</a>
+          </li>
+        ))}
+      </ul>
+    )}
   </div>
 </header>
 
