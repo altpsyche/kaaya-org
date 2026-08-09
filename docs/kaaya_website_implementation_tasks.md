@@ -150,10 +150,14 @@ TDD §9. **`serialize()` must call `toCanonical()`, not `link()`** — `import.m
 - AC: generated sitemap shows `gallery.kaaya.org/...`, `place.kaaya.org/...`, `happenings.kaaya.org/blog/...` and nothing under `kaaya.org` that belongs on a subdomain; RSS item links use the `happenings` host.
 - Depends on: T2.2
 
-- [ ] **T2.4 — Canonicals via `toCanonical()`**
+- [x] **T2.4 — Canonicals via `toCanonical()`**
 `SEO.astro`'s canonical and `og:url`.
 - AC: `dist/gallery/shop/index.html` carries `<link rel="canonical" href="https://gallery.kaaya.org/shop">`.
 - Depends on: T2.2, T0.1
+- **Landed out of numeric order, and T2.2 step 2 is why.** Teaching `dead-links.mjs` the host map made the defect visible for the first time — 15 misrouted plus 1 dead, one per page — and that gate cannot land green until this is fixed. T2.2's module had already landed at step 1, so this task's only real dependency was met; T2.3 is untouched and still next.
+- **Landed:** `canonical` is `toCanonical(Astro.url.pathname)`, replacing `new URL(pathname, SITE.url)` which named the apex for all six hosts. 16 of 18 pages carried a URL the middleware 301s away from — `https://kaaya.org/place/stay/` rather than `https://place.kaaya.org/stay/` — with the build green throughout. After: `gate:links` 0 misrouted across 380 hrefs. `og:url` takes the same value.
+- **The AC's example is not buildable yet** — `/shop` lands in T7.5. Verified on the equivalent built routes instead: `dist/gallery/index.html` carries `https://gallery.kaaya.org/`, `dist/place/stay/index.html` carries `https://place.kaaya.org/stay/`, `dist/community/learn/index.html` carries `https://community.kaaya.org/learn/`, and `dist/blog/making-of-kaaya/index.html` carries `https://happenings.kaaya.org/blog/making-of-kaaya/`.
+- **A second defect, fixed here because it is the same line:** `404.astro` is `noIndex` and was still emitting `<link rel="canonical" href="https://kaaya.org/404/">` — a URL the build does not emit, since 404 is a file rather than a directory index. A noindex page now names no canonical and no `og:url`. That was the 1 dead link in the gate's first run.
 
 - [ ] **T2.5 — Rewrite `Header.astro`**
 TDD §5. Row 1 is the five-section cross-site nav — Gallery · Place · Community · Events · Happenings — with an active state, on every host. Row 2 is the current section's own nav, absent on `kaaya.org`, `events` and `happenings`. Section is derived from `Astro.url.pathname` — the same derivation T2.4 and T4.6 use. Replaces the current flat 6-item nav (Place, Learn, Incubate, Exchange, Visit, Blog).

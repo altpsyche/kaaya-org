@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../../data/site';
+import { toCanonical } from '../../lib/links';
 
 interface Props {
   title?: string;
@@ -16,19 +17,25 @@ const {
 } = Astro.props;
 
 const pageTitle = title ? `${title} | ${SITE.title}` : SITE.title;
-const canonical = new URL(Astro.url.pathname, SITE.url).href;
+// toCanonical(), never link(): a canonical must name the host that serves the
+// page, and resolving the path against SITE.url named the apex for all six —
+// the URLs the middleware 301s away from. TDD §9 has the table.
+const canonical = toCanonical(Astro.url.pathname);
 const ogImage = new URL(image, SITE.url).href;
 ---
 
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{/* A noindex page names no canonical. 404.astro is the only one, and it is
+    served for URLs that by definition do not exist — its canonical pointed at
+    /404/, which the build does not emit. */}
+{!noIndex && <link rel="canonical" href={canonical} />}
 {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
 <!-- Open Graph -->
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:url" content={canonical} />
+{!noIndex && <meta property="og:url" content={canonical} />}
 <meta property="og:image" content={ogImage} />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={SITE.title} />
