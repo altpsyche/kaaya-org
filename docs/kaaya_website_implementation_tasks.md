@@ -282,10 +282,15 @@ Decision 6. Retire the single global `SITE.description`; `SEO.astro` picks a per
 
 *TDD §14.*
 
-- [ ] **T5.1 — Banned-vocabulary CI check over built output**
+- [x] **T5.1 — Banned-vocabulary CI check over built output**
 Grep `dist/index.html` and `dist/gallery/**` for "circular economy", "incubation", "internships", "sustainable living". Source-only grepping is insufficient — the current violation lives in shared chrome, which no YAML grep reaches.
 - AC: fails on a deliberately planted violation in either page content or shared chrome; passes clean otherwise.
 - Depends on: T4.6
+- **Verified, no code changed — `scripts/gate/banned-vocab.mjs` already existed and this task is the proof that it works.** Both halves of the AC were planted and measured rather than reasoned about.
+- **Page content:** "internships" added to the gallery home. `dist/gallery/index.html:40`, 1 hit, exit 1.
+- **Shared chrome:** the apex description changed to "A small experiment in sustainable living" — the exact string decision 6 retired. 2 hits, exit 1, in `dist/index.html` **and `dist/404.html`** — the second is the one that matters, because the gallery host serves that same 404, so a phrase banned on `gallery.kaaya.org` reaches it without ever appearing in a gallery page. That is why the check reads built output rather than `src/content/`.
+- **Clean:** 0 hits across 10 files, exit 0. Both plants were reverted in the same step.
+- **The CI half is T10.5**, which is this check running on a pull request. This task is the check itself.
 
 - [ ] **T5.2 — Studios ↔ Gallery/Place cross-link**
 Explicit, named link instances: Gallery → Artist (Studios residency) and Place → Stay (Studios booking), driven by `artists.residency`. Not a generic "related content" widget.
