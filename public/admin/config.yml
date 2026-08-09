@@ -398,3 +398,47 @@ collections:
       - {label: "Read Time", name: "readTime", widget: "string", required: false}
       - {label: "Categories", name: "categories", widget: "list", required: false}
       - {label: "Body", name: "body", widget: "markdown"}
+
+  # Gallery collections (TDD §12). `price` is a display string: there is no
+  # cart, no checkout and nothing that adds one price to another (decision 2).
+  - name: works
+    label: Works
+    folder: src/content/works
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      # A relation rather than free text, so a work can never name an artist
+      # slug that no profile answers to.
+      - {label: "Artist", name: "artist", widget: "relation", collection: "artists", search_fields: ["name"], value_field: "{{slug}}", display_fields: ["name"], required: false}
+      - {label: "Category", name: "category", widget: "select", options: ["artworks", "handmade", "collectibles"]}
+      - {label: "Medium", name: "medium", widget: "string", required: false}
+      - {label: "Size", name: "size", widget: "string", required: false}
+      - {label: "Price", name: "price", widget: "string", required: false, hint: "Display only — shown as written, never totalled. Buying is by enquiry."}
+      - {label: "Available", name: "available", widget: "boolean", default: true, required: false}
+      - {label: "Made on site", name: "madeOnSite", widget: "boolean", default: false, required: false, hint: "Made in Kaaya's own Pottery or Workshop."}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false, required: false}
+      - {label: "Images", name: "images", widget: "list", field: {label: "Image", name: "image", widget: "image"}, required: false}
+      - {label: "Description", name: "description", widget: "text", required: false}
+      - {label: "Body", name: "body", widget: "markdown", required: false}
+
+  - name: artists
+    label: Artists
+    folder: src/content/artists
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Tagline", name: "tagline", widget: "string", required: false}
+      - {label: "Portrait", name: "portrait", widget: "image", required: false}
+      - {label: "Origin", name: "origin", widget: "string", required: false}
+      - {label: "Studios residency", name: "residency", widget: "boolean", default: false, required: false, hint: "Lives and works on the campus."}
+      - {label: "Artist of the Month", name: "featuredMonth", widget: "string", required: false, hint: "Set on one artist only. Selects the slot; the value is not shown."}
+      # Defaults to false in the schema, so a profile saved without ticking this
+      # is built but never listed and has no page.
+      - {label: "Published", name: "published", widget: "boolean", default: true}
+      - {label: "Biography", name: "body", widget: "markdown", required: false}

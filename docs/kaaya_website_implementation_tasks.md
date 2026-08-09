@@ -358,10 +358,14 @@ It also features upcoming gallery events — `section: gallery`, linking out to 
 - **2 content leaf strings dropped, both deliberate:** `gallery.heroSubheading` "The gallery at Kaaya" and `gallery.introParagraphs[0]`, T1.7's placeholder saying the content was still being brought across. Both were the shell this task exists to replace.
 - **A deleted content entry was still rendering.** The gate found `https://events.kaaya.org/_probe` linked from the gallery home — T7.1's probe event, whose file was removed two tasks earlier. Astro's content store lives in `node_modules/.astro/data-store.json`, so deleting the file, `.astro/` and `dist/` all left it in place. Recorded in CLAUDE.md; `gate:links` is the only reason it did not ship.
 
-- [ ] **T7.8 — CMS collections for Works and Artists**
+- [x] **T7.8 — CMS collections for Works and Artists**
 Folder-based Decap collections, same pattern as `blog`. The Events collection is added in T8.4.
 - AC: an editor can create, edit and delete works and profiles through `/admin`, including setting `published`.
 - Depends on: T7.1
+- **Landed:** two folder collections on the `blog` pattern, both `create: true` and `delete: true` — `blog` itself is `delete: false`, and this task's AC asks for delete. Checked structurally: `config.yml` parses, and every frontmatter key across all 5 works and all 6 artists has a field. `published` is a boolean defaulting to `true` in the CMS, against `false` in the schema, so a profile created through `/admin` is listed rather than silently invisible.
+- **`artist` is a `relation` widget, not free text.** It resolves against the `artists` collection with `value_field: "{{slug}}"`, so a work cannot name a slug no profile answers to — the failure the schema itself cannot catch, since both sides are just strings.
+- **The `/admin` UI round trip is unverified** — it needs a CMS login, the same gap T0.2 and T1.9 record. The configuration is correct; no editor sat in front of it.
+- `portrait` is the one field with no entry using it, which is the photography blocker rather than a defect.
 
 ---
 
