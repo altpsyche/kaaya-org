@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import { SITE } from '../data/site';
+import { toCanonical } from '../lib/links';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
@@ -15,7 +16,9 @@ export async function GET(context: APIContext) {
         title: post.data.title,
         pubDate: post.data.pubDate,
         description: post.data.description,
-        link: `/blog/${post.id}/`,
+        // toCanonical(), never link(): a feed item is read off-site, where a
+        // bare path resolves against whichever host served the feed.
+        link: toCanonical(`/blog/${post.id}/`),
       })),
   });
 }
