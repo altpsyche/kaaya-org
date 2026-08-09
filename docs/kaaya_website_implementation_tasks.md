@@ -301,10 +301,15 @@ Explicit, named link instances: Gallery → Artist (Studios residency) and Place
 - **Verified with a probe, because nobody sets `residency` today.** Setting it on one profile rendered `In the Studios now: <name>` linking to `https://gallery.kaaya.org/artist/<slug>`, and that artist's own page carried the Studios badge and its link back to Place → Stay — both directions, in one build. The probe was reverted and the content store cleared; with `residency: false` on all six the block renders nothing at all, checked.
 - **The residency data is owed and gets no proxy, deliberately.** Naming a resident is a factual claim about a named person, not placeholder copy — a wrong one is published about someone real. The machinery ships; the names wait for the Kaaya team. This is why the blockers table's Studios row says "no — deliberate".
 
-- [ ] **T5.3 — Pottery/Workshop ↔ Gallery cross-link**
+- [x] **T5.3 — Pottery/Workshop ↔ Gallery cross-link**
 Same pattern for Place → Activities linking into Gallery Shop, driven by `works.madeOnSite`.
 - AC: link present on both Activities entries per build doc §5.
 - Depends on: T1.3, T7.5
+- **Landed:** checked card by card from built output — **Hands-on pottery** and **Workshop** carry "What gets made here ends up in the Shop →", and Forest & eco trails, Nature art classes and Farm day picnics carry nothing. That is the AC: named entries, not a related-content widget. `gate:links` 894 → 896 hrefs, the two new ones being exactly those.
+- **The plain link and the data-driven list are separate on purpose.** The link belongs to the activity and is always right; the list of pieces actually made here is driven by `works.madeOnSite`, which no work sets. Without that split the two cards would have had no link at all until someone flagged a work.
+- **Both directions probed.** Marking one work `madeOnSite: true` rendered "Made on this campus: Chromatic metanoia" on Activities, linking to `gallery.kaaya.org/shop/chromatic-metanoia`, and that work's page carried "Made on the Kaaya campus" linking back to `place.kaaya.org/activities`. Probe reverted, content store cleared, both blocks confirmed absent again.
+- **`madeOnSite` gets no proxy, for the same reason as `residency`** — whether a piece was made on this campus is a fact about a real object with a named maker, not placeholder copy. The five imported works are paintings by Himalayan artists and nothing in the scrape says any was made at Kaaya.
+- **Closes E5.**
 
 ---
 

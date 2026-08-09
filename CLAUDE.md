@@ -83,7 +83,7 @@ Numbers a session can check against. Update them in the same commit that moves t
 | --- | --- | --- |
 | routes built | 31 | `npm run build` after T7.5 |
 | banned-vocab hits |   0 across 16 files | `npm run gate:vocab` |
-| dead internal links | 0 dead, 0 misrouted across 894 internal hrefs on 32 pages | `npm run gate:links` |
+| dead internal links | 0 dead, 0 misrouted across 896 internal hrefs on 32 pages | `npm run gate:links` |
 | content leaf strings | 205 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 40 declared: 39 passed, 1 skipped | `npm test` — 2 harness, 32 routing rows, 6 section smoke; the 1 skip is T8.3 |
 | outstanding proxies | 5 — photography (T3.1), access keys (T4.3), `art@` (T4.5), descriptions (T4.6) | `npm run gate:proxy` — decision 21 |

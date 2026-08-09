@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import { link } from '../../lib/links';
@@ -8,6 +8,20 @@ import { link } from '../../lib/links';
 // Canonical home for the pottery / workshop / trails / nature art / farm picnic
 // copy (TDD decision 11). It previously existed twice — as `learn.yaml`'s
 // `sessions` and, in terser form, as `visit.yaml`'s `facilities`.
+/**
+ * T5.3, build doc §5: the two making activities point into the Shop, because
+ * what is made at the wheel and the bench is the same kind of object the
+ * catalogue sells. Named entries rather than a related-content widget — the
+ * link belongs to pottery and woodwork and to nothing else on this page.
+ *
+ * `madeOnSite` names the pieces that actually came off this campus; none is
+ * flagged today, so the card carries the plain link into the catalogue and
+ * gains the list the moment a work is marked.
+ */
+const MAKING = new Set(['Hands-on pottery', 'Workshop']);
+
+const madeHere = (await getCollection('works')).filter((w) => w.data.madeOnSite);
+
 const pageData = await getEntry('pages', 'place-activities');
 const {
   heroImage, heroHeading, heroSubheading,
@@ -74,6 +88,27 @@ const introPs = introParagraphs ?? [
             <p class="mt-2 text-sm leading-relaxed text-(--color-text-muted)">{a.description}</p>
             {a.detail && (
               <p class="mt-3 text-xs font-medium text-(--color-accent)">{a.detail}</p>
+            )}
+            {MAKING.has(a.title) && (
+              <p class="mt-3 text-sm">
+                <a href={link('/gallery/shop')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
+                  What gets made here ends up in the Shop →
+                </a>
+              </p>
+            )}
+            {MAKING.has(a.title) && madeHere.length > 0 && (
+              <p class="mt-2 text-xs text-(--color-text-muted)">
+                Made on this campus:{' '}
+                {madeHere.map((work, i) => (
+                  <>
+                    <a
+                      href={link(`/gallery/shop/${work.id}`)}
+                      class="text-(--color-primary) hover:underline underline-offset-2"
+                    >{work.data.title}</a>
+                    {i < madeHere.length - 1 && <span>, </span>}
+                  </>
+                ))}
+              </p>
             )}
           </li>
         ))}

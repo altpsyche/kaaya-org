@@ -83,6 +83,18 @@ const details = [
           ))}
         </dl>
 
+        {/* T5.3's Gallery side: a piece made at Kaaya says so and points at the
+            activity that made it. Driven by `madeOnSite`, so a work that was
+            not made here never claims it was. */}
+        {work.data.madeOnSite && (
+          <p class="mt-6 text-sm text-(--color-text-muted)">
+            Made on the Kaaya campus.{' '}
+            <a href={link('/place/activities')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
+              See where →
+            </a>
+          </p>
+        )}
+
         {!work.data.available && (
           <p class="mt-6 text-sm font-medium text-(--color-text)">
             This piece is no longer available. Ask us what else is.
