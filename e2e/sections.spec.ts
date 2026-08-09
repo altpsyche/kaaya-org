@@ -19,10 +19,10 @@ const ROW1 = [
   ['Happenings', 'https://happenings.kaaya.org/blog'],
 ] as const;
 
-/** Row 2 per §5's table. Gallery's Shop entry is withheld until T7.5 builds it. */
+/** Row 2 per §5's table, complete since T7.5 built /shop. */
 const SECTIONS = [
   { name: 'home', host: 'kaaya.org', url: '/', active: null, row2: [] },
-  { name: 'gallery', host: 'gallery.kaaya.org', url: '/', active: 'Gallery', row2: ['Artist'] },
+  { name: 'gallery', host: 'gallery.kaaya.org', url: '/', active: 'Gallery', row2: ['Shop', 'Artist'] },
   {
     name: 'place',
     host: 'place.kaaya.org',

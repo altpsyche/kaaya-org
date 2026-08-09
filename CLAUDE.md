@@ -81,11 +81,11 @@ Numbers a session can check against. Update them in the same commit that moves t
 
 | what | value | measured |
 | --- | --- | --- |
-| routes built | 25 | `npm run build` after T7.6 |
-| banned-vocab hits |   0 across 10 files | `npm run gate:vocab` |
-| dead internal links | 0 dead, 0 misrouted across 684 internal hrefs on 26 pages | `npm run gate:links` |
-| content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
-| Playwright tests | 40 declared: 37 passed, 3 skipped | `npm test` — 2 harness, 32 routing rows, 6 section smoke; the 3 skips are T7.5 and T8.3 |
+| routes built | 31 | `npm run build` after T7.5 |
+| banned-vocab hits |   0 across 16 files | `npm run gate:vocab` |
+| dead internal links | 0 dead, 0 misrouted across 894 internal hrefs on 32 pages | `npm run gate:links` |
+| content leaf strings | 205 across 12 YAML files | `npm run gate:content HEAD` |
+| Playwright tests | 40 declared: 39 passed, 1 skipped | `npm test` — 2 harness, 32 routing rows, 6 section smoke; the 1 skip is T8.3 |
 | outstanding proxies | 5 — photography (T3.1), access keys (T4.3), `art@` (T4.5), descriptions (T4.6) | `npm run gate:proxy` — decision 21 |
 | upload derivatives | 31 from 12 sources, 2.2 MB | `npm run images` — 9 ms warm |
 | `dist/` size | 23 MB, of which `uploads/` is 22 MB | `du -sh dist` after T7.10 |

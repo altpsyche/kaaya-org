@@ -1,0 +1,126 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import ResponsiveImage from '../../../components/ui/ResponsiveImage.astro';
+import EnquiryForm from '../../../components/ui/EnquiryForm.astro';
+import { link, asset } from '../../../lib/links';
+
+// Decision 14: every work gets its own page, so a ₹12,000 original can be
+// linked to and found in search.
+export const getStaticPaths = (async () => {
+  const works = await getCollection('works');
+  return works.map((work) => ({ params: { slug: work.id }, props: { work } }));
+}) satisfies GetStaticPaths;
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+
+const artist = work.data.artist ? await getEntry('artists', work.data.artist) : undefined;
+
+const details = [
+  ['Artist', artist?.data.name ?? work.data.artist],
+  ['Medium', work.data.medium],
+  ['Size', work.data.size],
+  ['Price', work.data.price],
+].filter(([, value]) => value);
+---
+
+<Base title={`${work.data.title} | Kaaya Gallery`} description={work.data.description}>
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-12">
+    <p class="text-sm">
+      <a href={link('/gallery/shop')} class="text-(--color-primary) hover:underline underline-offset-2">
+        ← Back to the catalogue
+      </a>
+    </p>
+
+    <article class="grid gap-10 md:grid-cols-2">
+      <div>
+        {work.data.images[0] && (
+          <ResponsiveImage
+            src={work.data.images[0]}
+            alt={work.data.title}
+            sizes="(min-width: 768px) 50vw, 100vw"
+            loading="eager"
+            class="w-full rounded-(--radius-card) object-cover"
+          />
+        )}
+        {/* T7.9 keeps the original file and never rewrites it, so the detail
+            page is where full resolution stays reachable. */}
+        {work.data.images[0] && (
+          <p class="mt-2 text-xs text-(--color-text-muted)">
+            <a href={asset(work.data.images[0])} class="hover:text-(--color-primary)">
+              View at full resolution
+            </a>
+          </p>
+        )}
+      </div>
+
+      <div>
+        <h1 class="text-3xl font-bold text-(--color-text)">{work.data.title}</h1>
+        {artist && (
+          <p class="mt-2">
+            <a
+              href={link(`/gallery/artist/${artist.id}`)}
+              class="font-medium text-(--color-primary) hover:underline underline-offset-2"
+            >{artist.data.name}</a>
+          </p>
+        )}
+
+        {work.data.description && (
+          <p class="mt-6 leading-relaxed text-(--color-text-muted)">{work.data.description}</p>
+        )}
+
+        <dl class="mt-8 space-y-2 text-sm">
+          {details.map(([label, value]) => (
+            <div class="flex gap-3">
+              <dt class="w-24 shrink-0 font-medium text-(--color-text)">{label}</dt>
+              {/* Price is one of these rows and nothing more. Decision 2 leaves
+                  nothing to add it to, total or persist it in. */}
+              <dd class="text-(--color-text-muted)">{value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {!work.data.available && (
+          <p class="mt-6 text-sm font-medium text-(--color-text)">
+            This piece is no longer available. Ask us what else is.
+          </p>
+        )}
+      </div>
+    </article>
+
+    <div class="prose prose-neutral max-w-2xl dark:prose-invert">
+      <Content />
+    </div>
+
+    <section>
+      <SectionHeader
+        title="Enquire about this piece"
+        subtitle="There is no checkout. Ask, and we will come back to you about price, condition and how it can reach you."
+      />
+      {/* The work reference travels as a hidden field, so the enquiry names the
+          piece without asking the person to retype its title. */}
+      <EnquiryForm
+        subject={`Shop Enquiry — ${work.data.title}`}
+        enquiry="shop"
+        inbox="gallery"
+        submitLabel="Send enquiry"
+        hidden={{ work: work.id, workTitle: work.data.title }}
+        fields={[
+          { name: 'name', label: 'Name', required: true },
+          { name: 'email', label: 'Email', type: 'email', required: true },
+          { name: 'phone', label: 'Phone', type: 'tel' },
+          {
+            name: 'message',
+            label: 'Your question',
+            type: 'textarea',
+            rows: 4,
+            placeholder: 'Anything you want to know before deciding.',
+          },
+        ]}
+      />
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,107 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import Hero from '../../../components/ui/Hero.astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import CategoryFilter from '../../../components/ui/CategoryFilter.astro';
+import ResponsiveImage from '../../../components/ui/ResponsiveImage.astro';
+import ContactBlock from '../../../components/ui/ContactBlock.astro';
+import { link } from '../../../lib/links';
+
+const works = (await getCollection('works')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+/* Only categories that have entries, so a filter never advertises an empty
+   result — Handmade and Collectibles hold nothing today (blockers table).
+   `All work` is first, which is what CategoryFilter treats as show-all. */
+const LABELS: Record<string, string> = {
+  artworks: 'Artworks',
+  handmade: 'Handmade',
+  collectibles: 'Collectibles',
+};
+const present = [...new Set(works.map((w) => w.data.category))];
+const categories = ['All work', ...present.map((c) => LABELS[c] ?? c)];
+
+const artistNames = new Map(
+  (await getCollection('artists')).map((a) => [a.id, a.data.name]),
+);
+---
+
+<Base title="Shop | Kaaya Gallery">
+  <Hero
+    heading="Shop"
+    subheading="Original work from the Himalayan region, one piece at a time."
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+    {/* Decision 4: the label says Shop and every button will refuse a checkout,
+        so the page has to say so itself rather than leave it to the button.
+        Decision 2 removed the cart; nothing here sums or persists a price. */}
+    <section>
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        <p>
+          Every piece here is one of a kind, and there is no checkout. Buying starts with
+          an enquiry: tell us which work you are asking about and we will come back to you
+          about price, condition and how it can reach you.
+        </p>
+      </div>
+    </section>
+
+    {works.length > 0 ? (
+      <section>
+        <SectionHeader title="The catalogue" />
+        <CategoryFilter categories={categories} />
+        <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {works.map((work) => (
+            <li
+              data-post-item
+              data-category={LABELS[work.data.category] ?? work.data.category}
+              class="rounded-(--radius-card) border border-(--color-border) overflow-hidden"
+            >
+              <a href={link(`/gallery/shop/${work.id}`)} class="block">
+                {work.data.images[0] && (
+                  <ResponsiveImage
+                    src={work.data.images[0]}
+                    alt={work.data.title}
+                    class="aspect-square w-full object-cover"
+                  />
+                )}
+              </a>
+              <div class="p-5">
+                <h3 class="font-semibold text-(--color-text)">
+                  <a href={link(`/gallery/shop/${work.id}`)} class="hover:text-(--color-primary)">
+                    {work.data.title}
+                  </a>
+                </h3>
+                {work.data.artist && (
+                  <p class="mt-1 text-sm">
+                    <a
+                      href={link(`/gallery/artist/${work.data.artist}`)}
+                      class="text-(--color-primary) hover:underline underline-offset-2"
+                    >{artistNames.get(work.data.artist) ?? work.data.artist}</a>
+                  </p>
+                )}
+                {work.data.medium && <p class="mt-1 text-sm text-(--color-text-muted)">{work.data.medium}</p>}
+                {/* A display string, printed and nothing else (decision 2). */}
+                {work.data.price && <p class="mt-2 text-sm font-medium text-(--color-text)">{work.data.price}</p>}
+                {!work.data.available && (
+                  <p class="mt-2 text-sm text-(--color-text-muted)">No longer available</p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : (
+      <section>
+        <SectionHeader
+          title="Nothing in the catalogue yet"
+          subtitle="Work is added as it comes off the walls and out of the studios."
+        />
+      </section>
+    )}
+
+    <section>
+      <ContactBlock />
+    </section>
+  </div>
+</Base>

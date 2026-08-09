@@ -118,8 +118,18 @@ test.describe('gallery.kaaya.org', () => {
     );
   });
 
-  test.skip('/shop serves the catalogue — route lands in T7.5', () => {});
-  test.skip('/shop/chromatic-metanoia serves the work — route lands in T7.5', () => {});
+  test('/shop serves the catalogue', async ({ request }) => {
+    await expectServes(request, 'gallery.kaaya.org', '/shop', 'dist/gallery/shop/index.html');
+  });
+
+  test('/shop/chromatic-metanoia serves the work', async ({ request }) => {
+    await expectServes(
+      request,
+      'gallery.kaaya.org',
+      '/shop/chromatic-metanoia',
+      'dist/gallery/shop/chromatic-metanoia/index.html',
+    );
+  });
 
   test('/gallery/shop — the prefix is stripped on its own host', async ({ request }) => {
     await expectRedirect(request, 'gallery.kaaya.org', '/gallery/shop', 'https://gallery.kaaya.org/shop');

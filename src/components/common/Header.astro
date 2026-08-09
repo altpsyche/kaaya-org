@@ -47,12 +47,7 @@ const row2 = {
   ],
 };
 
-// Routes §5's table names that no epic has built yet. Linking to one is a dead
-// href, so the entry is withheld rather than shipped broken. T7.5 builds /shop,
-// which empties this set and completes §5's table.
-const UNBUILT = new Set(['/gallery/shop']);
-
-const sub = (row2[section] ?? []).filter((item) => !UNBUILT.has(item.path));
+const sub = row2[section] ?? [];
 
 const itemClass = (active: boolean, lead = false) => [
   'block whitespace-nowrap rounded px-3 py-2 transition-colors',

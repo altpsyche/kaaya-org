@@ -81,9 +81,9 @@ const storyExits = storyLinks?.length ? storyLinks : [
               />
             )}
             <div class="p-5">
-              {/* The work's own page is /gallery/shop/[slug] (T7.5). Until it
-                  exists the card leads to the artist, whose page does. */}
-              <h3 class="font-semibold text-(--color-text)">{work.data.title}</h3>
+              <h3 class="font-semibold text-(--color-text)">
+                  <a href={link(`/gallery/shop/${work.id}`)} class="hover:text-(--color-primary)">{work.data.title}</a>
+                </h3>
               {work.data.artist && (
                 <p class="mt-1 text-sm">
                   <a href={link(`/gallery/artist/${work.data.artist}`)} class="text-(--color-primary) hover:underline underline-offset-2">

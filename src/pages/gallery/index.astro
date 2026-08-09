@@ -70,10 +70,9 @@ const upcoming = (await getCollection('events'))
                 />
               )}
               <div class="p-5">
-                {/* The work's own page is /gallery/shop/[slug], which T7.5
-                    builds. Until it exists the card names the artist, whose
-                    page does — a card linking nowhere beats a dead href. */}
-                <h3 class="font-semibold text-(--color-text)">{work.data.title}</h3>
+                <h3 class="font-semibold text-(--color-text)">
+                  <a href={link(`/gallery/shop/${work.id}`)} class="hover:text-(--color-primary)">{work.data.title}</a>
+                </h3>
                 {work.data.artist && (
                   <p class="mt-1 text-sm">
                     <a href={link(`/gallery/artist/${work.data.artist}`)} class="text-(--color-primary) hover:underline underline-offset-2">
