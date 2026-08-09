@@ -474,7 +474,7 @@ A GitHub Pages artifact with no meaning on Cloudflare Pages, and a live source o
 
 - [ ] **T9.4 — DNS cutover**
 CNAMEs for the six subdomains plus repointing the apex, all proxied.
-- AC: all seven hostnames serve the live site; every row of TDD §6.2 re-verified against production, not preview.
+- AC: all seven hostnames serve the live site; every row of TDD §6.2 re-verified against production, not preview; **`npm run gate:proxy -- --strict` exits 0**, meaning no proxy value from decision 21 is still in the build.
 - Depends on: T9.2, T10.2, and content sign-off (E3, E6, E7, E8)
 
 - [ ] **T9.5 — Decommission GitHub Pages**
@@ -528,20 +528,26 @@ Each of the four forms renders, carries its honeypot and redirect, and posts the
 
 ---
 
-## Cross-epic blockers (content, not code)
+## Cross-epic blockers, and the proxies standing in for them
 
 Every design question is resolved. What remains is what only the Kaaya team can supply.
 
-| Blocker | Blocks | Notes |
-|---|---|---|
-| Real event dates + campus address | T8.3 | Scrape carries Wix placeholders (`1:41 am`, `Sweetwater, TN, USA`). Hard gate — these must not ship. |
-| `info@kaaya.org` created and monitored | T4.3, T4.4, T6.1 | Otherwise Place bookings go nowhere. |
-| `art@kaaya.org` confirmed as a real mailbox | T4.5 | Printed on `kaaya.org`, `events.kaaya.org` and `happenings.kaaya.org`. Receives no form submissions. |
-| Five per-host description strings | T4.6, T5.1 | None may use the four banned phrases on home or gallery. |
-| Photography: homepage exhibition hero, `og-default.png` | T0.3, T3.1, T3.2 | Artwork images come off the Wix CDN in T7.2. |
-| Studios residency terms | T6.1 partially | Not blocking launch — the section ships enquiry-only until terms exist. |
-| Artist of the Month rotation owner | T7.6 | The slot goes stale without one. |
-| Gallery inventory beyond the 5 artworks | T7.5 | Handmade and Collectibles are empty, so those filters show nothing. |
+**Decision 21: local development does not wait for it.** A proxy value stands in, declared by a `KAAYA-PROXY(<ticket>): <what is owed>` comment beside the value it replaces, and `npm run gate:proxy` counts them — 0 today, and every row below that says "proxy" adds one. `npm run gate:proxy -- --strict` exits non-zero while any remain and is **T9.4's cutover gate**: production cannot be reached with a proxy still in the build.
+
+**Two strings get no proxy.** The Wix placeholder date and address fail `gate:proxy` in any mode, checked over built HTML, because they read as real and are wrong in a way a visitor would act on.
+
+The register is the tree, not this table. This table says who owes what; `gate:proxy` says what is actually still standing in, and it cannot go stale.
+
+| Blocker | Blocks | Proxy | Notes |
+|---|---|---|---|
+| Real event dates + campus address | T8.3 | **partial — dates only** | The three events can carry proxy dates and the campus name. The Wix date and address are refused by `gate:proxy` in any mode, so they are not the proxy. |
+| `info@kaaya.org` created and monitored | T4.3, T4.4, T6.1 | **yes** | The address is printed and the form is wired against it; the access key stays the live one until the mailbox exists. No submission reaches a real inbox until then. |
+| `art@kaaya.org` confirmed as a real mailbox | T4.5 | **yes** | Printed on `kaaya.org`, `events.kaaya.org` and `happenings.kaaya.org`. Receives no form submissions, so a wrong address here costs a bounced email rather than a lost enquiry. |
+| Five per-host description strings | T4.6, T5.1 | **yes** | Interim copy is already in the tree from T4.6's note; the proxy marker makes it countable. None may use the four banned phrases on home or gallery, which `gate:vocab` enforces independently. |
+| Photography: homepage exhibition hero, `og-default.png` | T0.3, T3.1 | **yes** | The campus photograph already in `home.yaml` stands in for the exhibition hero. `og-default.png` is a typographic placeholder from T0.3. |
+| Studios residency terms | T6.1 partially | **no — deliberate** | Decision 8 ships the story without the terms. Nothing stands in, because nothing is stated. |
+| Artist of the Month rotation owner | T7.6 | **no — deliberate** | `featuredMonth` selects but never prints (T7.6), so there is no month to proxy. The slot goes stale without an owner. |
+| Gallery inventory beyond the 5 artworks | T7.5 | **no — deliberate** | Handmade and Collectibles stay empty; T8.1's filter pattern only offers categories that have entries, so an empty category is never advertised. |
 
 ---
 

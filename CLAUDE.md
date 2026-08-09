@@ -58,7 +58,7 @@ Start a session with `/next`. Land a step with `/land`.
 - **Banned vocabulary lives in shared chrome, not just copy.** "circular economy", "incubation", "internships", "sustainable living" are banned on `kaaya.org` and `gallery.kaaya.org` and fine on `community.kaaya.org`. The live violation was in `SITE.description`, which renders on any page passing no description of its own — including `404.astro`, which the gallery host serves. A grep over `src/content/` reaches none of that, which is why the check runs over built output.
 - **No checkout, cart, payment provider or order state, anywhere.** `works.price` is a display string and no code may sum, total or persist it. Decision 2 is structural, not a matter of remembering.
 - **Wix placeholder data must never ship:** the date `08 Aug 2026, 1:41 am – 3:41 am` and the address `123 Art Ln, Sweetwater, TN 37874, USA`. Hard gate on the events pages.
-- **Do not invent content to unblock yourself.** Real event dates, `info@kaaya.org`, the five per-host descriptions and the photography are blocked on the Kaaya team — the backlog's blockers table is the list. Build the empty state and flag it.
+- **Invented content is allowed only as a declared proxy (decision 21).** Real event dates, `info@kaaya.org`, the five per-host descriptions and the photography are owed by the Kaaya team. A stand-in carries a `KAAYA-PROXY(<ticket>): <what is owed>` comment beside it so `npm run gate:proxy` can count it and `--strict` can block cutover; an undeclared one is the thing that was banned outright before. **The Wix placeholder date and address are exempt and ship never** — `gate:proxy` fails on them in any mode.
 - **`astro dev --background`**, never a foreground dev server. Manage with `astro dev stop`, `astro dev status`, `astro dev logs`.
 - **Routing is verified with `wrangler pages dev dist` and an explicit `Host` header**, one assertion per row of TDD §6.2 — before cutover, not after. `link()` returns paths in dev, so nav assertions run against `astro build` output, never `astro dev`.
 
@@ -69,8 +69,9 @@ Start a session with `/next`. Land a step with `/land`.
 | `banned-vocab.mjs` | the four phrases over `dist/index.html`, `dist/404.html`, `dist/gallery/**`. Exits non-zero |
 | `dead-links.mjs` | every internal href in `dist/` resolves to a file or a directory index, **on the host that serves it** — absolute subdomain URLs are mapped back onto build paths, and a section path left on the apex counts as misrouted. Prints the number of hrefs checked, so going blind is visible. Exits non-zero |
 | `content-audit.mjs <ref>` | every YAML leaf string at `<ref>` still present in the tree, YAML or `.astro` fallback. Exits non-zero |
+| `proxy.mjs [--strict]` | lists every `KAAYA-PROXY(<ticket>)` marker standing in for content the Kaaya team owes, and **fails on the Wix placeholder date or address in any mode**. Bare run exits 0 — a proxy is meant to keep the tree building. `--strict` exits non-zero while any remain, and is T9.4's cutover gate |
 
-`npm run gate` is build + vocab + links. `npm run gate:content <ref>` is separate because it takes an argument and only a content move earns it.
+`npm run gate` is build + vocab + links + proxy. `npm run gate:content <ref>` is separate because it takes an argument and only a content move earns it.
 
 `e2e/routing.spec.ts` holds TDD §6.2's table, one test per row, and `e2e/sections.spec.ts` one smoke test per host — both under `wrangler pages dev dist`, run with `npm test`. Not built yet, and named in the backlog rather than here: form tests (T10.4).
 
@@ -85,6 +86,7 @@ Numbers a session can check against. Update them in the same commit that moves t
 | dead internal links | 0 dead, 0 misrouted across 682 internal hrefs on 26 pages | `npm run gate:links` |
 | content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 40 declared: 37 passed, 3 skipped | `npm test` — 2 harness, 32 routing rows, 6 section smoke; the 3 skips are T7.5 and T8.3 |
+| outstanding proxies | 0 | `npm run gate:proxy` — decision 21 |
 | upload derivatives | 31 from 12 sources, 2.2 MB | `npm run images` — 9 ms warm |
 | `dist/` size | 23 MB, of which `uploads/` is 22 MB | `du -sh dist` after T7.10 |
 

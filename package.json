@@ -14,10 +14,11 @@
     "astro": "astro",
     "deploy": "astro build",
     "test": "playwright test --pass-with-no-tests",
-    "gate": "npm run build && npm run gate:vocab && npm run gate:links",
+    "gate": "npm run build && npm run gate:vocab && npm run gate:links && npm run gate:proxy",
     "gate:vocab": "node scripts/gate/banned-vocab.mjs",
     "gate:links": "node scripts/gate/dead-links.mjs",
-    "gate:content": "node scripts/gate/content-audit.mjs"
+    "gate:content": "node scripts/gate/content-audit.mjs",
+    "gate:proxy": "node scripts/gate/proxy.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
