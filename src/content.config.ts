@@ -206,6 +206,14 @@ const events = defineCollection({
     featured: z.boolean().default(false),
     startDate: z.coerce.date(),
     endDate: z.coerce.date().optional(),
+    /**
+     * False means the date is a placeholder and must not be shown: the pages
+     * print "Date to be announced" instead (T8.3). An unconfirmed date is the
+     * one field on this site a visitor would act on by turning up, so it is
+     * never rendered as if it were real. Sorting still uses it, so an event
+     * with no confirmed date sits where it will eventually belong.
+     */
+    dateConfirmed: z.boolean().default(true),
     venue: z.string(),
     heroImage: z.string().optional(),
     rsvpNote: z.string().optional(),        // contact-only, no ticketing

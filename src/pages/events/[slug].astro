@@ -16,9 +16,13 @@ const { Content } = await render(event);
 const dateFormat = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric', month: 'long', year: 'numeric',
 });
-const when = event.data.endDate && event.data.endDate.valueOf() !== event.data.startDate.valueOf()
-  ? `${dateFormat.format(event.data.startDate)} – ${dateFormat.format(event.data.endDate)}`
-  : dateFormat.format(event.data.startDate);
+// An unconfirmed date is never printed (T8.3): it is the one thing on this
+// site a visitor would act on by turning up somewhere.
+const when = !event.data.dateConfirmed
+  ? 'Date to be announced'
+  : event.data.endDate && event.data.endDate.valueOf() !== event.data.startDate.valueOf()
+    ? `${dateFormat.format(event.data.startDate)} – ${dateFormat.format(event.data.endDate)}`
+    : dateFormat.format(event.data.startDate);
 ---
 
 <Base

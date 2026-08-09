@@ -43,9 +43,11 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric', month: 'long', year: 'numeric',
 });
 const when = (e: (typeof all)[number]) =>
-  e.data.endDate && e.data.endDate.valueOf() !== e.data.startDate.valueOf()
-    ? `${dateFormat.format(e.data.startDate)} – ${dateFormat.format(e.data.endDate)}`
-    : dateFormat.format(e.data.startDate);
+  !e.data.dateConfirmed
+    ? 'Date to be announced'
+    : e.data.endDate && e.data.endDate.valueOf() !== e.data.startDate.valueOf()
+      ? `${dateFormat.format(e.data.startDate)} – ${dateFormat.format(e.data.endDate)}`
+      : dateFormat.format(e.data.startDate);
 ---
 
 <Base

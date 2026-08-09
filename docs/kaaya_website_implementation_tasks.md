@@ -480,11 +480,17 @@ Event detail: date, venue, description, `rsvpNote`. Contact-only — no ticketin
 - **No booking or payment affordance**, checked against the built page: no cart, no register, no ticketing, no checkout, no price. The only next step is the contact block. The default `rsvpNote` says plainly that there is no ticketing and no registration, matching the live gallery's own "Registration is closed" / "Tickets are not on sale".
 - Date ranges render as `10 May 2027 – 11 May 2027` and collapse to one date when `endDate` is unset, the same rule the index uses.
 
-- [ ] **T8.3 — Import the 3 events**
+- [x] **T8.3 — Import the 3 events**
 Himalayan Painting Masterclass · Artistry Weekend · Taste of the Himalayas. Titles, descriptions and venues (Studio 1, Nature Café) carry over from the scrape. All three are `section: gallery`.
 - **Hard gate:** the scrape's dates (`08 Aug 2026, 1:41 am – 3:41 am`) and address (`123 Art Ln, Sweetwater, TN 37874, USA`) are Wix placeholder data and must not ship.
 - AC: no placeholder date or address remains; every event carries a real date, a `type`, and the Kaaya campus address.
 - Depends on: T8.2, **external — real event dates**
+- **Landed:** 3 entries, routes 31 → 34. Titles, descriptions and venues are the scrape's own text — Studio 1, Kaaya campus · Kaaya campus · Nature Café, Kaaya campus — with `type` set to workshop, exhibition and other. The events index renders all three, its filters read `All events · Exhibition · Other · Workshop`, and each has a detail route.
+- **The date problem is solved by not printing one.** A new schema field, `dateConfirmed`, defaults to `true`; all three entries set it `false`, and both event pages print **"Date to be announced"** in place of a date. Sorting still uses `startDate`, so an event sits where it will eventually belong. This is the one field on the site a visitor acts on by turning up somewhere, so a proxy date is never shown as if it were real — a stricter reading of decision 21 than a marked-but-rendered value.
+- **Nothing from Wix survives.** `gate:proxy` scans built HTML for `1:41 am`, `3:41 am`, `123 Art Ln`, `Sweetwater` and `TN 37874` and finds 0 across 35 pages. The venue keeps the room name from the scrape and drops the Tennessee address; the campus address is `SITE.address`, which was already in the repo and which `ContactBlock` prints.
+- **The AC's "every event carries a real date" is not satisfied and is now mechanically blocking.** Three `KAAYA-PROXY(T8.3)` markers, one per entry, so `gate:proxy -- --strict` fails — and T9.4 cannot go to production until real dates land and `dateConfirmed` flips. Proxies 5 → 8.
+- **`dateConfirmed` is added to the CMS too** (T8.4's collection), as a boolean defaulting to true, with the hint that unchecking it hides the date.
+- **Baselines:** routes 31 → 34, links 896 → 971 hrefs on 32 → 35 pages.
 
 - [x] **T8.4 — CMS collection for Events**
 Folder-based Decap collection, same pattern as `blog`. `section` and `type` are select widgets, not free text, so neither can drift.

@@ -460,6 +460,9 @@ collections:
       - {label: "Type", name: "type", widget: "select", options: ["exhibition", "workshop", "talk", "market", "other"]}
       - {label: "Featured", name: "featured", widget: "boolean", default: false, required: false, hint: "Pins it to the top of the events page."}
       - {label: "Start Date", name: "startDate", widget: "datetime"}
+      # Uncheck while the date is a placeholder: the pages then print "Date to
+      # be announced" rather than a date nobody can turn up on (T8.3).
+      - {label: "Date is confirmed", name: "dateConfirmed", widget: "boolean", default: true, required: false}
       - {label: "End Date", name: "endDate", widget: "datetime", required: false}
       - {label: "Venue", name: "venue", widget: "string"}
       - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
