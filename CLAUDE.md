@@ -86,7 +86,7 @@ Numbers a session can check against. Update them in the same commit that moves t
 | dead internal links | 0 dead, 0 misrouted across 682 internal hrefs on 26 pages | `npm run gate:links` |
 | content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 40 declared: 37 passed, 3 skipped | `npm test` — 2 harness, 32 routing rows, 6 section smoke; the 3 skips are T7.5 and T8.3 |
-| outstanding proxies | 0 | `npm run gate:proxy` — decision 21 |
+| outstanding proxies | 2, both photography (T3.1) | `npm run gate:proxy` — decision 21 |
 | upload derivatives | 31 from 12 sources, 2.2 MB | `npm run images` — 9 ms warm |
 | `dist/` size | 23 MB, of which `uploads/` is 22 MB | `du -sh dist` after T7.10 |
 
