@@ -85,7 +85,8 @@ Numbers a session can check against. Update them in the same commit that moves t
 | dead internal links | 0 dead, 0 misrouted across 682 internal hrefs on 26 pages | `npm run gate:links` |
 | content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 2 | `npm test` — harness only; the routing table is T10.2 |
-| upload derivatives | 150 from 52 sources, 14.8 MB | `npm run images` — 15 ms warm |
+| upload derivatives | 31 from 12 sources, 2.2 MB | `npm run images` — 9 ms warm |
+| `dist/` size | 23 MB, of which `uploads/` is 22 MB | `du -sh dist` after T7.10 |
 
 ## Commits
 
