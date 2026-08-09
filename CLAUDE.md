@@ -50,6 +50,7 @@ Start a session with `/next`. Land a step with `/land`.
 - **The middleware's `PASSTHROUGH` / `ROOT_FILE` guard is load-bearing.** Without it every root asset 404s on the section hosts — `/_astro/*`, `/uploads/*`, `/admin/`. That is the failure that killed the Transform Rule design; TDD §6.1 has the table.
 - **A rewrite must target the slash form.** Pages answers a slash-less directory path with a 308 to its slash form, and after a rewrite that `Location` carries the internal prefix — `place.kaaya.org/stay` advertised `/place/stay/`, the leak §6.3 exists to prevent, with the build green. `asDirectory()` in the middleware is what stops it.
 - **`wrangler pages dev` needs `--compatibility-date` pinned behind the binary's newest supported date**, or it refuses to start: `This Worker requires compatibility date "…", but the newest date supported by this server binary is "…"`. Nothing in the repo sets one yet; the Pages project's date lands in T9.1.
+- **`public/uploads/derived/` is generated, never committed.** `npm run images` writes decision 20's webp derivatives and `prebuild` runs it, which is why `npm run gate` calls `npm run build` rather than `astro build` — the latter skips the hook and gates a tree Pages will not build. A checkout without the directory renders originals rather than breaking: `ResponsiveImage.astro` and `Hero.astro` both fall back when a derivative is missing, and Decap writes every upload without one.
 - **A relative image path renders as relative.** `heroImage: public/uploads/x.jpg` resolved to `/place/public/uploads/x.jpg` and 404'd on four pages in `main`, for months, with the build green. Decap writes `/uploads/…` when `public_folder` is set; anything hand-authored gets checked.
 - **Every page duplicates its YAML as a hardcoded fallback.** Edit one and the other diverges silently, and the fallback is reachable — clearing a field in the CMS falls through to it. Content moves change both.
 - **Astro's content store outlives a deleted entry.** It lives in `node_modules/.astro/data-store.json`, not in `.astro/`, so removing the file, `.astro/` and `dist/` all leave it in place and the entry keeps rendering. A probe entry deleted in T7.1 was still emitting a link on the gallery home two tasks later, and `gate:links` is what caught it. `rm -rf node_modules/.astro` is the clear.
@@ -84,6 +85,7 @@ Numbers a session can check against. Update them in the same commit that moves t
 | dead internal links | 0 dead, 0 misrouted across 682 internal hrefs on 26 pages | `npm run gate:links` |
 | content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 2 | `npm test` — harness only; the routing table is T10.2 |
+| upload derivatives | 150 from 52 sources, 14.8 MB | `npm run images` — 15 ms warm |
 
 ## Commits
 
