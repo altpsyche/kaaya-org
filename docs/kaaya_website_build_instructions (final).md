@@ -9,6 +9,45 @@
 
 ---
 
+## Amendments after technical review (2026-08-09)
+
+This spec stands as written except for the points below, resolved during technical review and recorded in full in [`kaaya_website_technical_design.md`](./kaaya_website_technical_design.md) §2. Noted here so this document is not read as still specifying them.
+
+1. **Cart becomes Shop, and it is enquiry-only.** §4 describes Cart as a shop for work made at Kaaya, but no payment provider, order handling, inventory or shipping appears anywhere in this document. The section is renamed **Shop** (`gallery.kaaya.org/shop`), pieces are listed with their prices, and every buy affordance is an enquiry to `gallery@kaaya.org`. The small cart icon in the nav does not apply — there is no cart. Note this removes working checkout: the live Wix gallery currently has Add to Cart and Buy Now on all five artworks.
+
+2. **Art and Shop merge; the gallery nav becomes Shop · Artist.** §4 lists Art and Cart as separate nav items, but there are five artworks in total and they are simultaneously the exhibition and the catalogue — two list pages over the same five pieces is near-duplicate content on one host. The exhibition narrative moves onto the gallery homepage, where the hero already lives; `/shop` is the works catalogue. There is no `/art` route. Gallery events are featured on that homepage but live on `events.kaaya.org` (amendment 11).
+
+3. **Every work, artist and event gets its own page.** The gallery's content is substantial — full descriptions, six long artist biographies — and the Wix site already had a page per work and per artist. Losing that would make a ₹12,000 artwork impossible to link to or find in search.
+
+4. **`kaaya.org` has no contact form.** §8 asks for footer-weight Visit info — hours, directions, contact. That ships as a printed address (`art@kaaya.org`), not a form. Forms exist on Incubate, Exchange, Booking and Shop only.
+
+5. **`place.kaaya.org` gets real sub-routes.** §5's four sections (Story, Activities, Stay Details, Booking) become their own URLs — `/story`, `/activities`, `/stay`, `/booking` — rather than anchors on one long page, so each can be linked to directly and found in search on its own.
+
+6. **"Studio Rooms" is renamed "Garden Rooms".** §5 flags the collision itself. Studios keeps its name, since those cottages genuinely contain working studios; the visitor accommodation moves.
+
+7. **Gallery contact is `gallery@kaaya.org`, not `art@kaaya.org`.** §9's routing table is overridden for the gallery host only — `gallery@` is already published on the live gallery site. Home and Happenings still show `art@`, Place `info@`, Community `connect@`.
+
+8. **Pottery, trails, nature art and farm picnics live on Place → Activities.** §10 flags the Learn/Visit overlap. Full descriptions sit at `place.kaaya.org/activities`; Learn keeps the structured programmes table and links across.
+
+9. **The Incubate form keeps its live fields.** §6 specifies Name, Age, Phone, Brief idea. The live form has Name, Phone, "About you in short", "Your idea brief" and a work/portfolio link — richer, and already collecting real applications. It carries over unchanged; there is no Age field.
+
+10. **Section 2's hosting question is settled.** One repo, one build, one Cloudflare Pages deployment serving all six hostnames. No separate repo or deployment per domain.
+
+11. **Events gets its own subdomain: `events.kaaya.org`.** §6 puts Events under Community, but the events that actually exist are gallery-run (Studio 1, Nature Café) while §6's are institutional — so the same listing was being split across two sections, leaving an editor to guess where a new event belongs and a visitor to guess where to look. Every event now lives at `events.kaaya.org`, categorised on the page. The Gallery and Community homes each *feature* their own upcoming events and link across. This makes the nav five sections rather than four — Gallery · Place · Community · Events · Happenings — still a thin text nav, not the tile grid §1 warns against, and Gallery keeps its emphasis. Five is the ceiling; anything further belongs inside a section.
+
+12. **Studios ships without residency terms.** §10 leaves pricing, duration and application process open. The Studios story and the Stay table row ship anyway, with enquiry as the only next step — nothing is published that has not been decided.
+
+### Still needed from you
+
+- **Real event dates and the campus address.** The three gallery events carry Wix placeholder data — `08 Aug 2026, 1:41 am – 3:41 am` and `123 Art Ln, Sweetwater, TN 37874, USA`. These cannot ship.
+- **`info@kaaya.org` created and monitored** before launch, or Place bookings go nowhere.
+- **`art@kaaya.org` confirmed as a real, monitored mailbox** — it is the printed contact on `kaaya.org`, `events.kaaya.org` and `happenings.kaaya.org`. If events warrant their own address, say so.
+- **Replacement site descriptions.** The global description shown on every page of every host is currently *"A small experiment in sustainable living"* — one of the four phrases §9 bans from `kaaya.org` and `gallery.kaaya.org`. It is being replaced with one short description per host — five strings — and that copy is yours to write.
+- **An owner for the Artist of the Month slot**, which goes stale without one.
+- **Confirmation of the event categories** — currently exhibition, workshop, talk, market, other. A first draft; extend it before the CMS collection is locked.
+
+---
+
 ## 1. The Core Principle (read this first)
 
 `kaaya.org` is the homepage and front door — a hero built around the current exhibition, with a thin, understated nav to four subdomains. The nav exists for people who already know where they're going; the homepage itself should still read as "this is an art space" through sheer visual weight and sequence, not through how many items sit in navigation.
