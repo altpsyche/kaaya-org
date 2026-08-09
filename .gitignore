@@ -1,5 +1,8 @@
 # build output
 dist/
+# webp derivatives, written by `npm run images` (decision 20)
+public/uploads/derived/
+
 # generated types
 .astro/
 

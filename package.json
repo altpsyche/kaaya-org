@@ -6,13 +6,15 @@
     "node": ">=22.18.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "npm run images && astro dev",
     "build": "astro build",
+    "prebuild": "node scripts/images.mjs",
+    "images": "node scripts/images.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "astro build",
     "test": "playwright test --pass-with-no-tests",
-    "gate": "astro build && npm run gate:vocab && npm run gate:links",
+    "gate": "npm run build && npm run gate:vocab && npm run gate:links",
     "gate:vocab": "node scripts/gate/banned-vocab.mjs",
     "gate:links": "node scripts/gate/dead-links.mjs",
     "gate:content": "node scripts/gate/content-audit.mjs"
