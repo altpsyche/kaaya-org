@@ -14,6 +14,38 @@
 export type Inbox = 'connect' | 'info' | 'gallery';
 
 /**
+ * Every address the site prints, in one place. `art@` is here and absent from
+ * `ACCESS_KEYS` because it is printed but never posted to (decision 16).
+ *
+ * KAAYA-PROXY(T4.5): `art@kaaya.org` is unconfirmed — build doc §9 names it as
+ * the contact for `kaaya.org`, `events` and `happenings`, and nobody has said
+ * it is a real, monitored mailbox. Owed: confirmation, or the address that
+ * replaces it. A wrong address here costs a bounced email rather than a lost
+ * enquiry, since no form delivers to it.
+ */
+export const ADDRESSES = {
+  art: 'art@kaaya.org',
+  connect: 'connect@kaaya.org',
+  info: 'info@kaaya.org',
+  gallery: 'gallery@kaaya.org',
+} as const;
+
+/**
+ * Which address each host prints (TDD §14). Decision 10 puts `gallery@` on the
+ * gallery host, overriding build doc §9's `art@` for that one section.
+ */
+export const SECTION_ADDRESS = {
+  home: ADDRESSES.art,
+  gallery: ADDRESSES.gallery,
+  place: ADDRESSES.info,
+  community: ADDRESSES.connect,
+  events: ADDRESSES.art,
+  happenings: ADDRESSES.art,
+} as const;
+
+export type Section = keyof typeof SECTION_ADDRESS;
+
+/**
  * KAAYA-PROXY(T4.3): all three names resolve to the one live key today. Two
  * of the three destinations do not exist yet — `info@kaaya.org` is owed by the
  * Kaaya team and `gallery@kaaya.org` is published on the retired gallery site

@@ -1,5 +1,27 @@
 ---
 import { SITE } from '../../data/site';
+import { SECTION_ADDRESS, type Section } from '../../data/inboxes';
+import { SECTIONS } from '../../lib/links';
+
+/**
+ * The one component that prints an email address (TDD §14). Which address
+ * depends on the host: `gallery@` on the gallery, `info@` on place, `connect@`
+ * on community, `art@` on home, events and happenings.
+ *
+ * The section is derived from the path by default, the same derivation the
+ * Header and SEO use, so a page cannot forget to say where it lives and quietly
+ * print the wrong inbox. `section` overrides it where a page is embedded
+ * somewhere its own path does not describe.
+ */
+interface Props {
+  section?: Section;
+}
+
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const first = path.split('/')[1] ?? '';
+const derived = first === 'blog' ? 'happenings' : SECTIONS.includes(first) ? first : 'home';
+
+const email = SECTION_ADDRESS[Astro.props.section ?? (derived as Section)];
 ---
 
 <address class="not-italic space-y-2 text-sm text-(--color-text-muted)">
@@ -7,7 +29,7 @@ import { SITE } from '../../data/site';
   <p>{SITE.address}</p>
   <p>Managed by {SITE.managedBy}</p>
   <p>
-    <a href={`mailto:${SITE.email}`} class="hover:text-(--color-primary) transition-colors">{SITE.email}</a>
+    <a href={`mailto:${email}`} class="hover:text-(--color-primary) transition-colors">{email}</a>
   </p>
   <p>
     {SITE.phone.map((p, i) => (

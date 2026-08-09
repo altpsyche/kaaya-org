@@ -253,10 +253,15 @@ A Web3Forms access key binds to one verified destination, so `connect@`, `info@`
 - **"Lands in `info@`" is not verified and cannot be**, which is T4.3 step 2 rather than a gap here: the mailbox does not exist and all three names still resolve to the one live key. The form posts with the right subject to the right named inbox; where that inbox points is one line in `inboxes.ts` when the key is issued.
 - Build 25 routes, `gate:vocab` 0 hits, `gate:links` 0 dead 0 misrouted across 682 hrefs — the form adds no internal href.
 
-- [ ] **T4.5 — Extend `ContactBlock` with a variant prop**
+- [x] **T4.5 — Extend `ContactBlock` with a variant prop**
 The component **already exists** and hardcodes `SITE.email` — this is an extension, not a new build. Addresses per TDD §14: home, events and happenings → `art@`, gallery → `gallery@`, place → `info@`, community → `connect@`.
 - AC: no raw email string literals outside `ContactBlock`; each host shows the correct address.
 - Depends on: T1.4, T2.6, **external — `art@kaaya.org` confirmed as a real mailbox**
+- **Landed:** verified from built output, one host at a time — home `art@`, gallery `gallery@`, place `info@`, community `connect@`, events `art@`, happenings `art@`. `SITE.email` is deleted, with 0 references remaining.
+- **Derived by default rather than passed.** The section comes from `Astro.url.pathname`, the same derivation the Header and `SEO` use, so a page cannot forget to declare where it lives and quietly print the wrong inbox — the failure mode a required prop invites. The `section` prop overrides it, which is what §14 asked for and what a page embedded outside its own path would need.
+- **The AC's first line is satisfied one level better than it asks.** No email literal exists outside `src/data/inboxes.ts` — not even in `ContactBlock`, which now renders whatever the map hands it. Addresses sit beside the access keys because they are the same thing: an inbox. `art@` is in `ADDRESSES` and absent from `ACCESS_KEYS`, since decision 16 leaves it printed but never posted to.
+- **`404.astro` prints `art@` on every host, and it cannot do better.** One file serves six hostnames, so a 404 on `gallery.kaaya.org` shows the general contact rather than `gallery@`. Recorded rather than worked around: the alternative is six built 404 pages, and `art@` is the correct general address.
+- **`art@kaaya.org` is a declared proxy** — `KAAYA-PROXY(T4.5)`, still unconfirmed as a real mailbox. It receives no form submissions, so a wrong address here costs a bounced email rather than a lost enquiry. Proxies 3 → 4.
 
 - [ ] **T4.6 — Per-host descriptions**
 Decision 6. Retire the single global `SITE.description`; `SEO.astro` picks a per-section default from `Astro.url.pathname`, falling back to home at the root. This also clears the banned-phrase violation, since the current string is one of the four banned terms.
