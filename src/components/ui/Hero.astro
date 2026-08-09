@@ -1,5 +1,5 @@
 ---
-import { url } from '../../lib/url';
+import { asset } from '../../lib/links';
 
 interface Props {
   heading: string;
@@ -18,7 +18,7 @@ const { heading, subheading, cta, image } = Astro.props;
       ? 'bg-cover bg-center'
       : 'bg-gradient-to-br from-(--color-primary) via-(--color-earth) to-(--color-accent)',
   ]}
-  style={image ? `background-image: url('${url(image)}')` : undefined}
+  style={image ? `background-image: url('${asset(image)}')` : undefined}
 >
   {image && <div class="absolute inset-0 bg-(--color-hero-overlay)" />}
   <div class="relative mx-auto max-w-4xl">

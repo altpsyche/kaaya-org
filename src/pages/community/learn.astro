@@ -5,7 +5,7 @@ import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
 import ProgramTable from '../../components/ui/ProgramTable.astro';
-import { url } from '../../lib/url';
+import { link } from '../../lib/links';
 
 const pageData = await getEntry('pages', 'community-learn');
 const {
@@ -84,7 +84,7 @@ const introPs = introParagraphs ?? [
         subtitle="Pottery, the wood workshop, forest and eco trails, nature art classes and farm day picnics all run on the campus itself."
       />
       <p class="max-w-2xl text-sm text-(--color-text-muted)">
-        <a href={url('/place/activities')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
+        <a href={link('/place/activities')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
           See what runs on the campus →
         </a>
       </p>

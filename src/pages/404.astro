@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { url } from '../lib/url';
+import { link } from '../lib/links';
 ---
 
 <Base title="Page not found" noIndex>
@@ -8,7 +8,7 @@ import { url } from '../lib/url';
     <p class="text-6xl font-bold text-(--color-border)">404</p>
     <h1 class="mt-4 text-2xl font-semibold text-(--color-text)">Page not found</h1>
     <p class="mt-2 text-(--color-text-muted)">The page you're looking for doesn't exist.</p>
-    <a href={url('/')} class="mt-8 inline-block text-sm font-medium text-(--color-primary) hover:underline">
+    <a href={link('/')} class="mt-8 inline-block text-sm font-medium text-(--color-primary) hover:underline">
       ← Back home
     </a>
   </div>

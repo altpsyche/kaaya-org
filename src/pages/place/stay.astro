@@ -4,7 +4,7 @@ import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import PriceTable from '../../components/ui/PriceTable.astro';
-import { url } from '../../lib/url';
+import { link } from '../../lib/links';
 
 const pageData = await getEntry('pages', 'place-stay');
 const {
@@ -103,14 +103,14 @@ const facilities = cmsFacilities ?? [
       </ul>
       <p class="mt-4 text-sm text-(--color-text-muted)">
         Pottery, trails, nature art and farm picnics are listed on
-        <a href={url('/place/activities')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Activities</a>.
+        <a href={link('/place/activities')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Activities</a>.
       </p>
     </section>
 
     <section>
       <SectionHeader title="Ready to come" />
       <p class="max-w-2xl text-sm text-(--color-text-muted)">
-        <a href={url('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Arrange a stay →</a>
+        <a href={link('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Arrange a stay →</a>
       </p>
     </section>
 

@@ -1,14 +1,14 @@
 ---
 import { SITE } from '../../data/site';
-import { url } from '../../lib/url';
+import { link } from '../../lib/links';
 import ThemeToggle from './ThemeToggle.astro';
 
 const nav = [
-  { label: 'Place', href: url('/place') },
-  { label: 'Learn', href: url('/community/learn') },
-  { label: 'Incubate', href: url('/community/incubate') },
-  { label: 'Exchange', href: url('/community/exchange') },
-  { label: 'Blog', href: url('/blog') },
+  { label: 'Place', href: link('/place') },
+  { label: 'Learn', href: link('/community/learn') },
+  { label: 'Incubate', href: link('/community/incubate') },
+  { label: 'Exchange', href: link('/community/exchange') },
+  { label: 'Blog', href: link('/blog') },
 ];
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -29,7 +29,7 @@ const linkClass = (href: string) => {
   class="border-b border-(--color-border) bg-(--color-bg)/90 backdrop-blur sticky top-0 z-20"
 >
   <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 gap-4">
-    <a href={url('/')} class="text-base font-bold text-(--color-primary) shrink-0">{SITE.title}</a>
+    <a href={link('/')} class="text-base font-bold text-(--color-primary) shrink-0">{SITE.title}</a>
 
     <div class="flex items-center gap-2">
       {/* Inline nav — hidden on mobile, shown from md up */}

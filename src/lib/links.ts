@@ -31,3 +31,16 @@ export function link(path: string): string {
   if (/^(https?:)?\/\//.test(path)) return path;
   return import.meta.env.PROD ? toCanonical(path) : path;
 }
+
+/**
+ * A root-level asset: `/uploads/…`, `/favicon.svg`, `/rss.xml`.
+ *
+ * Identity, and that is the point — TDD §10 keeps these relative, because the
+ * middleware serves them unrewritten on every hostname. Routing one through
+ * `link()` would pin it to the apex, so a preview deploy would load production's
+ * copy. Naming the two cases apart is what keeps "no bare internal `href`"
+ * checkable by grep instead of by memory.
+ */
+export function asset(path: string): string {
+  return path;
+}

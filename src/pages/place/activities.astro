@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
-import { url } from '../../lib/url';
+import { link } from '../../lib/links';
 
 // Canonical home for the pottery / workshop / trails / nature art / farm picnic
 // copy (TDD decision 11). It previously existed twice — as `learn.yaml`'s
@@ -84,8 +84,8 @@ const introPs = introParagraphs ?? [
       <SectionHeader title="Staying over" />
       <p class="max-w-2xl text-sm leading-relaxed text-(--color-text-muted)">
         Most of these run as part of a stay on the campus.
-        <a href={url('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">See what a stay involves</a>, or
-        <a href={url('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">arrange one</a>.
+        <a href={link('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">See what a stay involves</a>, or
+        <a href={link('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">arrange one</a>.
       </p>
     </section>
 

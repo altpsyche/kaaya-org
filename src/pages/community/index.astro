@@ -4,7 +4,7 @@ import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
-import { url } from '../../lib/url';
+import { link } from '../../lib/links';
 
 const pageData = await getEntry('pages', 'community');
 const {
@@ -67,7 +67,7 @@ const marketPs = marketParagraphs ?? [
         {sections.map((s) => (
           <li>
             <a
-              href={url(s.href)}
+              href={link(s.href)}
               class="group block h-full rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6 transition-all hover:border-(--color-primary) hover:shadow-md"
             >
               <h3 class="text-lg font-semibold text-(--color-text) transition-colors group-hover:text-(--color-primary)">{s.title}</h3>

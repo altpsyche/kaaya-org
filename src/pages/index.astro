@@ -6,7 +6,7 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import ContactBlock from '../components/ui/ContactBlock.astro';
 import PostList from '../components/ui/PostList.astro';
 import Button from '../components/ui/Button.astro';
-import { url } from '../lib/url';
+import { link } from '../lib/links';
 
 const allPosts = await getCollection('blog');
 const recentPosts = allPosts
@@ -32,7 +32,7 @@ const {
   <Hero
     heading={heroHeading ?? "It's about Re-imagining"}
     subheading={heroSubheading ?? 'Tilwari, Dehradun · Himalayan Foothills, India'}
-    cta={{ label: 'Learn about Kaaya', href: url('/place') }}
+    cta={{ label: 'Learn about Kaaya', href: link('/place') }}
     image={heroImage ?? undefined}
   />
 
@@ -50,7 +50,7 @@ const {
       <SectionHeader title="Latest from Kaaya" />
       <PostList posts={recentPosts} />
       <div class="mt-8">
-        <Button href={url('/blog')} label="View All Updates" variant="ghost" />
+        <Button href={link('/blog')} label="View All Updates" variant="ghost" />
       </div>
     </section>
   )}
@@ -65,9 +65,9 @@ const {
         <ContactBlock />
         <p class="text-sm leading-relaxed text-(--color-text-muted)">
           Rooms, rates, meal plans and campus facilities are on
-          <a href={url('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Stay</a>,
+          <a href={link('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Stay</a>,
           and stays are arranged through
-          <a href={url('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Booking</a>.
+          <a href={link('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Booking</a>.
         </p>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import ContactBlock from '../../components/ui/ContactBlock.astro';
-import { url } from '../../lib/url';
+import { link } from '../../lib/links';
 
 const pageData = await getEntry('pages', 'place-booking');
 const {
@@ -37,7 +37,7 @@ const introPs = introParagraphs ?? [
       <p class="mt-6 max-w-2xl text-sm text-(--color-text-muted)">
         {bookingNote ?? 'An advance of 50% is required on booking confirmation.'}
         {' '}Rates and room types are on
-        <a href={url('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Stay</a>.
+        <a href={link('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Stay</a>.
       </p>
     </section>
 

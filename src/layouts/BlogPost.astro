@@ -1,7 +1,7 @@
 ---
 import Base from './Base.astro';
 import { formatDate } from '../lib/utils';
-import { url } from '../lib/url';
+import { asset } from '../lib/links';
 
 interface Props {
   title: string;
@@ -20,7 +20,7 @@ const { title, pubDate, description, heroImage, author, readTime } = Astro.props
     {heroImage && (
       /* TODO: replace heroImage with self-hosted image */
       <img
-        src={url(heroImage)}
+        src={asset(heroImage)}
         alt=""
         class="mb-8 aspect-video w-full rounded-xl object-cover"
         loading="eager"
