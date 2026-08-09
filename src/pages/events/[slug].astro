@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import ContactBlock from '../../components/ui/ContactBlock.astro';
+import { link, asset } from '../../lib/links';
+
+export const getStaticPaths = (async () => {
+  const events = await getCollection('events');
+  return events.map((event) => ({ params: { slug: event.id }, props: { event } }));
+}) satisfies GetStaticPaths;
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+
+const dateFormat = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+const when = event.data.endDate && event.data.endDate.valueOf() !== event.data.startDate.valueOf()
+  ? `${dateFormat.format(event.data.startDate)} – ${dateFormat.format(event.data.endDate)}`
+  : dateFormat.format(event.data.startDate);
+---
+
+<Base
+  title={`${event.data.title} | Events`}
+  description={`${event.data.title} — ${when} at ${event.data.venue}, Kaaya.`}
+  image={event.data.heroImage ?? undefined}
+>
+  <div class="mx-auto max-w-3xl px-6 py-16">
+    <p class="text-sm text-(--color-text-muted)">
+      <a href={link('/events')} class="hover:text-(--color-primary)">← All events</a>
+    </p>
+
+    <p class="mt-6 text-xs uppercase tracking-wide text-(--color-text-muted)">{event.data.type}</p>
+    <h1 class="mt-1 text-3xl font-bold text-(--color-text)">{event.data.title}</h1>
+    <p class="mt-2 text-(--color-text-muted)">{when}</p>
+    <p class="text-(--color-text-muted)">{event.data.venue}</p>
+
+    {event.data.heroImage && (
+      <img
+        src={asset(event.data.heroImage)}
+        alt={event.data.title}
+        class="mt-8 w-full rounded-(--radius-card) object-cover"
+      />
+    )}
+
+    <div class="prose prose-sm mt-8 max-w-none leading-relaxed text-(--color-text-muted)">
+      <Content />
+    </div>
+
+    {/* Contact only. The live gallery reads "Registration is closed" and
+        "Tickets are not on sale" on every event, and decision 2 leaves no
+        payment path anywhere on the site — so there is no booking affordance
+        here, only an address. */}
+    <section class="mt-12 rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6">
+      <h2 class="text-sm font-semibold text-(--color-text)">Coming along</h2>
+      <p class="mt-2 text-sm leading-relaxed text-(--color-text-muted)">
+        {event.data.rsvpNote ?? 'There is no ticketing and no registration. Write or call, and we will tell you what to expect and whether there is room.'}
+      </p>
+      <div class="mt-5">
+        <ContactBlock />
+      </div>
+    </section>
+  </div>
+</Base>

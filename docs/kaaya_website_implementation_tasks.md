@@ -383,10 +383,14 @@ Fills T1.7's shell. All events on one page, categorised by `type` (exhibition, w
 - **`type` categorises, `section` does not appear.** Filtering is by `type` per TDD §12; `section` only decides which section home features an event. No row 2 nav on this host, per §5.
 - **Cards link to `/events/[slug]`, which T8.2 builds next.** With the collection empty there is no dead href today; importing events before T8.2 lands would create three.
 
-- [ ] **T8.2 — Build `events/[slug].astro`**
+- [x] **T8.2 — Build `events/[slug].astro`**
 Event detail: date, venue, description, `rsvpNote`. Contact-only — no ticketing, no registration, matching the live gallery where every event reads "Registration is closed" or "Tickets are not on sale".
 - AC: `/artistry-weekend` resolves on `events.kaaya.org`; no booking or payment affordance anywhere on the page.
 - Depends on: T8.1
+- **Landed:** date, venue, `type`, body and `rsvpNote`, with the back link to the events index. Verified through a probe event titled *Artistry Weekend*, which built its route and carried `https://events.kaaya.org/<slug>/` as its canonical — proving the route resolves on the events host. The probe was removed and the content store cleared afterwards.
+- **The AC's exact URL cannot exist yet.** `/artistry-weekend` needs the real event, and T8.3 is blocked on real dates — the scrape's are Wix placeholders. `getStaticPaths` maps the collection, so the slug appears the moment that entry does.
+- **No booking or payment affordance**, checked against the built page: no cart, no register, no ticketing, no checkout, no price. The only next step is the contact block. The default `rsvpNote` says plainly that there is no ticketing and no registration, matching the live gallery's own "Registration is closed" / "Tickets are not on sale".
+- Date ranges render as `10 May 2027 – 11 May 2027` and collapse to one date when `endDate` is unset, the same rule the index uses.
 
 - [ ] **T8.3 — Import the 3 events**
 Himalayan Painting Masterclass · Artistry Weekend · Taste of the Himalayas. Titles, descriptions and venues (Studio 1, Nature Café) carry over from the scrape. All three are `section: gallery`.
