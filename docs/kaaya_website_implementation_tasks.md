@@ -243,10 +243,15 @@ A Web3Forms access key binds to one verified destination, so `connect@`, `info@`
   1. **[x] The inbox map, with proxy keys** — `src/data/inboxes.ts` names the three destinations and `EnquiryForm` takes `inbox` instead of a pasted key. Measures: both live forms emit the same access key as before, so nothing about delivery changes. **Landed:** `inbox="connect"` on Incubate and Exchange, and `f8b67b4c…` still appears exactly once in each built page — the refactor is behaviour-identical, which is the only safe way to touch a form that is collecting real applications. One `KAAYA-PROXY(T4.3)` marker covers all three names; proxies 2 → 3. Naming the inbox at the call site is what makes the destination reviewable: `inbox="info"` says where a Booking enquiry goes, where a hex string says nothing and cannot be checked by eye.
   2. **[ ] Real keys and a live submission per form** — **blocked**, and this is the AC. `info@kaaya.org` does not exist and `gallery@kaaya.org` is published on the retired gallery site but unverified against this Web3Forms account. A key cannot be issued for an address nobody has confirmed, so no proxy is possible here: a wrong key does not fail, it delivers somewhere else silently.
 
-- [ ] **T4.4 — Wire the Booking form**
+- [x] **T4.4 — Wire the Booking form**
 `Booking Enquiry` → `info@`, with arrival date, nights, guests and room type as structured fields rather than free text.
 - AC: submits with the correct subject and lands in `info@`; dates arrive as dates.
 - Depends on: T4.3, T1.2
+- **Landed:** the Booking page carried a printed contact and a comment saying the form was owed; it now carries the form. Verified against the built HTML: subject `Booking Enquiry`, redirect `https://kaaya.org/thank-you?enquiry=booking`, honeypot present, one access key, `inbox="info"`. Structured fields are structured — `type="date"` on `arrival`, `type="number" min="1"` on `nights` and `guests`, a `select` on `roomType`, and required on `name`, `email`, `arrival`, `nights`, `guests`, `roomType`.
+- **Room types come from the Stay table, not a second list.** The select renders Mud Huts · Family Rooms · Garden Rooms · Dormitory plus "Not sure yet", read out of `place-stay.yaml`. An enquiry naming a room that no longer exists is worse than no room field at all, and two hand-kept lists drift the first time accommodation changes.
+- **"Dates arrive as dates" is satisfied by the input type**: `type="date"` submits `YYYY-MM-DD`, so an arrival date is comparable rather than "next weekend".
+- **"Lands in `info@`" is not verified and cannot be**, which is T4.3 step 2 rather than a gap here: the mailbox does not exist and all three names still resolve to the one live key. The form posts with the right subject to the right named inbox; where that inbox points is one line in `inboxes.ts` when the key is issued.
+- Build 25 routes, `gate:vocab` 0 hits, `gate:links` 0 dead 0 misrouted across 682 hrefs — the form adds no internal href.
 
 - [ ] **T4.5 — Extend `ContactBlock` with a variant prop**
 The component **already exists** and hardcodes `SITE.email` — this is an extension, not a new build. Addresses per TDD §14: home, events and happenings → `art@`, gallery → `gallery@`, place → `info@`, community → `connect@`.

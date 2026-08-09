@@ -4,6 +4,7 @@ import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import ContactBlock from '../../components/ui/ContactBlock.astro';
+import EnquiryForm from '../../components/ui/EnquiryForm.astro';
 import { link } from '../../lib/links';
 
 const pageData = await getEntry('pages', 'place-booking');
@@ -12,6 +13,12 @@ const {
   introParagraphs,
   bookingNote,
 } = pageData?.data ?? {};
+
+/* Room types come from the Stay table rather than a second list here: an
+   enquiry naming a room that no longer exists is worse than no room field at
+   all, and the two would drift the first time accommodation changed. */
+const stayData = await getEntry('pages', 'place-stay');
+const roomTypes = (stayData?.data?.accommodation ?? []).map((room) => room.type);
 
 const introPs = introParagraphs ?? [
   'Tell us who is coming, when, and what you hope to do while you are here. We will come back to you with what the campus can hold on those dates.',
@@ -41,12 +48,46 @@ const introPs = introParagraphs ?? [
       </p>
     </section>
 
-    {/* The booking enquiry form is built on the shared EnquiryForm shell in T4.4
-        and routes to info@kaaya.org. Until that inbox exists and the shell
-        lands, the page carries the printed contact rather than a form that
-        would post nowhere. */}
     <section>
-      <SectionHeader title="Get in touch" />
+      <SectionHeader
+        title="Enquire about a stay"
+        subtitle="Dates, party size and room type, so we can answer with what the campus can hold."
+      />
+      {/* Structured fields, not free text (T4.4): a date input submits
+          YYYY-MM-DD, so arrival dates arrive comparable rather than as
+          "next weekend", and room type is a select over the Stay table. */}
+      <EnquiryForm
+        subject="Booking Enquiry"
+        enquiry="booking"
+        inbox="info"
+        submitLabel="Send enquiry"
+        fields={[
+          { name: 'name', label: 'Name', required: true },
+          { name: 'email', label: 'Email', type: 'email', required: true },
+          { name: 'phone', label: 'Phone', type: 'tel' },
+          { name: 'arrival', label: 'Arrival date', type: 'date', required: true },
+          { name: 'nights', label: 'Nights', type: 'number', min: 1, required: true },
+          { name: 'guests', label: 'Guests', type: 'number', min: 1, required: true },
+          {
+            name: 'roomType',
+            label: 'Room type',
+            type: 'select',
+            options: [...roomTypes, 'Not sure yet'],
+            required: true,
+          },
+          {
+            name: 'purpose',
+            label: 'What brings you to Kaaya?',
+            type: 'textarea',
+            rows: 4,
+            placeholder: 'A retreat, a workshop, a family visit — whatever is useful for us to know.',
+          },
+        ]}
+      />
+    </section>
+
+    <section>
+      <SectionHeader title="Or reach us directly" />
       <ContactBlock />
     </section>
 
