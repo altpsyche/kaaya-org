@@ -292,10 +292,14 @@ Grep `dist/index.html` and `dist/gallery/**` for "circular economy", "incubation
 - **Clean:** 0 hits across 10 files, exit 0. Both plants were reverted in the same step.
 - **The CI half is T10.5**, which is this check running on a pull request. This task is the check itself.
 
-- [ ] **T5.2 — Studios ↔ Gallery/Place cross-link**
+- [x] **T5.2 — Studios ↔ Gallery/Place cross-link**
 Explicit, named link instances: Gallery → Artist (Studios residency) and Place → Stay (Studios booking), driven by `artists.residency`. Not a generic "related content" widget.
 - AC: both directions link correctly; "some artists don't just show here, they live and work here" framing present on the Gallery side.
 - Depends on: T6.1, T7.6
+- **Landed:** the Gallery side arrived with T7.6 — the artist index leads with "Some artists don't just show here / They live and work here" and links to `https://place.kaaya.org/stay`, both present in built output, which is the AC's second line verbatim. This task built the Place side: the Stay page's Studios section names the artists in residence, each linking to their profile on the gallery host, and closes with "See who shows at the gallery →". `gate:links` 683 → 684 hrefs.
+- **Driven by `artists.residency`, so the list is the collection rather than a hand-kept copy.** An artist who leaves stops appearing by editing one field, and cannot be left behind on a page nobody remembers to update.
+- **Verified with a probe, because nobody sets `residency` today.** Setting it on one profile rendered `In the Studios now: <name>` linking to `https://gallery.kaaya.org/artist/<slug>`, and that artist's own page carried the Studios badge and its link back to Place → Stay — both directions, in one build. The probe was reverted and the content store cleared; with `residency: false` on all six the block renders nothing at all, checked.
+- **The residency data is owed and gets no proxy, deliberately.** Naming a resident is a factual claim about a named person, not placeholder copy — a wrong one is published about someone real. The machinery ships; the names wait for the Kaaya team. This is why the blockers table's Studios row says "no — deliberate".
 
 - [ ] **T5.3 — Pottery/Workshop ↔ Gallery cross-link**
 Same pattern for Place → Activities linking into Gallery Shop, driven by `works.madeOnSite`.

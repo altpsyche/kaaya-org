@@ -5,6 +5,7 @@ import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import PriceTable from '../../components/ui/PriceTable.astro';
 import { link } from '../../lib/links';
+import { getCollection } from 'astro:content';
 
 const pageData = await getEntry('pages', 'place-stay');
 const {
@@ -15,6 +16,19 @@ const {
   mealPlans: cmsMealPlans,
   facilities: cmsFacilities,
 } = pageData?.data ?? {};
+
+/**
+ * T5.2's Place side: the artists actually living in the Studios, named and
+ * linked to their profiles on the gallery host. Driven by `artists.residency`,
+ * so this list is whatever the collection says and never a hand-kept copy —
+ * an artist who leaves stops appearing here by editing one field.
+ *
+ * Nobody sets it today, so the block renders nothing. That is correct: naming
+ * a resident is a claim about a real person, and the Kaaya team has not made it.
+ */
+const residents = (await getCollection('artists'))
+  .filter((a) => a.data.published && a.data.residency)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
 
 const accommodation = cmsAccommodation ?? [
   {
@@ -96,7 +110,28 @@ const facilities = cmsFacilities ?? [
           write to us and we will tell you where things stand.
         </p>
       </div>
+      {residents.length > 0 && (
+        <div class="mt-6">
+          <p class="text-sm text-(--color-text-muted)">
+            In the Studios now:{' '}
+            {residents.map((artist, i) => (
+              <>
+                <a
+                  href={link(`/gallery/artist/${artist.id}`)}
+                  class="font-medium text-(--color-primary) hover:underline underline-offset-2"
+                >{artist.data.name}</a>
+                {i < residents.length - 1 && <span>, </span>}
+              </>
+            ))}
+          </p>
+        </div>
+      )}
       <p class="mt-6 text-sm">
+        <a href={link('/gallery/artist')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
+          See who shows at the gallery →
+        </a>
+      </p>
+      <p class="mt-2 text-sm">
         <a href={link('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
           Enquire about the Studios →
         </a>
