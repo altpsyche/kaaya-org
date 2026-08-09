@@ -52,6 +52,7 @@ Start a session with `/next`. Land a step with `/land`.
 - **`wrangler pages dev` needs `--compatibility-date` pinned behind the binary's newest supported date**, or it refuses to start: `This Worker requires compatibility date "…", but the newest date supported by this server binary is "…"`. Nothing in the repo sets one yet; the Pages project's date lands in T9.1.
 - **A relative image path renders as relative.** `heroImage: public/uploads/x.jpg` resolved to `/place/public/uploads/x.jpg` and 404'd on four pages in `main`, for months, with the build green. Decap writes `/uploads/…` when `public_folder` is set; anything hand-authored gets checked.
 - **Every page duplicates its YAML as a hardcoded fallback.** Edit one and the other diverges silently, and the fallback is reachable — clearing a field in the CMS falls through to it. Content moves change both.
+- **Astro's content store outlives a deleted entry.** It lives in `node_modules/.astro/data-store.json`, not in `.astro/`, so removing the file, `.astro/` and `dist/` all leave it in place and the entry keeps rendering. A probe entry deleted in T7.1 was still emitting a link on the gallery home two tasks later, and `gate:links` is what caught it. `rm -rf node_modules/.astro` is the clear.
 - **A green build says nothing about a content move.** Splitting one page into five, or merging two overlapping lists, drops a paragraph without an error, because every schema field is optional. `npm run gate:content <ref>` is the only thing that catches it.
 - **Banned vocabulary lives in shared chrome, not just copy.** "circular economy", "incubation", "internships", "sustainable living" are banned on `kaaya.org` and `gallery.kaaya.org` and fine on `community.kaaya.org`. The live violation was in `SITE.description`, which renders on any page passing no description of its own — including `404.astro`, which the gallery host serves. A grep over `src/content/` reaches none of that, which is why the check runs over built output.
 - **No checkout, cart, payment provider or order state, anywhere.** `works.price` is a display string and no code may sum, total or persist it. Decision 2 is structural, not a matter of remembering.
@@ -80,8 +81,8 @@ Numbers a session can check against. Update them in the same commit that moves t
 | --- | --- | --- |
 | routes built | 25 | `npm run build` after T7.6 |
 | banned-vocab hits |   0 across 10 files | `npm run gate:vocab` |
-| dead internal links | 0 dead, 0 misrouted across 671 internal hrefs on 26 pages | `npm run gate:links` |
-| content leaf strings | 200 across 12 YAML files | `npm run gate:content HEAD` |
+| dead internal links | 0 dead, 0 misrouted across 678 internal hrefs on 26 pages | `npm run gate:links` |
+| content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 0 | `npm test` — suite lands in T10.1 |
 
 ## Commits

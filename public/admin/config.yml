@@ -59,6 +59,17 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Mission and Origin"
+            name: "introParagraphs"
+            widget: "list"
+            required: false
+          - label: "Pull Quote"
+            name: "finalQuote"
+            widget: "object"
+            required: false
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
           - label: "Intro Paragraphs"
             name: "introParagraphs"
             widget: "list"

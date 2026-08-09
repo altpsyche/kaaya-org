@@ -346,11 +346,17 @@ Profiles, Artist Archive, Artist of the Month, and the Studios residency feature
 - **Row 2 on `gallery.kaaya.org` now renders**, since `/gallery/artist` came out of the Header's `UNBUILT` set. Only `/gallery/shop` remains withheld, until T7.5.
 - **Three baselines moved:** routes 18 → 25, banned-vocab 3 → 10 files scanned with 0 hits, dead-links 487 → 671 hrefs on 19 → 26 pages with 0 dead and 0 misrouted.
 
-- [ ] **T7.7 — Gallery home page content**
+- [x] **T7.7 — Gallery home page content**
 Fills T1.7's shell: "Art from the Himalayas" hero, the exhibition narrative that decision 15 moved here from the dropped `/art` route, featured works, Artist of the Month, the mission statement, and the Padav Fellowship / Bangani Art Foundation origin.
 It also features upcoming gallery events — `section: gallery`, linking out to `events.kaaya.org/[slug]`, never re-rendering them (decision 18). The page must not break when the events collection is empty, since E8 lands after this.
 - AC: matches the scrape's copy; featured works come from `works.featured`; there is no `/art` route anywhere; event cards link off-host.
 - Depends on: T7.3, T7.4
+- **Landed:** T1.7's shell is gone. The hero is "Art from the Himalayas" with the scrape's own subheading; the exhibition narrative decision 15 moved here is the gallery's mission statement plus the Padav Fellowship / Bangani Art Foundation origin, both carried verbatim; the pull quote closes the page. Featured works come from `works.featured` and render all 5. Artist of the Month links to `/gallery/artist/tenzin-norbu`. No `/art` route exists anywhere in `src/pages/`.
+- **Featured cards do not link to the work.** `/gallery/shop/[slug]` is T7.5, so each card names its artist and links to that profile instead — a card that leads somewhere real beats a dead href. T7.5 turns the title into the link.
+- **The events feature is coded and renders nothing**, which is the correct state: the collection is empty until E8. It filters `section: gallery` on upcoming dates, caps at 3 and links to `link('/events/[id]')`, which is an off-host absolute URL in a production build — decision 18's "feature, never re-render". T8.5 gets a working block rather than a blank one.
+- **`gallery.yaml`'s `introParagraphs` had no field in `config.yml`** — an orphan key an editor could not reach, which T1.9's structural check should have caught and did not. Added here along with the pull quote, since this task rewrote that file anyway.
+- **2 content leaf strings dropped, both deliberate:** `gallery.heroSubheading` "The gallery at Kaaya" and `gallery.introParagraphs[0]`, T1.7's placeholder saying the content was still being brought across. Both were the shell this task exists to replace.
+- **A deleted content entry was still rendering.** The gate found `https://events.kaaya.org/_probe` linked from the gallery home — T7.1's probe event, whose file was removed two tasks earlier. Astro's content store lives in `node_modules/.astro/data-store.json`, so deleting the file, `.astro/` and `dist/` all left it in place. Recorded in CLAUDE.md; `gate:links` is the only reason it did not ship.
 
 - [ ] **T7.8 — CMS collections for Works and Artists**
 Folder-based Decap collections, same pattern as `blog`. The Events collection is added in T8.4.

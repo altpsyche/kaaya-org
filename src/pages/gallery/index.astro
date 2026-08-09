@@ -1,38 +1,137 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import QuoteBlock from '../../components/ui/QuoteBlock.astro';
 import ContactBlock from '../../components/ui/ContactBlock.astro';
+import { link, asset } from '../../lib/links';
 
-// Shell only. T7.7 fills this with the exhibition narrative, featured works,
-// Artist of the Month, the mission statement and the Padav Fellowship origin —
-// all of which exist in docs/scrape/. The route exists now because the Header's
-// row 1 (T2.5) links to it on every host, and a missing section home is a dead
-// entry in that nav.
 const pageData = await getEntry('pages', 'gallery');
-const { heroImage, heroHeading, heroSubheading, introParagraphs } = pageData?.data ?? {};
+const { heroImage, heroHeading, heroSubheading, introParagraphs, finalQuote } = pageData?.data ?? {};
 
 const introPs = introParagraphs ?? [
-  "The exhibition narrative, the works catalogue, the artist profiles and the Studios residency story are being brought across from the gallery's own site. Until they land, the fastest way to ask about a piece is to write to us.",
+  'Kaaya gallery exists to bring original art and its appreciators into direct exchange - so that values, once it moves, stays close to the place and people it came from.',
+  'The idea has evolved out of the Padav Fellowship Program, where each year 20 promising artists are awarded fellowships by the Bangani Art Foundation at the Kaaya Learning Centre. These artists are shortlisted from the Himalayan states by a jury and receive mentorship from eminent artists.',
 ];
+
+const featured = (await getCollection('works')).filter((w) => w.data.featured);
+
+const artistOfTheMonth = (await getCollection('artists'))
+  .filter((a) => a.data.published)
+  .find((a) => a.data.featuredMonth);
+
+/**
+ * Decision 18: every event lives once, on `events.kaaya.org`. This page
+ * features its own section's upcoming events and links out to them; it never
+ * renders a second copy. The collection is empty until E8, and an empty list
+ * has to render as nothing rather than as a broken section.
+ */
+const now = new Date();
+const upcoming = (await getCollection('events'))
+  .filter((e) => e.data.section === 'gallery' && e.data.startDate >= now)
+  .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf())
+  .slice(0, 3);
 ---
 
 <Base
   title="Gallery | Kaaya"
-  description="Art from the Himalayas — the gallery at Kaaya."
+  description="Art from the Himalayas — original work by emerging artists of the Himalayan region, shown at the Kaaya campus in Tilwari, Dehradun."
 >
   <Hero
     heading={heroHeading ?? 'Art from the Himalayas'}
-    subheading={heroSubheading ?? 'The gallery at Kaaya'}
+    subheading={heroSubheading ?? 'We celebrate the vibrant spirit of the emerging Artists from Himalayan region through curated exhibits and collectibles.'}
     image={heroImage ?? undefined}
   />
 
-  <div class="mx-auto max-w-5xl px-6 py-16">
-    <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
-      {introPs.map((p) => <p>{p}</p>)}
-    </div>
-    <div class="mt-10">
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+    {/* The exhibition narrative decision 15 moved here when /art was dropped. */}
+    <section>
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        {introPs.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+
+    {featured.length > 0 && (
+      <section>
+        <SectionHeader
+          title="Featured Art"
+          subtitle="Every piece is one of a kind, and buying begins with an enquiry rather than a checkout."
+        />
+        <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((work) => (
+            <li class="rounded-(--radius-card) border border-(--color-border) overflow-hidden">
+              {work.data.images[0] && (
+                <img
+                  src={asset(work.data.images[0])}
+                  alt={work.data.title}
+                  loading="lazy"
+                  class="aspect-square w-full object-cover"
+                />
+              )}
+              <div class="p-5">
+                {/* The work's own page is /gallery/shop/[slug], which T7.5
+                    builds. Until it exists the card names the artist, whose
+                    page does — a card linking nowhere beats a dead href. */}
+                <h3 class="font-semibold text-(--color-text)">{work.data.title}</h3>
+                {work.data.artist && (
+                  <p class="mt-1 text-sm">
+                    <a href={link(`/gallery/artist/${work.data.artist}`)} class="text-(--color-primary) hover:underline underline-offset-2">
+                      {work.data.artist.split('-').map((s) => s[0].toUpperCase() + s.slice(1)).join(' ')}
+                    </a>
+                  </p>
+                )}
+                {work.data.medium && <p class="mt-1 text-sm text-(--color-text-muted)">{work.data.medium}</p>}
+                {/* Display string. Decision 2 leaves nothing to add it to. */}
+                {work.data.price && <p class="mt-2 text-sm font-medium text-(--color-text)">{work.data.price}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {artistOfTheMonth && (
+      <section>
+        <SectionHeader title="Artist of the Month" />
+        <article class="rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-8">
+          <h3 class="text-2xl font-semibold text-(--color-text)">
+            <a href={link(`/gallery/artist/${artistOfTheMonth.id}`)} class="hover:text-(--color-primary)">
+              {artistOfTheMonth.data.name}
+            </a>
+          </h3>
+          {artistOfTheMonth.data.tagline && (
+            <p class="mt-1 text-sm font-medium text-(--color-primary)">{artistOfTheMonth.data.tagline}</p>
+          )}
+          <p class="mt-4 text-sm">
+            <a href={link('/gallery/artist')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
+              All artists →
+            </a>
+          </p>
+        </article>
+      </section>
+    )}
+
+    {upcoming.length > 0 && (
+      <section>
+        <SectionHeader title="Upcoming at the gallery" />
+        <ul class="grid gap-6 sm:grid-cols-2">
+          {upcoming.map((event) => (
+            <li class="rounded-(--radius-card) border border-(--color-border) p-6">
+              <h3 class="font-semibold text-(--color-text)">
+                <a href={link(`/events/${event.id}`)} class="hover:text-(--color-primary)">{event.data.title}</a>
+              </h3>
+              <p class="mt-1 text-sm text-(--color-text-muted)">{event.data.venue}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {finalQuote && <QuoteBlock quote={finalQuote.quote} attribution={finalQuote.attribution} />}
+
+    <section>
       <ContactBlock />
-    </div>
+    </section>
   </div>
 </Base>
