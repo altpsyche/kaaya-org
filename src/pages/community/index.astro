@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
@@ -41,6 +41,18 @@ const sections = cmsSections ?? [
 const marketPs = marketParagraphs ?? [
   "The Sunday market is a window Kaaya opens to the surrounding community. Farmers and kitchen gardeners bring their surplus, and neighbours buy from neighbours. Kaaya's part is small and practical — helping process surplus through solar drying, dehydration and pickling, so that less of it is wasted.",
 ];
+
+/**
+ * Decision 18: every event lives once, on `events.kaaya.org`. This home
+ * features its own section's upcoming events and links out; it never renders a
+ * second copy. Empty today — all three imported events are `section: gallery` —
+ * and an empty list has to render as nothing rather than as a broken section.
+ */
+const now = new Date();
+const upcoming = (await getCollection('events'))
+  .filter((e) => e.data.section === 'community' && e.data.startDate >= now)
+  .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf())
+  .slice(0, 3);
 ---
 
 <Base
@@ -80,6 +92,27 @@ const marketPs = marketParagraphs ?? [
 
     {/* Build doc §9: the farmer's market is never described in commercial terms,
         on any host. */}
+    {upcoming.length > 0 && (
+      <section>
+        <SectionHeader title="Coming up in the community" />
+        <ul class="grid gap-6 sm:grid-cols-2">
+          {upcoming.map((event) => (
+            <li class="rounded-(--radius-card) border border-(--color-border) p-6">
+              <h3 class="font-semibold text-(--color-text)">
+                <a href={link(`/events/${event.id}`)} class="hover:text-(--color-primary)">{event.data.title}</a>
+              </h3>
+              <p class="mt-1 text-sm text-(--color-text-muted)">{event.data.venue}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm">
+          <a href={link('/events')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
+            Everything happening at Kaaya →
+          </a>
+        </p>
+      </section>
+    )}
+
     <section>
       <SectionHeader title="The Sunday market" />
       <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">

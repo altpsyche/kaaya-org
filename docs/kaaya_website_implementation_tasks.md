@@ -500,10 +500,16 @@ Folder-based Decap collection, same pattern as `blog`. `section` and `type` are 
 - **The AC's second line is not satisfiable yet, and the missing half is T8.5.** The gallery home already features its own section's upcoming events (built in T7.7), so an event created as `section: gallery` appears there with no further work. The community home has no such block until T8.5, which is blocked behind T8.3 and its real dates.
 - **The `/admin` UI round trip is unverified** — it needs a CMS login, the same gap T0.2, T1.9 and T7.8 record.
 
-- [ ] **T8.5 — Feature events on the section homes**
+- [x] **T8.5 — Feature events on the section homes**
 The gallery home shows upcoming `section: gallery` events; the community home shows `section: community`. Cards link to `events.kaaya.org/[slug]` — sections feature, they do not re-render.
 - AC: both homes show only their own section's upcoming events, cap the count, and render nothing rather than breaking when there are none; every card links off-host.
 - Depends on: T8.3, T1.6, T7.7
+- **The gallery half went live the moment T8.3 landed** — T7.7 built the block against an empty collection, and it now renders Artistry Weekend and the Himalayan Painting Masterclass, both linking to `https://events.kaaya.org/<slug>`. Nothing was changed there, which is what a correctly built empty state buys.
+- **This task built the community half**, same shape, capped at 3, filtered on `section: community` and an upcoming date.
+- **AC verified by moving an event between sections.** With all three imported as `section: gallery` the community block renders nothing at all — checked, not assumed. Flipping one to `section: community` made it appear on the community home and **disappear from the gallery home** in the same build, which is the "only their own section" line and the "features, never re-renders" rule of decision 18 in one measurement. Probe reverted and the content store cleared.
+- **No card prints a date**, so `dateConfirmed: false` cannot leak a placeholder through a section home either. Cards carry the title and the venue.
+- **This also closes T8.4's second AC line**, which said an event created as `section: community` should appear on the community home without further work. It does now; T8.4 recorded it as not yet satisfiable.
+- **Closes E8.**
 
 ---
 
