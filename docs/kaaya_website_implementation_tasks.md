@@ -322,10 +322,13 @@ Chromatic metanoia ₹12,000 · The fox within ₹400 · The rhythms of the coas
 - **Two things in the source do not agree, and neither is resolved here.** *Hampta pass trek* has `Medium*: Acrylic on canvas` in its listing while its own description says "using watercolor and pen"; the listing value was carried, since that is what the field says. And three works — *The fox within*, *The rhythms of the coastal line*, *Hampta pass trek* — list a size **option** rather than a dimension, so their `size` reads `Medium`, `Medium` and `Small / Medium` against the other two's `36 x 36` and `30 X 36 Inch`. Both are questions for the Kaaya team, not defects to guess at.
 - **A grep for `Artist:` finds only four of the five.** *The fox within* is attributed as `Artist- Rishabh Rawat`, with a dash, and a later import that greps for the colon will silently drop it.
 
-- [ ] **T7.4 — Import the 6 artist profiles**
+- [x] **T7.4 — Import the 6 artist profiles**
 Rishabh Rawat, Tenzin Norbu, Vijay Vikram Singh, Nisha Chauhan, Kashish Riyaz, Chetan Joshi, with their full biographies. Tenzin Norbu carries the Artist of the Month feature.
 - AC: 6 entries in `src/content/artists/`; **every entry sets `published: true` explicitly**, since the schema defaults it to `false` and a silent default would empty the Artist page; each artwork's `artist` resolves to one of them.
 - Depends on: T7.1, T7.2
+- **Landed:** 6 entries, biographies extracted from the scrape by script so the text is the source character for character. `published: true` is set explicitly on every one — the schema defaults it to `false`, so a silent default empties the Artist page. All 5 works' `artist` slugs resolve against these 6, checked mechanically.
+- **Tenzin Norbu holds the Artist of the Month slot via `featuredMonth: Current`, which is a marker rather than a month.** The scrape carries no date for it — the only dates anywhere in that file are the Wix placeholders — so a real month would have to be invented. T7.6 should select the single artist that has `featuredMonth` set and **must not print the value** until a real month exists. The rotation owner is the blockers-table row that makes this stale otherwise.
+- **`portrait` is unset on all 6 and `residency: false` on all 6.** The scrape has no artist portraits — that is the photography blocker again — and it says nothing about who lives in the Studios cottages. T5.2's Gallery ↔ Place cross-link is driven by `residency`, so it has nothing to link until the Kaaya team says which artists are residents. Nothing was guessed.
 
 - [ ] **T7.5 — Build `gallery/shop/index.astro` and `gallery/shop/[slug].astro`**
 The catalogue plus a page per work (decision 14). Filterable by category — `CategoryFilter` already exists and is reusable. Prices displayed; the only action is an enquiry, built on T4.1's shell with a hidden work reference.
