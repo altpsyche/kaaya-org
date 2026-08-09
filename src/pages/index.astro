@@ -32,9 +32,14 @@ const {
   <Hero
     heading={heroHeading ?? "It's about Re-imagining"}
     subheading={heroSubheading ?? 'Tilwari, Dehradun · Himalayan Foothills, India'}
-    cta={{ label: 'Learn about Kaaya', href: link('/place') }}
     image={heroImage ?? undefined}
+    prominent
   />
+  {/* No CTA: build doc §8 gives the homepage hero no competing call to action,
+      and the nav is the only thing above the fold that leads anywhere.
+      `heroImage` still carries the campus photograph the old site used; §8 wants
+      the current exhibition, which the Kaaya team owes. Swapping that one YAML
+      value is the whole of the remaining change. */}
 
   <section class="mx-auto max-w-5xl px-6 py-16">
     <div class="max-w-2xl">

@@ -6,14 +6,17 @@ interface Props {
   subheading?: string;
   cta?: { label: string; href: string };
   image?: string;
+  /** Homepage scale: build doc §8 gives the hero 50-70% of the viewport. */
+  prominent?: boolean;
 }
 
-const { heading, subheading, cta, image } = Astro.props;
+const { heading, subheading, cta, image, prominent = false } = Astro.props;
 ---
 
 <section
   class:list={[
-    'relative flex min-h-[400px] items-center px-6 py-20',
+    'relative flex items-center px-6 py-20',
+    prominent ? 'min-h-[60vh]' : 'min-h-[400px]',
     image
       ? 'bg-cover bg-center'
       : 'bg-gradient-to-br from-(--color-primary) via-(--color-earth) to-(--color-accent)',

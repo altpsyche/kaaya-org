@@ -189,6 +189,9 @@ Shared and identical everywhere: `ContactBlock`, cross-site links, legal line. N
 Full-bleed current-exhibition image, 50–70% viewport, no competing CTAs. Nav per T2.5 with Gallery slightly emphasised. **No cart icon** — decision 2 removed the cart.
 - AC: matches build doc §8's layout and hierarchy spec.
 - Depends on: T1.8, T2.5
+- **Not ticked — blocked on the exhibition photograph**, blockers table row 5. Everything else in §8's layout and hierarchy spec is built and verified: the hero is full-bleed at `min-h-[60vh]`, inside §8's 50–70% band, where every other page's hero stays at `min-h-[400px]`; the homepage hero carries **no CTA**, where it previously carried "Learn about Kaaya" linking to `/place` — a competing call to action §8 forbids there; and the thin nav with Gallery first and emphasised landed in T2.5.
+- **The hero is not empty and does not need an empty state.** `home.yaml`'s `heroImage` still carries the campus photograph the old site used, at a correct absolute `/uploads/…` path. §8 asks for the current exhibition. Swapping that one YAML value is the whole of the remaining work, and it is content only the Kaaya team can supply — nothing is invented to stand in for it.
+- **Landed so far:** build 17 routes, `gate:vocab` 0 hits, `gate:links` 0 dead 0 misrouted, baseline 461 → 460 hrefs, the one removed href being the hero CTA.
 
 - [ ] **T3.2 — Gallery content below the fold**
 Artist highlights appear before any mention of Place or Community, per build doc §8's scroll-order requirement. Sources `works` where `featured: true`.
