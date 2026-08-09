@@ -172,10 +172,12 @@ TDD §5. Row 1 is the five-section cross-site nav — Gallery · Place · Commun
 - **Gallery's row 2 ships empty, deliberately.** §5 gives it Shop · Artist, and neither route exists until T7.5 and T7.6, so linking to them is two dead hrefs. The entries sit in the table behind an `UNBUILT` set naming both tickets; emptying that set is the whole of the change when those routes land. This is the one row of §5's table the build does not yet satisfy.
 - **§5 is ambiguous about the wordmark and this build reads it as the apex.** "the gallery home, which is what the wordmark links to" would put the wordmark on the current section's home, but row 1 carries only the five sections, so a visitor on any section host would have no route back to `kaaya.org` from the header. The wordmark therefore links to `link('/')` on every host, and the gallery home stays reachable through row 1's Gallery entry, which is also where its active state shows. Settle it in §5 if that reading is wrong.
 
-- [ ] **T2.6 — Footer across six hosts**
+- [x] **T2.6 — Footer across six hosts**
 Shared and identical everywhere: `ContactBlock`, cross-site links, legal line. No section nav.
-- AC: renders on all six hosts; links go through `link()`. The address variant lands in T4.4.
+- AC: renders on all six hosts; links go through `link()`. The address variant lands in **T4.5** — this entry said T4.4, which is the Booking form; the `ContactBlock` variant prop is T4.5.
 - Depends on: T2.2
+- **Landed:** the footer nav was the same stale flat list the Header carried — Place · Learn · Incubate · Exchange · Blog — so on the five hosts that are not Community it read as Community's own section nav. Now the six hosts and nothing below them: Kaaya · Gallery · Place · Community · Events · Happenings, byte-identical on `index`, `gallery/`, `place/stay/`, `community/learn/`, `events/`, `blog/` and `404`, with no active state, since §5 requires it identical everywhere. Every href through `link()`. `gate:links` 0 dead 0 misrouted, baseline 444 → 461 hrefs.
+- **Closes E2**, the critical path. `ContactBlock` still hardcodes `SITE.email`; the per-host address is T4.5's extension, not a gap in this task.
 
 ---
 

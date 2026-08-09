@@ -4,6 +4,21 @@ import ContactBlock from '../ui/ContactBlock.astro';
 import { link } from '../../lib/links';
 
 const year = new Date().getFullYear();
+
+/**
+ * The six hosts, and nothing below them (TDD §5). The footer is identical
+ * everywhere, so it carries no section nav and no active state — Learn,
+ * Incubate and Exchange used to sit here, which made the footer read as
+ * Community's own nav on the five hosts that are not Community.
+ */
+const crossSite = [
+  { label: 'Kaaya', path: '/' },
+  { label: 'Gallery', path: '/gallery' },
+  { label: 'Place', path: '/place' },
+  { label: 'Community', path: '/community' },
+  { label: 'Events', path: '/events' },
+  { label: 'Happenings', path: '/blog' },
+];
 ---
 
 <footer class="border-t border-(--color-border) bg-(--color-surface) mt-auto">
@@ -14,12 +29,10 @@ const year = new Date().getFullYear();
         <ContactBlock />
       </div>
       <div class="flex flex-col justify-between sm:items-end">
-        <nav class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-(--color-text-muted)">
-          <a href={link('/place')} class="hover:text-(--color-primary) transition-colors">Place</a>
-          <a href={link('/community/learn')} class="hover:text-(--color-primary) transition-colors">Learn</a>
-          <a href={link('/community/incubate')} class="hover:text-(--color-primary) transition-colors">Incubate</a>
-          <a href={link('/community/exchange')} class="hover:text-(--color-primary) transition-colors">Exchange</a>
-          <a href={link('/blog')} class="hover:text-(--color-primary) transition-colors">Blog</a>
+        <nav aria-label="Kaaya sites" class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-(--color-text-muted) sm:justify-end">
+          {crossSite.map(({ label, path }) => (
+            <a href={link(path)} class="hover:text-(--color-primary) transition-colors">{label}</a>
+          ))}
         </nav>
         <p class="mt-6 text-xs text-(--color-text-muted)">
           &copy; {year} {SITE.managedBy}. All rights reserved.
