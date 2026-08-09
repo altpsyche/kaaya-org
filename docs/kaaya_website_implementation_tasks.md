@@ -329,6 +329,12 @@ The five artwork images are photographs saved as PNG: 2.2–3.1 MB each, 14 MB f
   5. **[ ] Close out** — full gate, acceptance criteria line by line, and CLAUDE.md gains the one rule a future session needs: `public/uploads/derived/` is generated, `npm run images` regenerates it, and a missing derivative degrades rather than breaks.
 - **Half of the AC binds to a route that does not exist.** "Full resolution still reachable on the detail page" needs `/gallery/shop/[slug]`, which is T7.5. The originals are never deleted and stay served at `/uploads/<name>.png`, so nothing blocks T7.5 from using them; a note on that task carries the requirement, and T7.9 closes on the list-weight half.
 
+- [ ] **T7.10 — Delete the unreferenced uploads** *(new — found while planning T7.9)*
+`public/uploads/` holds 57 files and 69 MB. **46 of them, 50 MB, are referenced by nothing** in `src/` or `public/admin/` — Wix-era leftovers that ship in `dist/` on every deploy.
+- AC: every remaining file in `public/uploads/` is referenced by a YAML value, a content entry, an `.astro` fallback or `config.yml`; `dist/` shrinks by the deleted weight; no image 404s afterwards.
+- **Deletion is not reversible through the CMS**, so the check runs before the delete rather than after, and a file whose only reference is a hardcoded fallback counts as referenced.
+- Depends on: T7.2
+
 - [x] **T7.3 — Import the 5 artworks**
 Chromatic metanoia ₹12,000 · The fox within ₹400 · The rhythms of the coastal line ₹400 · Hampta pass trek ₹400 · Living through it ₹250. Descriptions, medium and size carry over from the scrape.
 - AC: 5 entries in `src/content/works/`, each with its artist slug, price as a display string, and a local image.
