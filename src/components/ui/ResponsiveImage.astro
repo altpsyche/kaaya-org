@@ -16,9 +16,8 @@
  * box of its own and the caller's classes lay the image out exactly as a bare
  * `<img>` did.
  */
-import fs from 'node:fs';
-import path from 'node:path';
 import { asset } from '../../lib/links';
+import { derivativesFor } from '../../lib/derivatives';
 
 interface Props {
   src: string;
@@ -37,21 +36,8 @@ const {
   loading = 'lazy',
 } = Astro.props;
 
-const DERIVED_DIR = 'public/uploads/derived';
-
-function derivativesFor(source: string) {
-  if (!source.startsWith('/uploads/') || !fs.existsSync(DERIVED_DIR)) return [];
-  const stem = path.basename(source, path.extname(source));
-  return fs
-    .readdirSync(DERIVED_DIR)
-    .map((file) => file.match(new RegExp(`^${stem}-(\\d+)\\.webp$`)))
-    .filter((m): m is RegExpMatchArray => m !== null)
-    .map((m) => ({ file: m[0], width: Number(m[1]) }))
-    .sort((a, b) => a.width - b.width);
-}
-
 const srcset = derivativesFor(src)
-  .map(({ file, width }) => `${asset(`/uploads/derived/${file}`)} ${width}w`)
+  .map((d) => `${asset(d.src)} ${d.width}w`)
   .join(', ');
 ---
 

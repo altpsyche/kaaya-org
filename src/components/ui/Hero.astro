@@ -1,5 +1,6 @@
 ---
 import { asset } from '../../lib/links';
+import { derivativeAt } from '../../lib/derivatives';
 
 interface Props {
   heading: string;
@@ -11,6 +12,16 @@ interface Props {
 }
 
 const { heading, subheading, cta, image, prominent = false } = Astro.props;
+
+/**
+ * The hero paints a CSS `background-image`, which can carry no `srcset`, so the
+ * two widths are handed to a scoped rule as custom properties and a media query
+ * picks between them (decision 20). `derivativeAt()` returns the original when
+ * the pass has produced nothing, so both properties collapse to today's single
+ * full-size image rather than to a broken URL.
+ */
+const narrow = image ? derivativeAt(image, 960) : undefined;
+const wide = image ? derivativeAt(image, 1920) : undefined;
 ---
 
 <section
@@ -18,10 +29,10 @@ const { heading, subheading, cta, image, prominent = false } = Astro.props;
     'relative flex items-center px-6 py-20',
     prominent ? 'min-h-[60vh]' : 'min-h-[400px]',
     image
-      ? 'bg-cover bg-center'
+      ? 'hero-image bg-cover bg-center'
       : 'bg-gradient-to-br from-(--color-primary) via-(--color-earth) to-(--color-accent)',
   ]}
-  style={image ? `background-image: url('${asset(image)}')` : undefined}
+  style={image ? `--hero-narrow: url('${asset(narrow!)}'); --hero-wide: url('${asset(wide!)}')` : undefined}
 >
   {image && <div class="absolute inset-0 bg-(--color-hero-overlay)" />}
   <div class="relative mx-auto max-w-4xl">
@@ -37,3 +48,17 @@ const { heading, subheading, cta, image, prominent = false } = Astro.props;
     )}
   </div>
 </section>
+
+<style>
+  /* The image is set here rather than inline: an inline `background-image`
+     would outrank the media query and pin every viewport to one width. */
+  .hero-image {
+    background-image: var(--hero-narrow);
+  }
+
+  @media (min-width: 768px) {
+    .hero-image {
+      background-image: var(--hero-wide);
+    }
+  }
+</style>
