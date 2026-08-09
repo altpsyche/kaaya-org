@@ -75,10 +75,26 @@ for (const source of sources) {
   }
 }
 
+/*
+ * A derivative whose source is gone still ships, because Astro copies `public/`
+ * wholesale and nothing else ever removes a file from this directory. Pruning
+ * here rather than in the caller keeps the invariant local: the contents of
+ * `derived/` describe the current contents of `uploads/` and nothing older.
+ */
+const live = new Set(sources.map((f) => path.basename(f, path.extname(f))));
+let pruned = 0;
+for (const file of fs.readdirSync(OUT_DIR)) {
+  const stem = file.replace(/-\d+\.webp$/, '');
+  if (!live.has(stem)) {
+    fs.rmSync(path.join(OUT_DIR, file));
+    pruned += 1;
+  }
+}
+
 const mb = (n) => (n / 1024 / 1024).toFixed(1);
 const sourceBytes = sources.reduce((sum, f) => sum + fs.statSync(f).size, 0);
 
 console.log(
   `images: ${sources.length} sources (${mb(sourceBytes)} MB) → ${written + reused} derivatives ` +
-    `(${mb(bytes)} MB), ${written} written, ${reused} reused, ${Date.now() - started} ms`,
+    `(${mb(bytes)} MB), ${written} written, ${reused} reused, ${pruned} pruned, ${Date.now() - started} ms`,
 );

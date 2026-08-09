@@ -341,11 +341,16 @@ The five artwork images are photographs saved as PNG: 2.2–3.1 MB each, 14 MB f
 - **Ticked with one AC line deferred rather than claimed.** The detail-page half needs a route that does not exist; the list-weight half, which is the whole reason this task was raised, is closed with 593 K of headroom.
 - **Half of the AC binds to a route that does not exist.** "Full resolution still reachable on the detail page" needs `/gallery/shop/[slug]`, which is T7.5. The originals are never deleted and stay served at `/uploads/<name>.png`, so nothing blocks T7.5 from using them; a note on that task carries the requirement, and T7.9 closes on the list-weight half.
 
-- [ ] **T7.10 — Delete the unreferenced uploads** *(new — found while planning T7.9)*
+- [x] **T7.10 — Delete the unreferenced uploads** *(new — found while planning T7.9)*
 `public/uploads/` holds 57 files and 69 MB. **46 of them, 50 MB, are referenced by nothing** in `src/` or `public/admin/` — Wix-era leftovers that ship in `dist/` on every deploy.
 - AC: every remaining file in `public/uploads/` is referenced by a YAML value, a content entry, an `.astro` fallback or `config.yml`; `dist/` shrinks by the deleted weight; no image 404s afterwards.
 - **Deletion is not reversible through the CMS**, so the check runs before the delete rather than after, and a file whose only reference is a hardcoded fallback counts as referenced.
 - Depends on: T7.2
+- **Landed:** 45 files deleted, 12 kept. `public/uploads/` 84 MB → **22 MB**, `dist/` 85 MB → **23 MB**, and the derivative pass fell from 150 derivatives and 14.8 MB to 31 and 2.2 MB. Build 25 routes, `gate:vocab` 0 hits, `gate:links` 0 dead 0 misrouted across 682 hrefs — all unchanged, which is the point: nothing referenced was touched.
+- **The reference set is every file under `src/`, `public/admin/`, `functions/`, `e2e/`, `scripts/` and `astro.config.mjs`**, so a filename mentioned only in a hardcoded `.astro` fallback or a Decap default counts as referenced. `6.jpg` survives on exactly that basis. `.gitkeep` was excluded from the sweep by name — it is a git artifact rather than an upload.
+- **Images are not checked by any gate, so this task verified them directly:** every `<img src>`, every `srcset` candidate and every `url()` in the built HTML — 24 references across 26 pages — resolves to a file in `dist/`. `gate:links` reads hrefs only and would have stayed green through a wholesale image deletion.
+- **`scripts/images.mjs` now prunes.** Deleting a source left its derivatives behind, and since Astro copies `public/` wholesale they would have shipped forever with nothing pointing at them — 119 orphans on the first run after the delete. The invariant is stated in the script: `derived/` describes the current contents of `uploads/` and nothing older.
+- **Raised before it was run, and overruled deliberately.** The unreferenced set includes T7.2's six lookbook images, `logo-kaaya.png` and roughly thirty campus photographs, while photography is still an open blocker and `kayagallery.com` is being retired — so for the lookbook these were the only local copies. Siva chose deletion with git history as the recovery path on 2026-08-09. Recovery is `git checkout 9fe9cd3 -- public/uploads/<name>`.
 
 - [x] **T7.3 — Import the 5 artworks**
 Chromatic metanoia ₹12,000 · The fox within ₹400 · The rhythms of the coastal line ₹400 · Hampta pass trek ₹400 · Living through it ₹250. Descriptions, medium and size carry over from the scrape.
