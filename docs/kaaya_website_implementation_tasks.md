@@ -212,10 +212,13 @@ Exact copy block from build doc §8, ending in "Know the place" / "Know the comm
 
 *TDD §14. Decisions 5, 9, 10, 16, 17. Delivers the shared shell and three of the four forms; the Shop form is built on this shell in T7.5.*
 
-- [ ] **T4.1 — Build the `EnquiryForm` shell (D8)**
+- [x] **T4.1 — Build the `EnquiryForm` shell (D8)**
 Owns the Web3Forms POST, access key, subject, honeypot, success redirect, validation and styling. Fields are passed in per section — Booking and Incubate do not ask the same questions (decision 17). Refactor `incubate.astro` and `exchange.astro` onto it, keeping their existing fields exactly (decision 12).
 - AC: both existing forms behave identically after refactor, verified by a real submission landing in the right inbox; honeypot present; submission returns to an on-site thank-you page, not Web3Forms' branded page; no `<form action="https://api.web3forms.com">` outside the component.
 - Depends on: T1.1
+- **Landed:** `EnquiryForm.astro` owns the POST, access key, subject, honeypot, redirect and styling; pages pass a `fields` array, per decision 17. `grep -rn 'api.web3forms.com' src` returns the component only. `botcheck` present on both forms. The redirect is `https://kaaya.org/thank-you?enquiry=incubate` and `…?enquiry=exchange`, built with `toCanonical()` rather than `link()` because Web3Forms redirects the browser from its own origin, where a bare path would resolve against `api.web3forms.com`.
+- **Behaves identically, checked field by field against the built HTML rather than by eye.** Incubate: `name`, `phone`, `about`, `idea`, `doc` in that order, required on exactly `name`, `about`, `idea`, textarea rows 3 and 5, subject `Incubate Inquiry` — decision 12's live field set, unchanged. Exchange: `org`, `contact`, `email`, `message`, nothing required, rows 5, subject `Partnership Inquiry`. Both keep the live access key; the three-key map is T4.3. 113 lines of duplicated form markup deleted across the two pages.
+- **The real-submission half of the AC is unverified.** It needs access to the inbox behind the access key, which this session does not have. The markup is asserted; the submission was not made. T4.3 and T10.4 both carry a live-submission check.
 
 - [x] **T4.2 — Thank-you page**
 The on-site destination T4.1's redirect targets. One page, reached from every host.

@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
+import EnquiryForm from '../../components/ui/EnquiryForm.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
 import IncubationCard from '../../components/ui/IncubationCard.astro';
@@ -87,69 +88,18 @@ const introPs = introParagraphs ?? [
         title="Bring your idea to life at Kaaya"
         subtitle="We are looking for serious, thoughtful concepts that seek more than just a backdrop. Begin with an honest conversation about what you hope to build."
       />
-      <form
-        method="POST"
-        action="https://api.web3forms.com/submit"
-        class="max-w-xl space-y-5"
-      >
-        <input type="hidden" name="access_key" value="f8b67b4c-e134-42e6-98a0-bcf9b7998bcd" />
-        <input type="hidden" name="subject" value="Incubate Inquiry" />
-        <div>
-          <label for="name" class="block text-sm font-medium text-(--color-text) mb-1">Name <span class="text-(--color-accent)">*</span></label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
-          />
-        </div>
-        <div>
-          <label for="phone" class="block text-sm font-medium text-(--color-text) mb-1">Phone</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
-          />
-        </div>
-        <div>
-          <label for="about" class="block text-sm font-medium text-(--color-text) mb-1">About you in short <span class="text-(--color-accent)">*</span></label>
-          <textarea
-            id="about"
-            name="about"
-            required
-            rows={3}
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none resize-none"
-          />
-        </div>
-        <div>
-          <label for="idea" class="block text-sm font-medium text-(--color-text) mb-1">Your idea brief <span class="text-(--color-accent)">*</span></label>
-          <textarea
-            id="idea"
-            name="idea"
-            required
-            rows={5}
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none resize-none"
-          />
-        </div>
-        <div>
-          <label for="doc" class="block text-sm font-medium text-(--color-text) mb-1">Your work / doc / video link</label>
-          <input
-            type="url"
-            id="doc"
-            name="doc"
-            placeholder="https://"
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
-          />
-        </div>
-        <button
-          type="submit"
-          class="rounded-(--radius-card) bg-(--color-primary) px-6 py-3 text-sm font-semibold text-(--color-on-primary) transition-opacity hover:opacity-90"
-        >
-          Share your idea
-        </button>
-      </form>
+      <EnquiryForm
+        subject="Incubate Inquiry"
+        enquiry="incubate"
+        submitLabel="Share your idea"
+        fields={[
+          { name: 'name', label: 'Name', required: true },
+          { name: 'phone', label: 'Phone', type: 'tel' },
+          { name: 'about', label: 'About you in short', type: 'textarea', rows: 3, required: true },
+          { name: 'idea', label: 'Your idea brief', type: 'textarea', rows: 5, required: true },
+          { name: 'doc', label: 'Your work / doc / video link', type: 'url', placeholder: 'https://' },
+        ]}
+      />
     </section>
 
   </div>

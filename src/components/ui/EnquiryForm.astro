@@ -1,0 +1,109 @@
+---
+import { toCanonical } from '../../lib/links';
+
+/**
+ * The one place a Web3Forms POST is written (TDD §14). Every enquiry on the
+ * site — Incubate, Exchange, Booking and Shop — renders through here, and the
+ * component owns the plumbing while each page passes its own field set:
+ * decision 17, because Booking needs dates and Shop needs a work reference,
+ * and forcing one field set would push structured data into a free-text box.
+ */
+export interface Field {
+  name: string;
+  label: string;
+  type?: 'text' | 'tel' | 'email' | 'url' | 'date' | 'number' | 'textarea' | 'select';
+  required?: boolean;
+  placeholder?: string;
+  rows?: number;
+  min?: string | number;
+  options?: string[];
+}
+
+interface Props {
+  /** Subject line the inbox receives. */
+  subject: string;
+  /** Names this enquiry on the thank-you page, via `?enquiry=` (decision 19). */
+  enquiry: 'incubate' | 'exchange' | 'booking' | 'shop';
+  fields: Field[];
+  submitLabel: string;
+  /**
+   * A Web3Forms access key binds to one verified destination, so the inbox is
+   * chosen by the key. Both live forms share this one today; T4.3 provisions
+   * connect@, info@ and gallery@ and replaces the default with a map.
+   */
+  accessKey?: string;
+  /** Rendered as hidden inputs — the Shop form's work reference (T7.5). */
+  hidden?: Record<string, string>;
+}
+
+const {
+  subject,
+  enquiry,
+  fields,
+  submitLabel,
+  accessKey = 'f8b67b4c-e134-42e6-98a0-bcf9b7998bcd',
+  hidden = {},
+} = Astro.props;
+
+// toCanonical(), never link(): Web3Forms redirects the browser from its own
+// origin, so a bare path would resolve against api.web3forms.com. The thank-you
+// page lives on the apex only (decision 19).
+const redirect = `${toCanonical('/thank-you')}?enquiry=${enquiry}`;
+
+const inputClass =
+  'w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none';
+---
+
+<form method="POST" action="https://api.web3forms.com/submit" class="max-w-xl space-y-5">
+  <input type="hidden" name="access_key" value={accessKey} />
+  <input type="hidden" name="subject" value={subject} />
+  <input type="hidden" name="redirect" value={redirect} />
+  {Object.entries(hidden).map(([name, value]) => (
+    <input type="hidden" name={name} value={value} />
+  ))}
+
+  {/* Web3Forms discards any submission where `botcheck` is set. It has to stay
+      reachable to a bot and invisible to a person, so it is hidden in the
+      markup rather than left out of the tab order by CSS alone. */}
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+  {fields.map((field) => (
+    <div>
+      <label for={field.name} class="block text-sm font-medium text-(--color-text) mb-1">
+        {field.label}{field.required && <span class="text-(--color-accent)"> *</span>}
+      </label>
+      {field.type === 'textarea' ? (
+        <textarea
+          id={field.name}
+          name={field.name}
+          required={field.required}
+          rows={field.rows ?? 4}
+          placeholder={field.placeholder}
+          class={`${inputClass} resize-none`}
+        />
+      ) : field.type === 'select' ? (
+        <select id={field.name} name={field.name} required={field.required} class={inputClass}>
+          <option value="">Please choose</option>
+          {(field.options ?? []).map((option) => <option value={option}>{option}</option>)}
+        </select>
+      ) : (
+        <input
+          type={field.type ?? 'text'}
+          id={field.name}
+          name={field.name}
+          required={field.required}
+          placeholder={field.placeholder}
+          min={field.min}
+          class={inputClass}
+        />
+      )}
+    </div>
+  ))}
+
+  <button
+    type="submit"
+    class="rounded-(--radius-card) bg-(--color-primary) px-6 py-3 text-sm font-semibold text-(--color-on-primary) transition-opacity hover:opacity-90"
+  >
+    {submitLabel}
+  </button>
+</form>

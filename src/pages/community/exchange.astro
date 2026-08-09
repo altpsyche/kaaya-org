@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
+import EnquiryForm from '../../components/ui/EnquiryForm.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
 import ValueTable from '../../components/ui/ValueTable.astro';
@@ -155,56 +156,17 @@ const marketPs = marketParagraphs ?? [
         title="Become a Partner in Our Circular Ecosystem"
         subtitle="We warmly invite forward-thinking organisations, impact investors, and community leaders to join the Kaaya ecosystem."
       />
-      <form
-        method="POST"
-        action="https://api.web3forms.com/submit"
-        class="max-w-xl space-y-5"
-      >
-        <input type="hidden" name="access_key" value="f8b67b4c-e134-42e6-98a0-bcf9b7998bcd" />
-        <input type="hidden" name="subject" value="Partnership Inquiry" />
-        <div>
-          <label for="org" class="block text-sm font-medium text-(--color-text) mb-1">Organisation name</label>
-          <input
-            type="text"
-            id="org"
-            name="org"
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
-          />
-        </div>
-        <div>
-          <label for="contact" class="block text-sm font-medium text-(--color-text) mb-1">Contact person</label>
-          <input
-            type="text"
-            id="contact"
-            name="contact"
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
-          />
-        </div>
-        <div>
-          <label for="email" class="block text-sm font-medium text-(--color-text) mb-1">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none"
-          />
-        </div>
-        <div>
-          <label for="message" class="block text-sm font-medium text-(--color-text) mb-1">Message</label>
-          <textarea
-            id="message"
-            name="message"
-            rows={5}
-            class="w-full rounded-(--radius-card) border border-(--color-border) px-4 py-2.5 text-sm text-(--color-text) focus:border-(--color-primary) focus:outline-none resize-none"
-          />
-        </div>
-        <button
-          type="submit"
-          class="rounded-(--radius-card) bg-(--color-primary) px-6 py-3 text-sm font-semibold text-(--color-on-primary) transition-opacity hover:opacity-90"
-        >
-          Reach out
-        </button>
-      </form>
+      <EnquiryForm
+        subject="Partnership Inquiry"
+        enquiry="exchange"
+        submitLabel="Reach out"
+        fields={[
+          { name: 'org', label: 'Organisation name' },
+          { name: 'contact', label: 'Contact person' },
+          { name: 'email', label: 'Email', type: 'email' },
+          { name: 'message', label: 'Message', type: 'textarea', rows: 5 },
+        ]}
+      />
     </section>
 
   </div>
