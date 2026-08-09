@@ -291,9 +291,13 @@ Decision 8 — ship the story, defer the terms. Studios appear as a row and as a
 
 *TDD §4, §12. The content exists — see `docs/scrape/`. The risk is import fidelity and placeholder data, not a blank page.*
 
-- [ ] **T7.1 — Implement the content collections**
+- [x] **T7.1 — Implement the content collections**
 TDD §12's `works`, `artists` and `events` schemas. All three land here so E8 has the `events` collection to build against; only `works` and `artists` are used by this epic.
 - AC: schemas compile; `madeOnSite`, `residency` and `featured` support T5.2, T5.3 and T3.2.
+- **Landed:** all three schemas verbatim from §12, exported alongside `blog` and `pages`. Build 18 routes, unchanged — no route reads a collection yet.
+- **"Compile" was checked by running content through them, not by the build going green.** A probe entry per collection, shaped the way T7.3, T7.4 and T8.3 will write theirs, builds clean; flipping one to `category: not-a-category` fails the build with `[InvalidContentEntryDataError] works → _probe data does not match collection schema. category: Invalid option: expected one of "artworks"|"handmade"|"collectibles"`. The probes were removed in the same step. An empty collection alone would have proved nothing, since a schema with no entries is never exercised.
+- `madeOnSite` (T5.3), `residency` (T5.2) and `featured` (T3.2, T7.7) are all present and default to `false`. So does `published` on `artists` — **T7.4 must set it explicitly on all six entries or the Artist page lists nothing.**
+- **The three directories carry a `.gitkeep`.** A glob loader warns on a base directory that does not exist, and git does not track an empty one. Until content lands the build prints `No files found matching "**/*.md"` three times, which is accurate rather than a defect.
 
 - [ ] **T7.2 — Pull the gallery images local**
 Every image referenced by the scrape lives on `static.wixstatic.com`. Download into `public/uploads/`.

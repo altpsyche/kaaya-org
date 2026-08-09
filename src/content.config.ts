@@ -150,4 +150,66 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { blog, pages };
+/**
+ * The gallery collections (TDD §12). Fields come from the real inventory in
+ * §4, not from imagination — `medium`, `size` and `price` are the columns the
+ * live Wix listings actually carry.
+ *
+ * `price` is a display string and nothing sums, totals or persists it. That is
+ * what makes decision 2's no-checkout rule structural rather than something a
+ * future session has to remember.
+ */
+const works = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/works' }),
+  schema: z.object({
+    title: z.string(),
+    artist: z.string().optional(),          // slug into `artists`
+    category: z.enum(['artworks', 'handmade', 'collectibles']),
+    medium: z.string().optional(),
+    size: z.string().optional(),
+    price: z.string().optional(),
+    available: z.boolean().default(true),
+    madeOnSite: z.boolean().default(false), // drives the Activities cross-link, T5.3
+    featured: z.boolean().default(false),   // surfaces on the gallery home and kaaya.org
+    images: z.array(z.string()).default([]),
+    description: z.string().optional(),
+  }),
+});
+
+const artists = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/artists' }),
+  schema: z.object({
+    name: z.string(),
+    tagline: z.string().optional(),
+    portrait: z.string().optional(),
+    origin: z.string().optional(),
+    residency: z.boolean().default(false),  // Studios cottages, drives T5.2
+    featuredMonth: z.string().optional(),   // Artist of the Month
+    // Defaults to false, so an import that does not set it explicitly leaves
+    // the Artist page listing nothing.
+    published: z.boolean().default(false),
+  }),
+});
+
+/**
+ * `section` and `type` do different jobs. `section` decides which section home
+ * features the event and never appears as a category on `events.kaaya.org`;
+ * `type` is the visitor-facing categorisation there. `featured` pins an event
+ * to the top of the events page itself.
+ */
+const events = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/events' }),
+  schema: z.object({
+    title: z.string(),
+    section: z.enum(['gallery', 'community']),
+    type: z.enum(['exhibition', 'workshop', 'talk', 'market', 'other']),
+    featured: z.boolean().default(false),
+    startDate: z.coerce.date(),
+    endDate: z.coerce.date().optional(),
+    venue: z.string(),
+    heroImage: z.string().optional(),
+    rsvpNote: z.string().optional(),        // contact-only, no ticketing
+  }),
+});
+
+export const collections = { blog, pages, works, artists, events };
