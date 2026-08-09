@@ -278,10 +278,12 @@ Decision 8 — ship the story, defer the terms. Studios appear as a row and as a
 - AC: Studios row present alongside Garden Rooms; nothing stated that has not been decided; the enquiry path works.
 - Depends on: T1.5, T4.4
 
-- [ ] **T6.2 — Verify blog carries over unchanged**
+- [x] **T6.2 — Verify blog carries over unchanged**
 `src/pages/blog/`, `src/content/blog/*.md` and `rss.xml.ts` already sit at their final path. Confirm nothing regresses once the middleware is live, including that `happenings.kaaya.org/` redirects to `/blog` rather than serving the homepage.
 - AC: all 3 posts render at `happenings.kaaya.org/blog/...`; `/` redirects; RSS validates and item links use the `happenings` host.
 - Depends on: T2.1, T2.3
+- **Verified, no code changed — the task was a check and it passed.** Under `wrangler pages dev dist` with `Host: happenings.kaaya.org`: all 3 posts return 200 and their bodies are byte-identical to `dist/blog/<slug>/index.html`; `/` returns `301 → happenings.kaaya.org/blog`, so the host's root serves the blog rather than the apex homepage, which is the leak TDD §6.3 records v3 missing; `/rss.xml` returns 200, since it is a `ROOT_FILE` and is served unrewritten on every host.
+- **RSS parses as well-formed RSS 2.0** with 3 items, each carrying `title`, `link`, `description` and `pubDate`, and every item link on `https://happenings.kaaya.org/blog/…`. All 3 post canonicals name the same host. The channel `<link>` is the apex, which is T2.3's recorded choice: that element names the site, not the blog.
 
 ---
 
