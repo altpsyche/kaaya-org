@@ -313,10 +313,14 @@ The five artwork images are photographs saved as PNG: 2.2–3.1 MB each, 14 MB f
 - **The obvious fix is blocked by a decision, which is why this is a task and not a tweak.** Astro's image optimiser only reaches files under `src/assets/` used through `<Image>`, and TDD §10 keeps images in `public/uploads/` referenced relatively so Decap can write them. So this needs either a build-time step over `public/uploads/`, or responsive derivatives generated on import, or a decision to move gallery imagery out of Decap's reach. Decide it before implementing.
 - Depends on: T7.2
 
-- [ ] **T7.3 — Import the 5 artworks**
+- [x] **T7.3 — Import the 5 artworks**
 Chromatic metanoia ₹12,000 · The fox within ₹400 · The rhythms of the coastal line ₹400 · Hampta pass trek ₹400 · Living through it ₹250. Descriptions, medium and size carry over from the scrape.
 - AC: 5 entries in `src/content/works/`, each with its artist slug, price as a display string, and a local image.
 - Depends on: T7.1, T7.2
+- **Landed:** 5 entries, generated from the scrape by script rather than retyped, so the descriptions are the source text character for character. Prices match this task's list exactly — ₹12,000 · ₹400 · ₹400 · ₹400 · ₹250 — each quoted as a display string. Every `images[0]` resolves to a file in `public/uploads/`, and every `artist` is a slug T7.4 must create: `vijay-vikram-singh`, `rishabh-rawat`, `kashish-riyaz`, `chetan-joshi`, `nisha-chauhan`.
+- **`featured: true` on all five is sourced, not chosen.** All five sit in the live gallery home's "Featured Art" carousel. It does mean the flag currently separates nothing, which T7.7 and T3.2 should know before they use it to pick a subset.
+- **Two things in the source do not agree, and neither is resolved here.** *Hampta pass trek* has `Medium*: Acrylic on canvas` in its listing while its own description says "using watercolor and pen"; the listing value was carried, since that is what the field says. And three works — *The fox within*, *The rhythms of the coastal line*, *Hampta pass trek* — list a size **option** rather than a dimension, so their `size` reads `Medium`, `Medium` and `Small / Medium` against the other two's `36 x 36` and `30 X 36 Inch`. Both are questions for the Kaaya team, not defects to guess at.
+- **A grep for `Artist:` finds only four of the five.** *The fox within* is attributed as `Artist- Rishabh Rawat`, with a dash, and a later import that greps for the colon will silently drop it.
 
 - [ ] **T7.4 — Import the 6 artist profiles**
 Rishabh Rawat, Tenzin Norbu, Vijay Vikram Singh, Nisha Chauhan, Kashish Riyaz, Chetan Joshi, with their full biographies. Tenzin Norbu carries the Artist of the Month feature.
