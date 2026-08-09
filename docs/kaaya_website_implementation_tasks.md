@@ -335,10 +335,16 @@ The catalogue plus a page per work (decision 14). Filterable by category — `Ca
 - AC: no code sums, totals or persists `price`; no cart or checkout route exists anywhere; the enquiry path is verified end to end; the page states plainly that buying happens by enquiry, so the "Shop" label does not mislead (decision 4); `/shop/chromatic-metanoia` resolves.
 - Depends on: T7.3, T4.1, T4.3
 
-- [ ] **T7.6 — Build `gallery/artist/index.astro` and `gallery/artist/[slug].astro`**
+- [x] **T7.6 — Build `gallery/artist/index.astro` and `gallery/artist/[slug].astro`**
 Profiles, Artist Archive, Artist of the Month, and the Studios residency feature. Only `published` entries listed. Each profile links to that artist's works.
 - AC: matches build doc §4's Artist section; Studios framed prominently per decision 8; `/artist/tenzin-norbu` resolves.
 - Depends on: T7.4
+- **Landed:** 18 → 25 routes — the index plus one page per published artist. `/artist/tenzin-norbu` resolves and carries `https://gallery.kaaya.org/artist/tenzin-norbu/` as its canonical. `getStaticPaths` filters on `published`, so an unpublished profile has no URL either, not merely no listing. Each profile lists that artist's works from the `works` collection: Vijay Vikram Singh shows *Chromatic metanoia*, Tenzin Norbu shows none, which is correct — he has no priced work in the inventory.
+- **Build doc §4's three parts are all present:** profiles, the Artist Archive, and Artist of the Month. The Archive says the record fills as exhibitions come down and points at Happenings, because Kaaya has run none under this gallery — an honest statement rather than an empty list.
+- **Studios lead the page, per decision 8** — "Some artists don't just show here / They live and work here", the two mud cottages, and a link to Place → Stay, with enquiry as the only next step. No pricing, duration or application process, none of which exists. The per-artist residency badge is coded and renders for any artist with `residency: true`; today that is none of the six, which is T5.2's blocker rather than this task's.
+- **`featuredMonth` selects but never prints** — `Current` appears nowhere in the built HTML, checked.
+- **Row 2 on `gallery.kaaya.org` now renders**, since `/gallery/artist` came out of the Header's `UNBUILT` set. Only `/gallery/shop` remains withheld, until T7.5.
+- **Three baselines moved:** routes 18 → 25, banned-vocab 3 → 10 files scanned with 0 hits, dead-links 487 → 671 hrefs on 19 → 26 pages with 0 dead and 0 misrouted.
 
 - [ ] **T7.7 — Gallery home page content**
 Fills T1.7's shell: "Art from the Himalayas" hero, the exhibition narrative that decision 15 moved here from the dropped `/art` route, featured works, Artist of the Month, the mission statement, and the Padav Fellowship / Bangani Art Foundation origin.

@@ -1,0 +1,103 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import Hero from '../../../components/ui/Hero.astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import { link } from '../../../lib/links';
+
+// `published` defaults to false in the schema, so this filter is what the
+// explicit flag on every imported profile exists for (T7.4).
+const artists = (await getCollection('artists'))
+  .filter((a) => a.data.published)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+// One artist holds the slot. `featuredMonth` is a marker, not a month, until
+// the Kaaya team names a rotation — so it selects, and is never printed.
+const artistOfTheMonth = artists.find((a) => a.data.featuredMonth);
+const rest = artists.filter((a) => a !== artistOfTheMonth);
+
+const works = await getCollection('works');
+const worksBy = (slug: string) => works.filter((w) => w.data.artist === slug);
+---
+
+<Base
+  title="Artists | Gallery"
+  description="The artists showing at Kaaya — painters, printmakers and craftspeople from across the Himalayan region."
+>
+  <Hero
+    heading="Artists"
+    subheading="Painters, printmakers and craftspeople from across the Himalayan region"
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+    {artistOfTheMonth && (
+      <section>
+        <SectionHeader title="Artist of the Month" />
+        <article class="rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-8">
+          <h3 class="text-2xl font-semibold text-(--color-text)">
+            <a href={link(`/gallery/artist/${artistOfTheMonth.id}`)} class="hover:text-(--color-primary)">
+              {artistOfTheMonth.data.name}
+            </a>
+          </h3>
+          {artistOfTheMonth.data.tagline && (
+            <p class="mt-1 text-sm font-medium text-(--color-primary)">{artistOfTheMonth.data.tagline}</p>
+          )}
+          {artistOfTheMonth.data.origin && (
+            <p class="mt-1 text-sm text-(--color-text-muted)">{artistOfTheMonth.data.origin}</p>
+          )}
+        </article>
+      </section>
+    )}
+
+    {/* Decision 8: the Studios story ships, the terms do not. Enquiry is the
+        only next step until pricing, duration and application process exist. */}
+    <section>
+      <SectionHeader
+        title="Some artists don't just show here"
+        subtitle="They live and work here."
+      />
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        <p>
+          The Studios are two mud cottages on the Kaaya campus. An artist lives on the
+          ground floor and works upstairs, in a studio built for the purpose — so the
+          work on these walls is sometimes made a few minutes' walk from where it hangs.
+        </p>
+        <p>
+          A residency is arranged by conversation rather than by application form. If you
+          want to know what a stay involves, the rooms and the campus are described on
+          <a href={link('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Stay</a>,
+          and an enquiry is the way to start.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader title="Profiles" />
+      <ul class="grid gap-6 sm:grid-cols-2">
+        {rest.map((artist) => (
+          <li class="rounded-(--radius-card) border border-(--color-border) p-6">
+            <h3 class="font-semibold text-(--color-text)">
+              <a href={link(`/gallery/artist/${artist.id}`)} class="hover:text-(--color-primary)">{artist.data.name}</a>
+            </h3>
+            {artist.data.origin && <p class="mt-1 text-sm text-(--color-text-muted)">{artist.data.origin}</p>}
+            <p class="mt-3 text-sm text-(--color-text-muted)">
+              {worksBy(artist.id).length} {worksBy(artist.id).length === 1 ? 'work' : 'works'} showing
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* Build doc §4's Artist Archive. It records past exhibitions, and Kaaya has
+        not run one under this gallery yet, so the section states that rather
+        than rendering an empty list. */}
+    <section>
+      <SectionHeader title="Artist Archive" subtitle="A record of past exhibitions" />
+      <p class="max-w-2xl leading-relaxed text-(--color-text-muted)">
+        Nothing has closed yet — the archive fills as exhibitions come down. Writing about
+        the work as it happens lives on
+        <a href={link('/blog')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Happenings</a>.
+      </p>
+    </section>
+  </div>
+</Base>

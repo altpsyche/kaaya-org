@@ -1,0 +1,77 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import { link, asset } from '../../../lib/links';
+
+// Only published profiles get a route at all — an unpublished artist should
+// not be reachable by URL either (T7.4).
+export const getStaticPaths = (async () => {
+  const artists = await getCollection('artists');
+  return artists
+    .filter((a) => a.data.published)
+    .map((artist) => ({ params: { slug: artist.id }, props: { artist } }));
+}) satisfies GetStaticPaths;
+
+const { artist } = Astro.props;
+const { Content } = await render(artist);
+
+const works = (await getCollection('works')).filter((w) => w.data.artist === artist.id);
+---
+
+<Base
+  title={`${artist.data.name} | Gallery`}
+  description={artist.data.tagline ?? `${artist.data.name} — showing at the Kaaya gallery.`}
+>
+  <div class="mx-auto max-w-3xl px-6 py-16">
+    <p class="text-sm text-(--color-text-muted)">
+      <a href={link('/gallery/artist')} class="hover:text-(--color-primary)">← All artists</a>
+    </p>
+
+    <h1 class="mt-6 text-3xl font-bold text-(--color-text)">{artist.data.name}</h1>
+    {artist.data.tagline && <p class="mt-2 text-lg text-(--color-primary)">{artist.data.tagline}</p>}
+    {artist.data.origin && <p class="mt-1 text-sm text-(--color-text-muted)">{artist.data.origin}</p>}
+
+    <div class="prose prose-sm mt-8 max-w-none leading-relaxed text-(--color-text-muted)">
+      <Content />
+    </div>
+
+    {artist.data.residency && (
+      /* Decision 8 and T5.2: the residency is a story, not a product. No terms,
+         no application, enquiry only. */
+      <p class="mt-8 rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6 text-sm leading-relaxed text-(--color-text-muted)">
+        {artist.data.name} is one of the artists who lives and works on the campus, in the
+        Studios. What a stay involves is described on
+        <a href={link('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Stay</a>.
+      </p>
+    )}
+
+    {works.length > 0 && (
+      <section class="mt-14">
+        <SectionHeader title={`Work by ${artist.data.name}`} />
+        <ul class="grid gap-6 sm:grid-cols-2">
+          {works.map((work) => (
+            <li class="rounded-(--radius-card) border border-(--color-border) overflow-hidden">
+              {work.data.images[0] && (
+                <img
+                  src={asset(work.data.images[0])}
+                  alt={work.data.title}
+                  loading="lazy"
+                  class="aspect-square w-full object-cover"
+                />
+              )}
+              <div class="p-5">
+                <h3 class="font-semibold text-(--color-text)">{work.data.title}</h3>
+                {work.data.medium && <p class="mt-1 text-sm text-(--color-text-muted)">{work.data.medium}</p>}
+                {/* A display string. Nothing sums it, totals it or persists it —
+                    decision 2 has no cart to add it to. */}
+                {work.data.price && <p class="mt-2 text-sm font-medium text-(--color-text)">{work.data.price}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</Base>
