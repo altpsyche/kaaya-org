@@ -12,9 +12,8 @@ import path from 'node:path';
  * names, not merely that the status is 200 — a rewrite landing on the wrong
  * page passes a status check.
  *
- * Rows whose route is not built yet are declared with the ticket that builds
- * them and skipped, so the gap is counted in the run rather than missing from
- * the file.
+ * Every row of the table now has a live test: the last three skips closed when
+ * T7.5 built /shop and T8.3 imported the events.
  */
 
 const APEX = 'kaaya.org';
@@ -187,7 +186,14 @@ test.describe('place and events', () => {
     await expectServes(request, 'events.kaaya.org', '/', 'dist/events/index.html');
   });
 
-  test.skip('events.kaaya.org/artistry-weekend serves the event — entry lands in T8.3', () => {});
+  test('events.kaaya.org/artistry-weekend serves the event', async ({ request }) => {
+    await expectServes(
+      request,
+      'events.kaaya.org',
+      '/artistry-weekend',
+      'dist/events/artistry-weekend/index.html',
+    );
+  });
 });
 
 test.describe('happenings owns /blog and nothing else', () => {
