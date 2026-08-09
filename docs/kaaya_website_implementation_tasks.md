@@ -193,10 +193,15 @@ Full-bleed current-exhibition image, 50–70% viewport, no competing CTAs. Nav p
 - **The hero is not empty and does not need an empty state.** `home.yaml`'s `heroImage` still carries the campus photograph the old site used, at a correct absolute `/uploads/…` path. §8 asks for the current exhibition. Swapping that one YAML value is the whole of the remaining work, and it is content only the Kaaya team can supply — nothing is invented to stand in for it.
 - **Landed so far:** build 17 routes, `gate:vocab` 0 hits, `gate:links` 0 dead 0 misrouted, baseline 461 → 460 hrefs, the one removed href being the hero CTA.
 
-- [ ] **T3.2 — Gallery content below the fold**
+- [x] **T3.2 — Gallery content below the fold**
 Artist highlights appear before any mention of Place or Community, per build doc §8's scroll-order requirement. Sources `works` where `featured: true`.
 - AC: scroll order matches spec.
 - Depends on: T3.1. **Soft dependency on T7.3** for real works — a placeholder is acceptable short-term and the page must not break on an empty collection.
+- **Landed:** a "From the gallery" block sits directly below the hero, before every other section. Scroll order read out of `dist/index.html` in document order: *From the gallery* → the intro → *Latest from Kaaya* → *Know the place* / *Know the community* → `id="visit"`. §8's "before anything else appears" is satisfied at its strictest reading — the gallery block is the first thing after the hero, not merely the first before Place and Community. Build 25 routes unchanged; `gate:vocab` 0 hits across 10 files; `gate:links` 0 dead 0 misrouted, baseline 678 → 682 hrefs, the 4 new ones being 3 artist links and the section's own "See the gallery".
+- **Three of the five featured works, not all five.** All 5 carry `featured: true` (T7.3 records that the flag separates nothing today), so a cap is the only thing that keeps the homepage from being a second catalogue. It renders Chromatic metanoia, Hampta pass trek and Living through it, each linking to its artist's profile — `/gallery/shop/[slug]` is T7.5, so the card leads to the page that exists, the same choice T7.7 made on the gallery home.
+- **Row 1 of the Header names Place and Community above this block, and that is not a violation.** §8's scroll-order rule governs the page body; the five-section nav is TDD §5 and renders identically on all six hosts. The first *content* mention of either is still the story teaser.
+- **The empty-collection case renders nothing** — the block is guarded on `highlights.length`, so an emptied `works` collection leaves the homepage intact rather than printing a headed, empty grid.
+- **It costs 7.6 MB above the scroll**, since the three images are T7.9's unoptimised PNGs. Recorded on T7.9, whose AC now covers this page too.
 
 - [x] **T3.3 — Footer-weight Kaaya Story teaser**
 Exact copy block from build doc §8, ending in "Know the place" / "Know the community".
@@ -309,7 +314,7 @@ Every image referenced by the scrape lives on `static.wixstatic.com`. Download i
 
 - [ ] **T7.9 — Reduce the catalogue image weight** *(new — found in T7.2)*
 The five artwork images are photographs saved as PNG: 2.2–3.1 MB each, 14 MB for one catalogue page before any other asset loads. `public/uploads/` is now 69 MB.
-- AC: the shop catalogue's images total under 1 MB at list size, with full resolution still reachable on the detail page; no image is a visibly worse crop than the one it replaces.
+- AC: the shop catalogue's images total under 1 MB at list size, with full resolution still reachable on the detail page; no image is a visibly worse crop than the one it replaces. **The homepage counts as a list page too** — T3.2 put three of these PNGs directly below the hero, 7.6 MB above the scroll on the front door.
 - **The obvious fix is blocked by a decision, which is why this is a task and not a tweak.** Astro's image optimiser only reaches files under `src/assets/` used through `<Image>`, and TDD §10 keeps images in `public/uploads/` referenced relatively so Decap can write them. So this needs either a build-time step over `public/uploads/`, or responsive derivatives generated on import, or a decision to move gallery imagery out of Decap's reach. Decide it before implementing.
 - Depends on: T7.2
 

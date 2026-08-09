@@ -6,7 +6,14 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import ContactBlock from '../components/ui/ContactBlock.astro';
 import PostList from '../components/ui/PostList.astro';
 import Button from '../components/ui/Button.astro';
-import { link } from '../lib/links';
+import { link, asset } from '../lib/links';
+
+/* Build doc §8's scroll order: gallery content is the first thing below the
+   hero, and a visitor must pass it before Place or Community are named. Three
+   of the five `featured` works, not all five — the catalogue is the gallery
+   home's job, and every work carries `featured: true` today, so the flag
+   selects nothing here (T7.3). */
+const highlights = (await getCollection('works')).filter((w) => w.data.featured).slice(0, 3);
 
 const allPosts = await getCollection('blog');
 const recentPosts = allPosts
@@ -56,6 +63,45 @@ const storyExits = storyLinks?.length ? storyLinks : [
       `heroImage` still carries the campus photograph the old site used; §8 wants
       the current exhibition, which the Kaaya team owes. Swapping that one YAML
       value is the whole of the remaining change. */}
+
+  {highlights.length > 0 && (
+    <section class="mx-auto max-w-5xl px-6 pt-16">
+      <SectionHeader
+        title="From the gallery"
+        subtitle="Original work by emerging artists of the Himalayan region."
+      />
+      <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {highlights.map((work) => (
+          <li class="rounded-(--radius-card) border border-(--color-border) overflow-hidden">
+            {work.data.images[0] && (
+              <img
+                src={asset(work.data.images[0])}
+                alt={work.data.title}
+                loading="lazy"
+                class="aspect-square w-full object-cover"
+              />
+            )}
+            <div class="p-5">
+              {/* The work's own page is /gallery/shop/[slug] (T7.5). Until it
+                  exists the card leads to the artist, whose page does. */}
+              <h3 class="font-semibold text-(--color-text)">{work.data.title}</h3>
+              {work.data.artist && (
+                <p class="mt-1 text-sm">
+                  <a href={link(`/gallery/artist/${work.data.artist}`)} class="text-(--color-primary) hover:underline underline-offset-2">
+                    {work.data.artist.split('-').map((s) => s[0].toUpperCase() + s.slice(1)).join(' ')}
+                  </a>
+                </p>
+              )}
+              {work.data.medium && <p class="mt-1 text-sm text-(--color-text-muted)">{work.data.medium}</p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-8">
+        <Button href={link('/gallery')} label="See the gallery" variant="ghost" />
+      </div>
+    </section>
+  )}
 
   <section class="mx-auto max-w-5xl px-6 py-16">
     <div class="max-w-2xl">
