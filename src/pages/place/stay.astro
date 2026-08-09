@@ -37,6 +37,11 @@ const accommodation = cmsAccommodation ?? [
     details: '2 units · twin sets on two floors',
     capacity: 'Max 8 beds',
   },
+  {
+    type: 'Studios',
+    details: '2 mud cottages · artist residency, not visitor accommodation',
+    capacity: 'By enquiry',
+  },
 ];
 
 const mealPlans = cmsMealPlans ?? [
@@ -67,6 +72,34 @@ const facilities = cmsFacilities ?? [
       <PriceTable rows={accommodation} />
       <p class="mt-4 text-sm text-(--color-text-muted)">
         {stayNote ?? 'Accommodation is on a shared, eco-oriented basis. Please carry your own personal hygiene items; towels are available on request.'}
+      </p>
+    </section>
+
+    {/* Decision 8: the Studios story ships, the terms do not. Pricing, duration
+        and an application process have not been decided, so none is stated and
+        an enquiry is the only next step. The row above says the same thing with
+        "By enquiry" where the other four carry a bed count. */}
+    <section>
+      <SectionHeader
+        title="Studios"
+        subtitle="Two mud cottages on the campus, kept for artists rather than for visitors."
+      />
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        <p>
+          Some of the work in the gallery was made here. The Studios are two cottages on
+          the campus where an artist can live and work for a stretch — not a room you book
+          for a weekend, and not part of the rates above.
+        </p>
+        <p>
+          How long a stay runs, what it costs and how someone applies are not settled yet.
+          Rather than publish a process that does not exist, we would rather hear from you:
+          write to us and we will tell you where things stand.
+        </p>
+      </div>
+      <p class="mt-6 text-sm">
+        <a href={link('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">
+          Enquire about the Studios →
+        </a>
       </p>
     </section>
 

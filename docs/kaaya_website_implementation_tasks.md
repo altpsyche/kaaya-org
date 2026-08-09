@@ -306,10 +306,15 @@ Same pattern for Place → Activities linking into Gallery Shop, driven by `work
 
 ## Epic E6 — Place & blog content
 
-- [ ] **T6.1 — Add Studios to the accommodation table**
+- [x] **T6.1 — Add Studios to the accommodation table**
 Decision 8 — ship the story, defer the terms. Studios appear as a row and as a residency narrative, with enquiry as the only next step. **No pricing, duration or application process** until they exist.
 - AC: Studios row present alongside Garden Rooms; nothing stated that has not been decided; the enquiry path works.
 - Depends on: T1.5, T4.4
+- **Landed:** the table reads Mud Huts · Family Rooms · Garden Rooms · Dormitory · **Studios**, checked from the built HTML. The row carries `By enquiry` where the other four carry a bed count, and `artist residency, not visitor accommodation` — the row itself says it is not a room you book.
+- **"Nothing stated that has not been decided" is checked, not asserted.** The Studios section is 835 characters and contains no `₹`, no duration, no application process, no deposit — the terms decision 8 defers. Its only link is the Booking form. The `₹1,200 – ₹2,100` range sits in the next section and belongs to the four visitor types.
+- **The enquiry path works because T4.4 landed first.** "Enquire about the Studios" resolves to `https://place.kaaya.org/booking`, which now carries a real form rather than the printed contact it had two commits ago. `gate:links` 682 → 683 hrefs, the one new href being that link.
+- **Both copies changed**, YAML and the hardcoded fallback in `stay.astro`, per this repo's standing trap: clearing the field in the CMS falls through to the fallback, so a row added to one and not the other disappears the moment an editor touches the page. `gate:content HEAD` 202 strings, 0 unaccounted for.
+- **The Gallery ↔ Place cross-link is deliberately not here.** T5.2 owns it and drives it from `artists.residency`, which no artist sets yet.
 
 - [x] **T6.2 — Verify blog carries over unchanged**
 `src/pages/blog/`, `src/content/blog/*.md` and `rss.xml.ts` already sit at their final path. Confirm nothing regresses once the middleware is live, including that `happenings.kaaya.org/` redirects to `/blog` rather than serving the homepage.
