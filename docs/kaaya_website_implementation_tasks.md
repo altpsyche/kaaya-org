@@ -299,9 +299,19 @@ TDD §12's `works`, `artists` and `events` schemas. All three land here so E8 ha
 - `madeOnSite` (T5.3), `residency` (T5.2) and `featured` (T3.2, T7.7) are all present and default to `false`. So does `published` on `artists` — **T7.4 must set it explicitly on all six entries or the Artist page lists nothing.**
 - **The three directories carry a `.gitkeep`.** A glob loader warns on a base directory that does not exist, and git does not track an empty one. Until content lands the build prints `No files found matching "**/*.md"` three times, which is accurate rather than a defect.
 
-- [ ] **T7.2 — Pull the gallery images local**
+- [x] **T7.2 — Pull the gallery images local**
 Every image referenced by the scrape lives on `static.wixstatic.com`. Download into `public/uploads/`.
 - AC: no `wixstatic.com` URL remains anywhere in `src/` or `public/`; every imported entry references a local `/uploads/...` path.
+- **Landed:** 11 images, not the 6 a plain grep finds. **Five of them are URL-encoded inside Pinterest share links** (`media=https%3A%2F%2Fstatic.wixstatic.com…`) and are the five priced artworks — `chromatic-metanoia`, `the-fox-within`, `the-rhythms-of-the-coastal-line`, `hampta-pass-trek`, `living-through-it`. A grep for a bare `https://static.wixstatic.com/` URL reaches none of them. The other six are the lookbook strip. Downloaded from the untransformed `/media/<id>` original rather than the `/v1/fill/w_…` derivative the share link points at.
+- **Verified:** `grep -rl wixstatic src public` returns nothing, and all 11 files carry the right MIME type (5 `image/png`, 6 `image/jpeg`) at their real dimensions — 1254×1254 through 1403×1121, so none is a thumbnail. The scrape stays as it is: it lives under `docs/` and is the source, not shipped output.
+- **The six lookbook filenames come from the scrape's own 01–06 ordering** — Midnight over Mustang, Ancestral Path, Dharma Flow, Spirit of the Wind, Dusk in the Valley, Flora of Solitude — and that pairing is **unverified against the live site**, which is being retired. Nothing user-visible depends on it yet; T7.3 imports only the five priced works.
+- The AC's second line has nothing to bind to yet — no entry exists until T7.3 and T7.4, which is where `/uploads/…` gets enforced.
+
+- [ ] **T7.9 — Reduce the catalogue image weight** *(new — found in T7.2)*
+The five artwork images are photographs saved as PNG: 2.2–3.1 MB each, 14 MB for one catalogue page before any other asset loads. `public/uploads/` is now 69 MB.
+- AC: the shop catalogue's images total under 1 MB at list size, with full resolution still reachable on the detail page; no image is a visibly worse crop than the one it replaces.
+- **The obvious fix is blocked by a decision, which is why this is a task and not a tweak.** Astro's image optimiser only reaches files under `src/assets/` used through `<Image>`, and TDD §10 keeps images in `public/uploads/` referenced relatively so Decap can write them. So this needs either a build-time step over `public/uploads/`, or responsive derivatives generated on import, or a decision to move gallery imagery out of Decap's reach. Decide it before implementing.
+- Depends on: T7.2
 
 - [ ] **T7.3 — Import the 5 artworks**
 Chromatic metanoia ₹12,000 · The fox within ₹400 · The rhythms of the coastal line ₹400 · Hampta pass trek ₹400 · Living through it ₹250. Descriptions, medium and size carry over from the scrape.
