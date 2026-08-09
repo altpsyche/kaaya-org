@@ -45,14 +45,13 @@ const storyExits = storyLinks?.length ? storyLinks : [
 ];
 ---
 
-{/* INTERIM copy — this title and `introHeading` previously carried "sustainable
-    living", one of the four phrases build doc §9 bans from kaaya.org and
-    gallery.kaaya.org. Replaced wholesale by T4.6's per-host descriptions and
-    E3's home rebuild; until then it must stay clear of all four phrases. */}
-<Base
-  title="Kaaya — an art space on a working campus"
-  description="Kaaya Learning Centre is a mud-built campus in Tilwari, Dehradun where urban and rural communities meet, learn from each other, and find that the exchange is worth making."
->
+{/* No `description`: the homepage takes the apex's own string from
+    SECTION_DESCRIPTION (decision 6), so the front door and the shared 404 say
+    the same thing and there is one place to change it. The title stays here
+    because it is this page's, not the host's — it previously carried
+    "sustainable living", one of the four phrases build doc §9 bans from
+    kaaya.org and gallery.kaaya.org, so it must stay clear of all four. */}
+<Base title="Kaaya — an art space on a working campus">
   <Hero
     heading={heroHeading ?? "It's about Re-imagining"}
     subheading={heroSubheading ?? 'Tilwari, Dehradun · Himalayan Foothills, India'}

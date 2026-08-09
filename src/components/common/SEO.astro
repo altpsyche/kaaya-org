@@ -1,6 +1,7 @@
 ---
 import { SITE } from '../../data/site';
-import { toCanonical } from '../../lib/links';
+import { toCanonical, sectionFor } from '../../lib/links';
+import { SECTION_DESCRIPTION } from '../../data/descriptions';
 
 interface Props {
   title?: string;
@@ -9,9 +10,11 @@ interface Props {
   noIndex?: boolean;
 }
 
+// Decision 6: the default description is the one belonging to the host that
+// serves this page, not one global string. A page passing its own still wins.
 const {
   title,
-  description = SITE.description,
+  description = SECTION_DESCRIPTION[sectionFor(Astro.url.pathname)],
   // KAAYA-PROXY(T3.1): typographic placeholder from T0.3, standing in for real
   // share imagery. Free of all four banned phrases, so it is safe on every host.
   image = '/og-default.png',

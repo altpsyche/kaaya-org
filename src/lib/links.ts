@@ -44,3 +44,21 @@ export function link(path: string): string {
 export function asset(path: string): string {
   return path;
 }
+
+/**
+ * Which section a path belongs to, for anything that has to vary by host —
+ * the Header's active state, `ContactBlock`'s address, `SEO`'s description.
+ * Derived from the path and never from an href: in a production build `link()`
+ * returns an absolute cross-subdomain URL, so comparing a path against one
+ * matches nothing (T2.5 records that breaking silently).
+ *
+ * `/blog` is `happenings` because that host serves the blog and nothing else.
+ * Anything unrecognised is `home`, which is what the apex serves.
+ */
+export type Section = 'home' | (typeof SECTIONS)[number] | 'happenings';
+
+export function sectionFor(pathname: string): Section {
+  const first = (pathname.replace(/\/+$/, '') || '/').split('/')[1] ?? '';
+  if (first === 'blog') return 'happenings';
+  return (SECTIONS as readonly string[]).includes(first) ? (first as Section) : 'home';
+}
