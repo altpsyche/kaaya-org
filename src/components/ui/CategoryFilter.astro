@@ -25,6 +25,10 @@ const { categories } = Astro.props;
   const buttons = document.querySelectorAll<HTMLButtonElement>('[data-category]');
   const posts = document.querySelectorAll<HTMLElement>('[data-post-item]');
 
+  // The first button is the show-all one, whatever it is labelled — "All Posts"
+  // on the blog, "All events" on events.kaaya.org.
+  const showAll = buttons[0]?.dataset.category;
+
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const selected = btn.dataset.category!;
@@ -33,7 +37,7 @@ const { categories } = Astro.props;
       btn.setAttribute('aria-selected', 'true');
 
       posts.forEach((post) => {
-        if (selected === 'All Posts') {
+        if (selected === showAll) {
           post.hidden = false;
         } else {
           const cats = post.dataset.postCategories ?? '';

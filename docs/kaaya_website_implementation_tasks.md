@@ -373,10 +373,15 @@ Folder-based Decap collections, same pattern as `blog`. The Events collection is
 
 *TDD §12, decision 18. One host, one collection, one place any event is rendered. Gallery and Community feature theirs and link across; they never hold a second copy.*
 
-- [ ] **T8.1 — Build `events/index.astro`**
+- [x] **T8.1 — Build `events/index.astro`**
 Fills T1.7's shell. All events on one page, categorised by `type` (exhibition, workshop, talk, market, other), split into upcoming and past by date, with `featured` entries pinned. `CategoryFilter` already exists and is reusable. No row 2 nav — the categories are filters on this page (TDD §5).
 - AC: filters degrade to showing everything without JavaScript; past events stay reachable rather than disappearing; the empty state survives a collection with no entries.
 - Depends on: T7.1, T2.5
+- **Verified against a populated page, not an empty one.** The collection is empty until T8.3, so three probe events were rendered through it and then removed. Filters came out as `All events · Exhibition · Talk · Workshop` — only the types actually present, so a category never advertises an empty result. Order was featured first then soonest: `Probe Featured Exhibition`, `Probe Upcoming Workshop`. Past rendered as its own section below, holding `Probe Past Talk`. Date ranges collapse to one date when `endDate` is unset — `10 May 2027 – 2 June 2027` against `4 March 2027`.
+- **All three AC lines hold.** *Filters degrade without JavaScript* — the script only ever sets `hidden` on a card, so with no JavaScript every event is on the page and the buttons do nothing. *Past events stay reachable* — their own section, ordered most recent first. *The empty state survives an empty collection* — with the probes removed the page renders T1.7's empty state again, checked.
+- **`CategoryFilter` needed one change to be reusable at all.** It matched the literal string `All Posts` as its show-all sentinel, so any other filter's first button would have hidden every card instead of showing them. It now treats whichever button comes first as show-all, which leaves the blog identical and lets events label its own.
+- **`type` categorises, `section` does not appear.** Filtering is by `type` per TDD §12; `section` only decides which section home features an event. No row 2 nav on this host, per §5.
+- **Cards link to `/events/[slug]`, which T8.2 builds next.** With the collection empty there is no dead href today; importing events before T8.2 lands would create three.
 
 - [ ] **T8.2 — Build `events/[slug].astro`**
 Event detail: date, venue, description, `rsvpNote`. Contact-only — no ticketing, no registration, matching the live gallery where every event reads "Registration is closed" or "Tickets are not on sale".

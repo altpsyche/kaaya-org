@@ -1,18 +1,51 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import CategoryFilter from '../../components/ui/CategoryFilter.astro';
 import ContactBlock from '../../components/ui/ContactBlock.astro';
+import { link } from '../../lib/links';
 
-// Shell only, and deliberately with no dependency on the `events` collection —
-// that collection is defined in T7.1 and populated in E8, and its three source
-// events carry Wix placeholder dates that are a hard gate on publishing. So
-// this renders a real empty state rather than fabricated listings.
 const pageData = await getEntry('pages', 'events');
 const {
   heroImage, heroHeading, heroSubheading,
   emptyStateHeading, emptyStateBody,
 } = pageData?.data ?? {};
+
+/**
+ * Every event on one page (decision 18). `type` categorises it for a visitor;
+ * `section` only decides which section home features it and never appears here.
+ * There is no row 2 nav on this host because these categories are filters on
+ * this page rather than routes (TDD §5).
+ */
+const all = await getCollection('events');
+const now = new Date();
+const end = (e: (typeof all)[number]) => e.data.endDate ?? e.data.startDate;
+
+const upcoming = all
+  .filter((e) => end(e) >= now)
+  // featured pinned first, then soonest.
+  .sort((a, b) =>
+    Number(b.data.featured) - Number(a.data.featured) ||
+    a.data.startDate.valueOf() - b.data.startDate.valueOf());
+
+// Past events stay on the page rather than disappearing — most recent first.
+const past = all
+  .filter((e) => end(e) < now)
+  .sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
+
+const label = (t: string) => t[0].toUpperCase() + t.slice(1);
+const types = [...new Set(all.map((e) => e.data.type))].sort().map(label);
+const categories = ['All events', ...types];
+
+const dateFormat = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+const when = (e: (typeof all)[number]) =>
+  e.data.endDate && e.data.endDate.valueOf() !== e.data.startDate.valueOf()
+    ? `${dateFormat.format(e.data.startDate)} – ${dateFormat.format(e.data.endDate)}`
+    : dateFormat.format(e.data.startDate);
 ---
 
 <Base
@@ -26,14 +59,67 @@ const {
   />
 
   <div class="mx-auto max-w-5xl px-6 py-16">
-    <div class="rounded-(--radius-card) border border-dashed border-(--color-border) bg-(--color-surface) p-10 text-center">
-      <h2 class="text-lg font-semibold text-(--color-text)">
-        {emptyStateHeading ?? 'Nothing scheduled just yet'}
-      </h2>
-      <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-(--color-text-muted)">
-        {emptyStateBody ?? 'When there is an exhibition, a workshop, a talk or a market on the campus, it will be listed here. Write to us if you would like to hear when the next one is announced.'}
-      </p>
-    </div>
+    {all.length === 0 ? (
+      <div class="rounded-(--radius-card) border border-dashed border-(--color-border) bg-(--color-surface) p-10 text-center">
+        <h2 class="text-lg font-semibold text-(--color-text)">
+          {emptyStateHeading ?? 'Nothing scheduled just yet'}
+        </h2>
+        <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-(--color-text-muted)">
+          {emptyStateBody ?? 'When there is an exhibition, a workshop, a talk or a market on the campus, it will be listed here. Write to us if you would like to hear when the next one is announced.'}
+        </p>
+      </div>
+    ) : (
+      <div class="space-y-14">
+        {/* The filter only ever sets `hidden` on a card, so with no JavaScript
+            every event stays on the page and the buttons do nothing. */}
+        <CategoryFilter categories={categories} />
+
+        {upcoming.length > 0 && (
+          <section>
+            <SectionHeader title="Upcoming" />
+            <ul class="space-y-4">
+              {upcoming.map((event) => (
+                <li
+                  data-post-item
+                  data-post-categories={label(event.data.type)}
+                  class="rounded-(--radius-card) border border-(--color-border) p-6"
+                >
+                  <p class="text-xs uppercase tracking-wide text-(--color-text-muted)">
+                    {label(event.data.type)}{event.data.featured && ' · Featured'}
+                  </p>
+                  <h3 class="mt-1 font-semibold text-(--color-text)">
+                    <a href={link(`/events/${event.id}`)} class="hover:text-(--color-primary)">{event.data.title}</a>
+                  </h3>
+                  <p class="mt-1 text-sm text-(--color-text-muted)">{when(event)} · {event.data.venue}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {past.length > 0 && (
+          <section>
+            <SectionHeader title="Past" subtitle="Still here, and still readable." />
+            <ul class="space-y-4">
+              {past.map((event) => (
+                <li
+                  data-post-item
+                  data-post-categories={label(event.data.type)}
+                  class="rounded-(--radius-card) border border-(--color-border) p-6 opacity-75"
+                >
+                  <p class="text-xs uppercase tracking-wide text-(--color-text-muted)">{label(event.data.type)}</p>
+                  <h3 class="mt-1 font-semibold text-(--color-text)">
+                    <a href={link(`/events/${event.id}`)} class="hover:text-(--color-primary)">{event.data.title}</a>
+                  </h3>
+                  <p class="mt-1 text-sm text-(--color-text-muted)">{when(event)} · {event.data.venue}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    )}
+
     <div class="mt-10">
       <ContactBlock />
     </div>
