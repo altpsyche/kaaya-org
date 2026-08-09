@@ -65,7 +65,7 @@ Start a session with `/next`. Land a step with `/land`.
 | file | what |
 | --- | --- |
 | `banned-vocab.mjs` | the four phrases over `dist/index.html`, `dist/404.html`, `dist/gallery/**`. Exits non-zero |
-| `dead-links.mjs` | every internal href in `dist/` resolves to a file or a directory index. Exits non-zero |
+| `dead-links.mjs` | every internal href in `dist/` resolves to a file or a directory index, **on the host that serves it** — absolute subdomain URLs are mapped back onto build paths, and a section path left on the apex counts as misrouted. Prints the number of hrefs checked, so going blind is visible. Exits non-zero |
 | `content-audit.mjs <ref>` | every YAML leaf string at `<ref>` still present in the tree, YAML or `.astro` fallback. Exits non-zero |
 
 `npm run gate` is build + vocab + links. `npm run gate:content <ref>` is separate because it takes an argument and only a content move earns it.
@@ -80,7 +80,7 @@ Numbers a session can check against. Update them in the same commit that moves t
 | --- | --- | --- |
 | routes built | 17 | `npm run build` after E1 |
 | banned-vocab hits | 0 across 3 files | `npm run gate:vocab` |
-| dead internal links | 0 across 18 pages | `npm run gate:links` |
+| dead internal links | 0 dead, 0 misrouted across 380 internal hrefs on 18 pages | `npm run gate:links` |
 | content leaf strings | 190 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 0 | `npm test` — suite lands in T10.1 |
 
