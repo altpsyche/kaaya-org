@@ -442,3 +442,26 @@ collections:
       # is built but never listed and has no page.
       - {label: "Published", name: "published", widget: "boolean", default: true}
       - {label: "Biography", name: "body", widget: "markdown", required: false}
+
+  # Every event lives here once (decision 18). `section` and `type` are selects
+  # rather than free text: `section` decides which section home features the
+  # event, `type` is the filter a visitor sees, and a typo in either would drop
+  # the event out of both silently.
+  - name: events
+    label: Events
+    folder: src/content/events
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Section", name: "section", widget: "select", options: ["gallery", "community"], hint: "Which section home features it. Never shown on events.kaaya.org."}
+      - {label: "Type", name: "type", widget: "select", options: ["exhibition", "workshop", "talk", "market", "other"]}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false, required: false, hint: "Pins it to the top of the events page."}
+      - {label: "Start Date", name: "startDate", widget: "datetime"}
+      - {label: "End Date", name: "endDate", widget: "datetime", required: false}
+      - {label: "Venue", name: "venue", widget: "string"}
+      - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+      - {label: "RSVP Note", name: "rsvpNote", widget: "text", required: false, hint: "Contact only — there is no ticketing and no registration."}
+      - {label: "Body", name: "body", widget: "markdown", required: false}

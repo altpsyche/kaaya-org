@@ -398,10 +398,13 @@ Himalayan Painting Masterclass · Artistry Weekend · Taste of the Himalayas. Ti
 - AC: no placeholder date or address remains; every event carries a real date, a `type`, and the Kaaya campus address.
 - Depends on: T8.2, **external — real event dates**
 
-- [ ] **T8.4 — CMS collection for Events**
+- [x] **T8.4 — CMS collection for Events**
 Folder-based Decap collection, same pattern as `blog`. `section` and `type` are select widgets, not free text, so neither can drift.
 - AC: an editor can create, edit and delete events through `/admin`; an event created as `section: community` appears on the community home without further work.
 - Depends on: T8.1
+- **Landed:** a folder collection on the `blog` pattern, `create: true` and `delete: true`. Checked structurally: `config.yml` parses, and all 9 schema fields have a field behind them. `section` and `type` are `select` widgets with exactly the schema's enum values — `gallery`/`community` and `exhibition`/`workshop`/`talk`/`market`/`other` — so neither can drift into free text, which would drop an event out of both its section home and its filter without an error.
+- **The AC's second line is not satisfiable yet, and the missing half is T8.5.** The gallery home already features its own section's upcoming events (built in T7.7), so an event created as `section: gallery` appears there with no further work. The community home has no such block until T8.5, which is blocked behind T8.3 and its real dates.
+- **The `/admin` UI round trip is unverified** — it needs a CMS login, the same gap T0.2, T1.9 and T7.8 record.
 
 - [ ] **T8.5 — Feature events on the section homes**
 The gallery home shows upcoming `section: gallery` events; the community home shows `section: community`. Cards link to `events.kaaya.org/[slug]` — sections feature, they do not re-render.
