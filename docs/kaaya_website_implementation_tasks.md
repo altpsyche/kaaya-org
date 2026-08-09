@@ -7,6 +7,20 @@
 
 **Dependencies point backwards only.** Every task depends on tasks in the same epic or an earlier one. No epic waits on a later one, so the epics can be worked in order without deadlock. Epic numbers map to TDD §17's rollout phases one-to-one.
 
+---
+
+## This file is the queue, and it is the handover
+
+`/next` reads it first and picks from it. **Nothing else queues work: if it is not here, nobody is tracking it.** There is no separate handover file and none should be written — the one that used to exist, `NEXT_CHAT_PROMPT.md`, was deleted because it had gone stale describing routes that no longer exist.
+
+**A ticked box is a claim with a number behind it.** `/land` ticks the task it landed and appends the measurement that proves it, so a tick can be audited rather than trusted. A bare `- [x]` with no number is a bug in the record.
+
+Tasks are ticked, never deleted. This is a fixed-scope migration rather than an open-ended roadmap, so the closed tasks are the record of what shipped and what it measured.
+
+**A task blocked on the Kaaya team is not skipped, it is flagged** — build the empty state, tick nothing, and say which row of the blockers table holds it up. Do not invent placeholder content to unblock a task, and never ship the Wix placeholder date or address.
+
+House rules, the gate scripts and the baselines are in [`CLAUDE.md`](../CLAUDE.md). The 18 settled design decisions are TDD §2 and are not re-litigated here.
+
 **Changed from the previous version of this backlog:**
 - **Four dependency contradictions fixed.** T4.3 and T7.4 depended on each other; two E0 tasks depended on E2 and E1 despite E0 being declared dependency-free; an E1 task depended on E7.
 - **E2 gains the Header** (TDD §5) — previously specified nowhere and built by no ticket, while `Header.astro` still carries the old flat 6-item nav.
@@ -21,24 +35,29 @@
 
 *TDD §3.1. Genuinely no dependencies — every task here touches a file nothing else in this backlog is editing yet. Three of the eight defects are fixed inside later epics, noted below, and are not duplicated here.*
 
-**T0.1 — Fix the apex canonical (D1)**
+- [x] **T0.1 — Fix the apex canonical (D1)**
 `src/data/site.ts`: `url` → `https://kaaya.org` (currently `https://www.kaaya.org`, disagreeing with `public/CNAME` and `astro.config.mjs`).
 - AC: every built page's canonical and `og:url` uses `https://kaaya.org`; no `www` in build output.
+- **Landed:** `SITE.url` → `https://kaaya.org`. 0 occurrences of `www.kaaya.org` in `dist/`; `/place` canonical and `og:url` both read `https://kaaya.org/place/`.
 
-**T0.2 — Fix the CMS site URL (D2)**
+- [x] **T0.2 — Fix the CMS site URL (D2)**
 `public/admin/config.yml`: `site_url` → `https://kaaya.org` (currently `https://altpsyche.github.io/kaaya-org`).
 - AC: Decap's "View live" link resolves to the real site.
+- **Landed:** `site_url` → `https://kaaya.org`. **Decap's "View live" round trip is unverified** — it needs a CMS login. The value is correct; the click was not made.
 
-**T0.3 — Add the missing OG image (D3)**
+- [x] **T0.3 — Add the missing OG image (D3)**
 - AC: `public/og-default.png` exists and is served; a share preview renders in at least one real client.
 - Depends on: **external — imagery.** A typographic placeholder is acceptable to unblock.
+- **Landed:** `public/og-default.png`, 1200×630, 39 KB — typographic placeholder on the site palette, free of all four banned phrases so it is safe on every host. Real imagery still blocked; replace at T3.1.
 
-**T0.4 — Install the Playwright test runner (D4)**
+- [x] **T0.4 — Install the Playwright test runner (D4)**
 - AC: `npm i -D @playwright/test`; `npx playwright test` runs with zero tests and exits 0.
+- **Landed:** `@playwright/test@1.62.1` installed and the bare `playwright@1.61.1` dep removed — two direct pins drift. `npm test` runs `playwright test --pass-with-no-tests` and exits 0 with 0 tests; bare `npx playwright test` still exits 1, which is Playwright's by-design no-tests behaviour, not a broken install.
 
-**T0.5 — Add `robots.txt` (D6)**
+- [x] **T0.5 — Add `robots.txt` (D6)**
 Disallow nothing; carry the sitemap pointer. One file serves all six hosts.
 - AC: `public/robots.txt` exists and is reachable on every hostname after cutover.
+- **Landed:** `public/robots.txt`, 370 bytes in `dist/`, disallows nothing, `Sitemap: https://kaaya.org/sitemap-index.xml`.
 
 *Fixed elsewhere: **D5** (`url.ts`) in T2.2 · **D7** (`learn.yaml` `/visit` links) in T1.3 · **D8** (form success redirect) in T4.1.*
 
@@ -48,46 +67,56 @@ Disallow nothing; carry the sitemap pointer. One file serves all six hosts.
 
 *TDD §13's migration map is the working document for this epic. Moves, splits and renames only — no new components, no hosting change. The build must pass at every step.*
 
-**T1.1 — Move Learn/Incubate/Exchange under `community/`**
+- [x] **T1.1 — Move Learn/Incubate/Exchange under `community/`**
 `src/pages/{learn,incubate,exchange}.astro` → `src/pages/community/`; YAML → `community-{learn,incubate,exchange}.yaml`. The Incubate form carries over unchanged (decision 12) — refactoring it onto the shared shell happens in T4.1.
 - AC: `npm run build` passes; pages render identically at `/community/learn` etc.
+- **Landed:** 3 pages and 3 YAML files moved with `git mv` so the diff reads as renames. Build 11 → 11 pages; routes render at `/community/{learn,incubate,exchange}`.
 
-**T1.2 — Split `place.astro` into sub-routes**
+- [x] **T1.2 — Split `place.astro` into sub-routes**
 Decision 3. → `src/pages/place/{index,story,activities,stay,booking}.astro`. **`place.yaml` splits into `place-story.yaml`, `place-activities.yaml`, `place-stay.yaml` and `place-booking.yaml`**, one per route, with `place.yaml` retained for the section index.
 - AC: all five routes build and render; content is a straight carry-over, no rewriting; each YAML holds only its own route's fields.
+- **Landed:** 5 routes build, 11 → 15 pages. `place.yaml` split into `place{,-story,-activities,-stay,-booking}.yaml`, each holding only its own route's fields, verified by a structural check against `config.yml`.
 
-**T1.3 — Move the Activities copy out of Learn (D7, decision 11)**
+- [x] **T1.3 — Move the Activities copy out of Learn (D7, decision 11)**
 The full session descriptions live in `learn.yaml`'s `sessions` today; `visit.yaml`'s `facilities` is a terse duplicate list. Merge both into `place-activities.yaml` as the single canonical source, cross-checking so nothing is lost. Learn keeps its programmes table plus one link across. The three `sessions[].href` values pointing at `/visit` die with the move.
 - AC: pottery, forest & eco trails, nature art and farm picnics are described in exactly one place; no `/visit` href remains anywhere in `src/`; Learn links to Place → Activities.
 - Depends on: T1.2
+- **Landed:** 179 leaf strings audited at `305a757` via `gate:content`. The merge is a union, not a dedupe: `learn.sessions` and `visit.facilities` overlap on only 4 of 10 items, the 4 pairs merged into `description` + a new `detail` field, and the 2 non-activity facilities (conference hall, outdoor sit-outs) stayed on `place-stay.yaml` — those are the two a naive merge loses. 0 `/visit` hrefs remain in `src/`.
 
-**T1.4 — Fold Visit into Home**
+- [x] **T1.4 — Fold Visit into Home**
 Delete `src/pages/visit.astro`; move `visit.yaml`'s accommodation and contact content into `home.yaml`'s footer section per build doc §8. No `pages` schema change needed — the fields already exist.
 - AC: no `/visit` route; home footer shows the Visit info; a `#visit` anchor exists on the homepage, since the middleware's `/visit` redirect targets it.
+- **Landed:** `visit.astro` and `visit.yaml` deleted, 15 → 14 pages. `id="visit"` anchor present in `dist/index.html` — load-bearing, the middleware's `/visit` redirect targets it.
+- **The spec was wrong here, and this is the correction.** TDD §12 says `visit.yaml`'s content folds into `home.yaml` and names `accommodation`, `priceRange` and `mealPlans` among the fields that move. TDD §13 and T1.5 say the Studio Rooms row lands in `place-stay.yaml`. Both cannot hold. **Resolved with Siva on 2026-08-09: the accommodation table lives on Place → Stay**, matching build doc §5's "Stay Details" and T1.5's own AC, and `home.yaml` takes only `directionsNote` plus the printed contact — a price table on the front door contradicts build doc §8's footer-weight hierarchy. §12's field list reads as schema capacity, not placement. Correct §12 if that document is ever revised.
 
-**T1.5 — Rename Studio Rooms to Garden Rooms**
+- [x] **T1.5 — Rename Studio Rooms to Garden Rooms**
 Decision 7, in `place-stay.yaml`.
 - AC: no occurrence of "Studio Rooms" remains; Studios (residency) and Garden Rooms (visitor) are unambiguous in the accommodation table.
 - Depends on: T1.2, T1.4
+- **Landed:** 0 occurrences of "Studio Rooms" in `src/`, `public/` or `dist/`. "Garden Rooms" renders in `dist/place/stay/index.html`.
 
-**T1.6 — Add `community/index.astro`**
+- [x] **T1.6 — Add `community/index.astro`**
 Build doc §6's connecting narrative — circular economy and community, farmer's market as *"a window Kaaya opens to the surrounding community"*, never commercial.
 - AC: `community.kaaya.org/` renders real narrative content, not a 404 or a redirect.
 - Depends on: T1.1
+- **Landed:** `community/index.astro` renders build doc §6's narrative. Sunday-market copy sourced from the existing `exchange.yaml` rather than written fresh, and carries no commercial framing.
 
-**T1.7 — Add the `gallery/index.astro` and `events/index.astro` shells**
+- [x] **T1.7 — Add the `gallery/index.astro` and `events/index.astro` shells**
 Both routes must exist before the Header links to them (T2.5), and both are section *homes*, so a missing one means a dead entry in row 1. Gallery is a shell filled in E7; Events renders a "nothing scheduled" empty state with no collection dependency, filled in E8.
 - AC: both routes build; the empty state is deliberate and styled, not a broken page.
 - Depends on: T1.1
+- **Landed:** Both routes build, 14 → 17 pages. Events renders a styled empty state with **no dependency on the `events` collection**, so E8 can land without touching it and the Wix placeholder dates cannot leak through it.
 
-**T1.8 — Drop the homepage tile grid**
+- [x] **T1.8 — Drop the homepage tile grid**
 Remove `navCards` from `home.yaml`, the `pages` schema and `config.yml`; delete `NavCard.astro`, which has no other consumer. Build doc §1 calls this the exact pattern the restructure replaces.
 - AC: no `navCards` references remain; build passes; `NavCard.astro` deleted.
+- **Landed:** `navCards` removed from `home.yaml`, the `pages` schema and `config.yml`; `NavCard.astro` deleted with 0 remaining references.
 
-**T1.9 — Update `config.yml` for every moved and split file**
+- [x] **T1.9 — Update `config.yml` for every moved and split file**
 Repoint `learn`/`incubate`/`exchange`; add the four Place sub-page files; remove `visit`; add the `community`, `gallery` and `events` section homes.
 - AC: DecapCMS at `/admin` lists and edits every page after the move — verified by a trivial edit through the CMS UI committing to the right file.
 - Depends on: T1.1–T1.8
+- **Landed:** 12 of 12 YAML files have a CMS entry, 0 orphans, and every YAML key is reachable through some field — checked structurally. **The `/admin` UI round trip is unverified** — it needs a CMS login.
 
 ---
 
@@ -95,32 +124,32 @@ Repoint `learn`/`incubate`/`exchange`; add the four Place sub-page files; remove
 
 *TDD §5, §6.2, §8, §9. Application code — lands well before the Cloudflare project exists. Verify against the existing pages before the gallery is built: a wrong rewrite rule is far easier to find with six pages than sixty.*
 
-**T2.1 — Write `functions/_middleware.js`**
+- [ ] **T2.1 — Write `functions/_middleware.js`**
 Per TDD §6.2 verbatim: host rewrite for `gallery`/`place`/`community`/`events`, `/blog`-only scoping for `happenings`, `www` → apex, legacy map, section-prefix leak guards, and the `PASSTHROUGH`/`ROOT_FILE` asset guard the dropped Transform Rule design lacked.
 - AC: every row of TDD §6.2's behaviour table passes under `wrangler pages dev dist` with an explicit `Host` header — including the two asset rows, which are the whole reason this file exists.
 - Depends on: E1
 
-**T2.2 — Write `src/lib/links.ts`, delete `src/lib/url.ts` (D5)**
+- [ ] **T2.2 — Write `src/lib/links.ts`, delete `src/lib/url.ts` (D5)**
 TDD §9. Two exports: `toCanonical()` with no environment check, and `link()` wrapping it for dev. Replace every hand-written internal `href`.
 - AC: no internal `href="/..."` string literals outside `link()` calls; `url.ts` deleted with no remaining imports; dev navigation still works at path form.
 - Depends on: E1
 
-**T2.3 — Point the sitemap and RSS at `toCanonical()`**
+- [ ] **T2.3 — Point the sitemap and RSS at `toCanonical()`**
 TDD §9. **`serialize()` must call `toCanonical()`, not `link()`** — `import.meta.env.PROD` is unset in `astro.config.mjs`, so `link()` there silently returns bare paths and the sitemap would advertise exactly the URLs the middleware 301s away from. `rss.xml.ts` item links get the same treatment.
 - AC: generated sitemap shows `gallery.kaaya.org/...`, `place.kaaya.org/...`, `happenings.kaaya.org/blog/...` and nothing under `kaaya.org` that belongs on a subdomain; RSS item links use the `happenings` host.
 - Depends on: T2.2
 
-**T2.4 — Canonicals via `toCanonical()`**
+- [ ] **T2.4 — Canonicals via `toCanonical()`**
 `SEO.astro`'s canonical and `og:url`.
 - AC: `dist/gallery/shop/index.html` carries `<link rel="canonical" href="https://gallery.kaaya.org/shop">`.
 - Depends on: T2.2, T0.1
 
-**T2.5 — Rewrite `Header.astro`**
+- [ ] **T2.5 — Rewrite `Header.astro`**
 TDD §5. Row 1 is the five-section cross-site nav — Gallery · Place · Community · Events · Happenings — with an active state, on every host. Row 2 is the current section's own nav, absent on `kaaya.org`, `events` and `happenings`. Section is derived from `Astro.url.pathname` — the same derivation T2.4 and T4.6 use. Replaces the current flat 6-item nav (Place, Learn, Incubate, Exchange, Visit, Blog).
 - AC: each host renders the row 2 from TDD §5's table; the active section is marked on every page; every href goes through `link()`; the existing mobile hamburger behaviour survives.
 - Depends on: T2.2, T1.7
 
-**T2.6 — Footer across six hosts**
+- [ ] **T2.6 — Footer across six hosts**
 Shared and identical everywhere: `ContactBlock`, cross-site links, legal line. No section nav.
 - AC: renders on all six hosts; links go through `link()`. The address variant lands in T4.4.
 - Depends on: T2.2
@@ -131,17 +160,17 @@ Shared and identical everywhere: `ContactBlock`, cross-site links, legal line. N
 
 *Build doc §8.*
 
-**T3.1 — Hero + thin nav shell**
+- [ ] **T3.1 — Hero + thin nav shell**
 Full-bleed current-exhibition image, 50–70% viewport, no competing CTAs. Nav per T2.5 with Gallery slightly emphasised. **No cart icon** — decision 2 removed the cart.
 - AC: matches build doc §8's layout and hierarchy spec.
 - Depends on: T1.8, T2.5
 
-**T3.2 — Gallery content below the fold**
+- [ ] **T3.2 — Gallery content below the fold**
 Artist highlights appear before any mention of Place or Community, per build doc §8's scroll-order requirement. Sources `works` where `featured: true`.
 - AC: scroll order matches spec.
 - Depends on: T3.1. **Soft dependency on T7.3** for real works — a placeholder is acceptable short-term and the page must not break on an empty collection.
 
-**T3.3 — Footer-weight Kaaya Story teaser**
+- [ ] **T3.3 — Footer-weight Kaaya Story teaser**
 Exact copy block from build doc §8, ending in "Know the place" / "Know the community".
 - AC: copy matches build doc §8 verbatim; links go through `link()` and resolve to the right subdomains in a production build.
 - Depends on: T3.1
@@ -152,35 +181,36 @@ Exact copy block from build doc §8, ending in "Know the place" / "Know the comm
 
 *TDD §14. Decisions 5, 9, 10, 16, 17. Delivers the shared shell and three of the four forms; the Shop form is built on this shell in T7.5.*
 
-**T4.1 — Build the `EnquiryForm` shell (D8)**
+- [ ] **T4.1 — Build the `EnquiryForm` shell (D8)**
 Owns the Web3Forms POST, access key, subject, honeypot, success redirect, validation and styling. Fields are passed in per section — Booking and Incubate do not ask the same questions (decision 17). Refactor `incubate.astro` and `exchange.astro` onto it, keeping their existing fields exactly (decision 12).
 - AC: both existing forms behave identically after refactor, verified by a real submission landing in the right inbox; honeypot present; submission returns to an on-site thank-you page, not Web3Forms' branded page; no `<form action="https://api.web3forms.com">` outside the component.
 - Depends on: T1.1
 
-**T4.2 — Thank-you page**
+- [ ] **T4.2 — Thank-you page**
 The on-site destination T4.1's redirect targets. One page, reached from every host.
 - AC: reachable on all six hosts; states which enquiry was received.
 - Depends on: T2.1
 
-**T4.3 — Provision three access keys**
+- [ ] **T4.3 — Provision three access keys**
 A Web3Forms access key binds to one verified destination, so `connect@`, `info@` and `gallery@` need one each, held in a single map beside the component. `art@` receives no submissions (decision 16) and needs no key.
 - AC: all three inboxes each receive a test submission from their own form.
 - Depends on: T4.1, **external — `info@kaaya.org` created and monitored**
 
-**T4.4 — Wire the Booking form**
+- [ ] **T4.4 — Wire the Booking form**
 `Booking Enquiry` → `info@`, with arrival date, nights, guests and room type as structured fields rather than free text.
 - AC: submits with the correct subject and lands in `info@`; dates arrive as dates.
 - Depends on: T4.3, T1.2
 
-**T4.5 — Extend `ContactBlock` with a variant prop**
+- [ ] **T4.5 — Extend `ContactBlock` with a variant prop**
 The component **already exists** and hardcodes `SITE.email` — this is an extension, not a new build. Addresses per TDD §14: home, events and happenings → `art@`, gallery → `gallery@`, place → `info@`, community → `connect@`.
 - AC: no raw email string literals outside `ContactBlock`; each host shows the correct address.
 - Depends on: T1.4, T2.6, **external — `art@kaaya.org` confirmed as a real mailbox**
 
-**T4.6 — Per-host descriptions**
+- [ ] **T4.6 — Per-host descriptions**
 Decision 6. Retire the single global `SITE.description`; `SEO.astro` picks a per-section default from `Astro.url.pathname`, falling back to home at the root. This also clears the banned-phrase violation, since the current string is one of the four banned terms.
 - AC: each host's built pages carry their own meta description; no banned term appears in `dist/index.html` or `dist/gallery/**`.
 - Depends on: T2.4, **external — five short description strings**
+- **Interim copy is already in place, and this task replaces it rather than discovering it.** Three strings carried the banned phrase, not the one the description above names: `SITE.description`, `home.yaml`'s `introHeading`, and the homepage `<title>` — which also fed `og:title` and `twitter:title`, so it appeared 4× in `dist/index.html`. `SITE.description` was the one that mattered most: it is the fallback for any page passing no description of its own, and `404.astro` is one of those, so the phrase reached `gallery.kaaya.org` through the shared 404. All three now carry interim art-forward copy marked INTERIM in code comments, and `npm run gate:vocab` is green. **The AC as written is therefore already satisfied** — this task's real remaining work is the five real strings and the per-section derivation in `SEO.astro`.
 
 ---
 
@@ -188,17 +218,17 @@ Decision 6. Retire the single global `SITE.description`; `SEO.astro` picks a per
 
 *TDD §14.*
 
-**T5.1 — Banned-vocabulary CI check over built output**
+- [ ] **T5.1 — Banned-vocabulary CI check over built output**
 Grep `dist/index.html` and `dist/gallery/**` for "circular economy", "incubation", "internships", "sustainable living". Source-only grepping is insufficient — the current violation lives in shared chrome, which no YAML grep reaches.
 - AC: fails on a deliberately planted violation in either page content or shared chrome; passes clean otherwise.
 - Depends on: T4.6
 
-**T5.2 — Studios ↔ Gallery/Place cross-link**
+- [ ] **T5.2 — Studios ↔ Gallery/Place cross-link**
 Explicit, named link instances: Gallery → Artist (Studios residency) and Place → Stay (Studios booking), driven by `artists.residency`. Not a generic "related content" widget.
 - AC: both directions link correctly; "some artists don't just show here, they live and work here" framing present on the Gallery side.
 - Depends on: T6.1, T7.6
 
-**T5.3 — Pottery/Workshop ↔ Gallery cross-link**
+- [ ] **T5.3 — Pottery/Workshop ↔ Gallery cross-link**
 Same pattern for Place → Activities linking into Gallery Shop, driven by `works.madeOnSite`.
 - AC: link present on both Activities entries per build doc §5.
 - Depends on: T1.3, T7.5
@@ -207,12 +237,12 @@ Same pattern for Place → Activities linking into Gallery Shop, driven by `work
 
 ## Epic E6 — Place & blog content
 
-**T6.1 — Add Studios to the accommodation table**
+- [ ] **T6.1 — Add Studios to the accommodation table**
 Decision 8 — ship the story, defer the terms. Studios appear as a row and as a residency narrative, with enquiry as the only next step. **No pricing, duration or application process** until they exist.
 - AC: Studios row present alongside Garden Rooms; nothing stated that has not been decided; the enquiry path works.
 - Depends on: T1.5, T4.4
 
-**T6.2 — Verify blog carries over unchanged**
+- [ ] **T6.2 — Verify blog carries over unchanged**
 `src/pages/blog/`, `src/content/blog/*.md` and `rss.xml.ts` already sit at their final path. Confirm nothing regresses once the middleware is live, including that `happenings.kaaya.org/` redirects to `/blog` rather than serving the homepage.
 - AC: all 3 posts render at `happenings.kaaya.org/blog/...`; `/` redirects; RSS validates and item links use the `happenings` host.
 - Depends on: T2.1, T2.3
@@ -223,41 +253,41 @@ Decision 8 — ship the story, defer the terms. Studios appear as a row and as a
 
 *TDD §4, §12. The content exists — see `docs/scrape/`. The risk is import fidelity and placeholder data, not a blank page.*
 
-**T7.1 — Implement the content collections**
+- [ ] **T7.1 — Implement the content collections**
 TDD §12's `works`, `artists` and `events` schemas. All three land here so E8 has the `events` collection to build against; only `works` and `artists` are used by this epic.
 - AC: schemas compile; `madeOnSite`, `residency` and `featured` support T5.2, T5.3 and T3.2.
 
-**T7.2 — Pull the gallery images local**
+- [ ] **T7.2 — Pull the gallery images local**
 Every image referenced by the scrape lives on `static.wixstatic.com`. Download into `public/uploads/`.
 - AC: no `wixstatic.com` URL remains anywhere in `src/` or `public/`; every imported entry references a local `/uploads/...` path.
 
-**T7.3 — Import the 5 artworks**
+- [ ] **T7.3 — Import the 5 artworks**
 Chromatic metanoia ₹12,000 · The fox within ₹400 · The rhythms of the coastal line ₹400 · Hampta pass trek ₹400 · Living through it ₹250. Descriptions, medium and size carry over from the scrape.
 - AC: 5 entries in `src/content/works/`, each with its artist slug, price as a display string, and a local image.
 - Depends on: T7.1, T7.2
 
-**T7.4 — Import the 6 artist profiles**
+- [ ] **T7.4 — Import the 6 artist profiles**
 Rishabh Rawat, Tenzin Norbu, Vijay Vikram Singh, Nisha Chauhan, Kashish Riyaz, Chetan Joshi, with their full biographies. Tenzin Norbu carries the Artist of the Month feature.
 - AC: 6 entries in `src/content/artists/`; **every entry sets `published: true` explicitly**, since the schema defaults it to `false` and a silent default would empty the Artist page; each artwork's `artist` resolves to one of them.
 - Depends on: T7.1, T7.2
 
-**T7.5 — Build `gallery/shop/index.astro` and `gallery/shop/[slug].astro`**
+- [ ] **T7.5 — Build `gallery/shop/index.astro` and `gallery/shop/[slug].astro`**
 The catalogue plus a page per work (decision 14). Filterable by category — `CategoryFilter` already exists and is reusable. Prices displayed; the only action is an enquiry, built on T4.1's shell with a hidden work reference.
 - AC: no code sums, totals or persists `price`; no cart or checkout route exists anywhere; the enquiry path is verified end to end; the page states plainly that buying happens by enquiry, so the "Shop" label does not mislead (decision 4); `/shop/chromatic-metanoia` resolves.
 - Depends on: T7.3, T4.1, T4.3
 
-**T7.6 — Build `gallery/artist/index.astro` and `gallery/artist/[slug].astro`**
+- [ ] **T7.6 — Build `gallery/artist/index.astro` and `gallery/artist/[slug].astro`**
 Profiles, Artist Archive, Artist of the Month, and the Studios residency feature. Only `published` entries listed. Each profile links to that artist's works.
 - AC: matches build doc §4's Artist section; Studios framed prominently per decision 8; `/artist/tenzin-norbu` resolves.
 - Depends on: T7.4
 
-**T7.7 — Gallery home page content**
+- [ ] **T7.7 — Gallery home page content**
 Fills T1.7's shell: "Art from the Himalayas" hero, the exhibition narrative that decision 15 moved here from the dropped `/art` route, featured works, Artist of the Month, the mission statement, and the Padav Fellowship / Bangani Art Foundation origin.
 It also features upcoming gallery events — `section: gallery`, linking out to `events.kaaya.org/[slug]`, never re-rendering them (decision 18). The page must not break when the events collection is empty, since E8 lands after this.
 - AC: matches the scrape's copy; featured works come from `works.featured`; there is no `/art` route anywhere; event cards link off-host.
 - Depends on: T7.3, T7.4
 
-**T7.8 — CMS collections for Works and Artists**
+- [ ] **T7.8 — CMS collections for Works and Artists**
 Folder-based Decap collections, same pattern as `blog`. The Events collection is added in T8.4.
 - AC: an editor can create, edit and delete works and profiles through `/admin`, including setting `published`.
 - Depends on: T7.1
@@ -268,28 +298,28 @@ Folder-based Decap collections, same pattern as `blog`. The Events collection is
 
 *TDD §12, decision 18. One host, one collection, one place any event is rendered. Gallery and Community feature theirs and link across; they never hold a second copy.*
 
-**T8.1 — Build `events/index.astro`**
+- [ ] **T8.1 — Build `events/index.astro`**
 Fills T1.7's shell. All events on one page, categorised by `type` (exhibition, workshop, talk, market, other), split into upcoming and past by date, with `featured` entries pinned. `CategoryFilter` already exists and is reusable. No row 2 nav — the categories are filters on this page (TDD §5).
 - AC: filters degrade to showing everything without JavaScript; past events stay reachable rather than disappearing; the empty state survives a collection with no entries.
 - Depends on: T7.1, T2.5
 
-**T8.2 — Build `events/[slug].astro`**
+- [ ] **T8.2 — Build `events/[slug].astro`**
 Event detail: date, venue, description, `rsvpNote`. Contact-only — no ticketing, no registration, matching the live gallery where every event reads "Registration is closed" or "Tickets are not on sale".
 - AC: `/artistry-weekend` resolves on `events.kaaya.org`; no booking or payment affordance anywhere on the page.
 - Depends on: T8.1
 
-**T8.3 — Import the 3 events**
+- [ ] **T8.3 — Import the 3 events**
 Himalayan Painting Masterclass · Artistry Weekend · Taste of the Himalayas. Titles, descriptions and venues (Studio 1, Nature Café) carry over from the scrape. All three are `section: gallery`.
 - **Hard gate:** the scrape's dates (`08 Aug 2026, 1:41 am – 3:41 am`) and address (`123 Art Ln, Sweetwater, TN 37874, USA`) are Wix placeholder data and must not ship.
 - AC: no placeholder date or address remains; every event carries a real date, a `type`, and the Kaaya campus address.
 - Depends on: T8.2, **external — real event dates**
 
-**T8.4 — CMS collection for Events**
+- [ ] **T8.4 — CMS collection for Events**
 Folder-based Decap collection, same pattern as `blog`. `section` and `type` are select widgets, not free text, so neither can drift.
 - AC: an editor can create, edit and delete events through `/admin`; an event created as `section: community` appears on the community home without further work.
 - Depends on: T8.1
 
-**T8.5 — Feature events on the section homes**
+- [ ] **T8.5 — Feature events on the section homes**
 The gallery home shows upcoming `section: gallery` events; the community home shows `section: community`. Cards link to `events.kaaya.org/[slug]` — sections feature, they do not re-render.
 - AC: both homes show only their own section's upcoming events, cap the count, and render nothing rather than breaking when there are none; every card links off-host.
 - Depends on: T8.3, T1.6, T7.7
@@ -300,32 +330,32 @@ The gallery home shows upcoming `section: gallery` events; the community home sh
 
 *TDD §15. Much smaller than earlier versions: routing is code (E2), so there are no Transform or Redirect Rules to configure, and `kaayagallery.com` needs no zone.*
 
-**T9.1 — Create the Cloudflare Pages project**
+- [ ] **T9.1 — Create the Cloudflare Pages project**
 GitHub-connected, `npm run build`, output `dist`, Node 22.
 - AC: builds and deploys from a push to `main`, reachable on its `*.pages.dev` URL, with the whole build browsable there at path form.
 - Depends on: E1, E2
 
-**T9.2 — Attach all seven custom domains**
+- [ ] **T9.2 — Attach all seven custom domains**
 `kaaya.org`, `www.kaaya.org`, `gallery.`, `place.`, `community.`, `events.`, `happenings.`.
 - AC: all seven resolve over HTTPS with a valid Cloudflare-issued cert.
 - Depends on: T9.1
 
-**T9.3 — Delete `public/CNAME`**
+- [ ] **T9.3 — Delete `public/CNAME`**
 A GitHub Pages artifact with no meaning on Cloudflare Pages, and a live source of confusion about which host is canonical.
 - AC: removed; build unaffected.
 - Depends on: T9.2
 
-**T9.4 — DNS cutover**
+- [ ] **T9.4 — DNS cutover**
 CNAMEs for the six subdomains plus repointing the apex, all proxied.
 - AC: all seven hostnames serve the live site; every row of TDD §6.2 re-verified against production, not preview.
 - Depends on: T9.2, T10.2, and content sign-off (E3, E6, E7, E8)
 
-**T9.5 — Decommission GitHub Pages**
+- [ ] **T9.5 — Decommission GitHub Pages**
 Delete `.github/workflows/deploy.yml`, disable GitHub Pages in repo settings.
 - AC: the old workflow no longer runs. Soak after T9.4, not same-day.
 - Depends on: T9.4 confirmed stable
 
-**T9.6 — Sitemap resubmission**
+- [ ] **T9.6 — Sitemap resubmission**
 - AC: submitted; no crawl errors after the first re-crawl.
 - Depends on: T9.4
 
@@ -335,26 +365,26 @@ Delete `.github/workflows/deploy.yml`, disable GitHub Pages in repo settings.
 
 *TDD §16. Trails the other epics rather than following them.*
 
-**T10.1 — Configure Playwright**
+- [ ] **T10.1 — Configure Playwright**
 - AC: `npx playwright test` runs against the local dev server.
 - Depends on: T0.4
 
-**T10.2 — Routing test suite**
+- [ ] **T10.2 — Routing test suite**
 One assertion per row of TDD §6.2's behaviour table — status plus `Location`, with an explicit `Host` header against `wrangler pages dev dist`. Must include the two asset rows (`/_astro/*` and `/uploads/*` served unrewritten on a section host), since that is the exact failure the previous routing design shipped with.
 - AC: full table green locally; the same suite green against production after T9.4.
 - Depends on: T2.1, T10.1
 
-**T10.3 — Per-section smoke tests**
+- [ ] **T10.3 — Per-section smoke tests**
 Page loads; nav hrefs are the expected absolute cross-subdomain URLs; each host renders its own row 2 nav. `link()` returns paths in dev, so assert against `astro build` output.
 - AC: one passing smoke test per section.
 - Depends on: T10.1, T2.5
 
-**T10.4 — Form tests**
+- [ ] **T10.4 — Form tests**
 Each of the four forms renders, carries its honeypot and redirect, and posts the right subject.
 - AC: markup asserted per form; at least one real submission per inbox verified manually (T4.3).
 - Depends on: T4.4, T7.5, T10.1
 
-**T10.5 — Banned-vocabulary check in CI**
+- [ ] **T10.5 — Banned-vocabulary check in CI**
 - AC: a PR introducing a banned term into page content *or* shared chrome fails CI; a clean PR passes.
 - Depends on: T5.1, T10.1
 

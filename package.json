@@ -11,7 +11,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "astro build",
-    "test": "playwright test --pass-with-no-tests"
+    "test": "playwright test --pass-with-no-tests",
+    "gate": "astro build && npm run gate:vocab && npm run gate:links",
+    "gate:vocab": "node scripts/gate/banned-vocab.mjs",
+    "gate:links": "node scripts/gate/dead-links.mjs",
+    "gate:content": "node scripts/gate/content-audit.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
@@ -21,6 +25,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "@tailwindcss/vite": "^4.3.1"
+    "@tailwindcss/vite": "^4.3.1",
+    "yaml": "^2.9.0"
   }
 }
