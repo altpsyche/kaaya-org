@@ -1,0 +1,42 @@
+# The gate, on every pull request and every push to main.
+#
+# `npm run gate` is build + banned vocabulary + dead links + proxies, and it is
+# the check that matters here: `astro build` passes green through a banned
+# phrase, a dead href and a lost YAML key alike, so a green build in CI proves
+# almost nothing on its own.
+#
+# The Playwright suites are deliberately absent — they run `wrangler pages dev`,
+# which npx fetches at runtime, and that belongs in its own workflow with a
+# cached toolchain rather than bolted onto this one (T10.6).
+name: Gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # package.json pins >=22.18.0: dead-links.mjs imports SECTIONS from a
+          # .ts module, which needs Node's unflagged type stripping (T2.2).
+          node-version: '22.18'
+          cache: npm
+
+      - run: npm ci
+
+      # Builds, then checks the built output for the four banned phrases, dead
+      # or misrouted internal hrefs, and Wix placeholder data. Each exits
+      # non-zero on a hit, so any one of them fails the job.
+      - run: npm run gate
+
+      # Not part of `npm run gate`: it takes a git ref, and only a content move
+      # earns it. Run against the pull request's merge base so a dropped
+      # paragraph shows up as a diff rather than as nothing.
+      - if: github.event_name == 'pull_request'
+        run: npm run gate:content ${{ github.event.pull_request.base.sha }}

@@ -587,9 +587,21 @@ Each of the four forms renders, carries its honeypot and redirect, and posts the
 - **The access-key assertion is real code and currently vacuous**, and that is worth writing down: all three inbox names resolve to the same live key until T4.3 step 2, so it cannot yet tell them apart. It imports `ACCESS_KEYS` rather than restating the values, so it starts discriminating the moment the real keys land — which is the failure it exists for, since a form pointing at the wrong key does not fail, it delivers somewhere else silently.
 - **The AC's second line stays open** — at least one real submission per inbox, which is T4.3 step 2 and needs mailboxes that do not exist. The markup half is done.
 
-- [ ] **T10.5 — Banned-vocabulary check in CI**
+- [x] **T10.5 — Banned-vocabulary check in CI**
 - AC: a PR introducing a banned term into page content *or* shared chrome fails CI; a clean PR passes.
 - Depends on: T5.1, T10.1
+- **Landed:** `.github/workflows/gate.yml`, on every pull request and every push to `main`. It runs `npm run gate` — build, banned vocabulary, dead links, proxies — so the AC's check is in CI along with the three that fail the same way.
+- **Both halves of the AC are already proven at the script level by T5.1**, which planted a violation in page content and in shared chrome and measured exit 1 each time, then exit 0 clean. CI adds no new logic; it runs the same script on the same built output, so a green workflow means what a green local run means.
+- **The pull-request run also does the content audit** against the merge base, which `npm run gate` deliberately omits because it takes a git ref. A dropped paragraph is invisible to every other check — every schema field is optional — and a pull request is exactly where the before-state is known.
+- **Node is pinned to 22.18**, matching `engines`: `dead-links.mjs` imports `SECTIONS` from a `.ts` module and needs Node's unflagged type stripping (T2.2).
+- **The Playwright suites are deliberately not in this workflow**, and that is T10.6 rather than an oversight — they run `wrangler pages dev`, which `npx` fetches at runtime, and that wants its own job with a cached toolchain.
+- **Closes E10 except T10.6.**
+
+- [ ] **T10.6 — The Playwright suites in CI** *(new — found in T10.5)*
+`gate.yml` runs the build-output gates only. The 45 Playwright tests — TDD §6.2's whole routing table, six section smoke tests and the four forms — run nowhere but a developer's machine, so a middleware or Header regression reaches `main` unchallenged.
+- AC: the suites run on every pull request; a deliberately broken rewrite fails the job; the run does not fetch `wrangler` from the network on every invocation.
+- **`wrangler` is not a dependency of this repo** — `playwright.config.ts` invokes it through `npx`, which fetched it on first use. Pinning it as a devDependency is probably the first step, and it is also what makes `--compatibility-date` auditable rather than a number in a config file.
+- Depends on: T10.1, T10.5
 
 ---
 
