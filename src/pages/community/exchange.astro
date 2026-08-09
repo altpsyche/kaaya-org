@@ -1,13 +1,13 @@
 ---
-import Base from '../layouts/Base.astro';
+import Base from '../../layouts/Base.astro';
 import { getEntry } from 'astro:content';
-import Hero from '../components/ui/Hero.astro';
-import SectionHeader from '../components/ui/SectionHeader.astro';
-import QuoteBlock from '../components/ui/QuoteBlock.astro';
-import ValueTable from '../components/ui/ValueTable.astro';
-import PillarList from '../components/ui/PillarList.astro';
+import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import QuoteBlock from '../../components/ui/QuoteBlock.astro';
+import ValueTable from '../../components/ui/ValueTable.astro';
+import PillarList from '../../components/ui/PillarList.astro';
 
-const pageData = await getEntry('pages', 'exchange');
+const pageData = await getEntry('pages', 'community-exchange');
 const {
   heroImage, heroHeading, heroSubheading,
   exchangeHeaders: cmsExchangeHeaders,

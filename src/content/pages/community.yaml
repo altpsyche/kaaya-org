@@ -1,0 +1,33 @@
+heroImage: /uploads/19.jpg
+heroHeading: Community
+heroSubheading: The circular economy Kaaya sits inside, and the people it runs on
+introParagraphs:
+  - Kaaya is not a campus with a village next to it. The two are the same
+    economy. Local soil built the huts, local cooks feed the camps, local
+    resource persons lead the sessions, and the money a visitor spends here
+    moves outward through the neighbourhood rather than out of it.
+  - This is the section for the parts of Kaaya that face that circle — the
+    learning programmes, the ideas being incubated on the campus, and the
+    exchange arrangements that hold it all together.
+sections:
+  - title: Learn
+    body: Short immersions, project residencies, live projects and internships,
+      and summer detox camps. Not courses — a shared inquiry.
+    href: /community/learn
+  - title: Incubate
+    body: Space, mentorship and ground conditions for seedling ideas, through the
+      Plug 'n' Play model.
+    href: /community/incubate
+  - title: Exchange
+    body: The Value Exchange System, live institutional partnerships, and the five
+      strategic pillars.
+    href: /community/exchange
+marketParagraphs:
+  - The Sunday market is a window Kaaya opens to the surrounding community. Farmers
+    and kitchen gardeners bring their surplus, and neighbours buy from neighbours.
+    Kaaya's part is small and practical — helping process surplus through solar
+    drying, dehydration and pickling, so that less of it is wasted.
+marketQuote:
+  quote: A household walks to the town market, buys tomatoes, dal, dairy, a packet
+    of seeds — and the cash that could have stayed in the neighbourhood
+    disappears into a distant supply chain

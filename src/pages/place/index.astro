@@ -1,0 +1,88 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import QuoteBlock from '../../components/ui/QuoteBlock.astro';
+import { url } from '../../lib/url';
+
+const pageData = await getEntry('pages', 'place');
+const {
+  heroImage, heroHeading, heroSubheading,
+  neighbourhoods: cmsNeighbourhoods,
+} = pageData?.data ?? {};
+
+const neighbourhoods = cmsNeighbourhoods ?? [
+  {
+    title: 'Kitchen Gardens — Neighbours as organic growers',
+    body: 'Tilwari village sits in the Doon Valley, a landscape under real pressure. Around 65% of households in the area are classified as Below Poverty Line or Antyodaya. Farming has become increasingly unviable. Young people leave.\n\nWe believe bridging the urban-rural gap can tap into energy, creativity, and possibility on both sides. Kaaya does not pretend to have solved these problems — but we are trying, carefully and incrementally, to show a different way of being in this place.',
+  },
+  {
+    title: "Farmer's Market — An upcoming initiative at Kaaya",
+    quote: 'A household walks to the town market, buys tomatoes, dal, dairy, a packet of seeds — and the cash that could have stayed in the neighbourhood disappears into a distant supply chain',
+  },
+];
+
+// Place's own sub-routes (TDD decision 3). Mirrors the section nav that T2.5's
+// Header will carry, so the section home is navigable before that lands.
+const sections = [
+  { label: 'Story', href: '/place/story', blurb: 'How Kaaya began, and how it was built' },
+  { label: 'Activities', href: '/place/activities', blurb: 'Pottery, workshop, trails, nature art, farm picnics' },
+  { label: 'Stay', href: '/place/stay', blurb: 'Rooms, rates, meal plans and campus facilities' },
+  { label: 'Booking', href: '/place/booking', blurb: 'Arrange a stay' },
+];
+---
+
+<Base
+  title="Place | Kaaya Learning Centre"
+  description="The Kaaya campus in Tilwari, Dehradun — mud architecture, a rural setting, embedded in nature."
+>
+  <Hero
+    heading={heroHeading ?? 'Place'}
+    subheading={heroSubheading ?? 'Mud architecture, a rural setting, embedded in nature'}
+    image={heroImage ?? undefined}
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <SectionHeader title="What is here" />
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {sections.map((s) => (
+          <li>
+            <a
+              href={url(s.href)}
+              class="group block rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6 transition-all hover:border-(--color-primary) hover:shadow-md"
+            >
+              <h3 class="text-lg font-semibold text-(--color-text) transition-colors group-hover:text-(--color-primary)">{s.label}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-(--color-text-muted)">{s.blurb}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section>
+      <SectionHeader title="The Neighbourhoods" subtitle="Latest updates" />
+      <div class="grid gap-8 sm:grid-cols-2">
+        {neighbourhoods.map((n) => (
+          <div class="space-y-3">
+            <h3 class="font-semibold text-(--color-text)">{n.title}</h3>
+            {n.body?.split(/\n\n+/).filter((p) => p.trim()).map((p) => (
+              <p class="text-sm leading-relaxed text-(--color-text-muted)">{p.trim()}</p>
+            ))}
+            {n.quote && (
+              <QuoteBlock quote={n.quote} attribution={n.attribution} />
+            )}
+            {n.linkLabel && n.linkHref && (
+              <a href={url(n.linkHref)} class="text-sm font-medium text-(--color-primary) hover:underline underline-offset-2">
+                {n.linkLabel} →
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Base>

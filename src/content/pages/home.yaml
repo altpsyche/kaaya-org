@@ -1,31 +1,12 @@
-heroImage: public/uploads/16-c3654301ef084297bc361f68e45cf4ee.jpg
+heroImage: /uploads/16-c3654301ef084297bc361f68e45cf4ee.jpg
 heroHeading: It's about Re-imagining
 heroSubheading: Tilwari, Dehradun · Himalayan Foothills, India
-introHeading: A small experiment in sustainable living
+introHeading: An art space on a working campus
 introText: >-
   Kaaya Learning Centre is a mud-built campus in the village of Tilwari where
   urban and rural communities meet, learn from each other, and find that the
-  exchange is worth making. 
+  exchange is worth making.
 
 
   Kaaya exists to see if it is possible that rural landscapes can become places of learning, living and innovation—not by replacing tradition, but by building upon it.
-navCards:
-  - title: Place
-    description: Looking at how we can belong to a place; Where we are, and what the
-      place is still asking
-    href: /place
-  - title: Learn
-    description: Re-imagining how knowledge is acquired; designing programs for
-      those who want to learn alongside
-    href: /learn
-  - title: Incubate
-    description: Re-imagining how ideas grow; recognizing that they also need space
-      to take root & a place to evolve
-    href: /incubate
-  - title: Exchange
-    description: Re-imagining how value circulates; how we sustain ourselves and
-      empower the neighbourhood
-    href: /exchange
-  - title: Visit
-    description: Re-imagining what it means to host; accommodate; and how to connect with us
-    href: /visit
+directionsNote: We are approximately 20 km from Dehradun city

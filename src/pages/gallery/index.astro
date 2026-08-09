@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import Hero from '../../components/ui/Hero.astro';
+import ContactBlock from '../../components/ui/ContactBlock.astro';
+
+// Shell only. T7.7 fills this with the exhibition narrative, featured works,
+// Artist of the Month, the mission statement and the Padav Fellowship origin —
+// all of which exist in docs/scrape/. The route exists now because the Header's
+// row 1 (T2.5) links to it on every host, and a missing section home is a dead
+// entry in that nav.
+const pageData = await getEntry('pages', 'gallery');
+const { heroImage, heroHeading, heroSubheading, introParagraphs } = pageData?.data ?? {};
+
+const introPs = introParagraphs ?? [
+  "The exhibition narrative, the works catalogue, the artist profiles and the Studios residency story are being brought across from the gallery's own site. Until they land, the fastest way to ask about a piece is to write to us.",
+];
+---
+
+<Base
+  title="Gallery | Kaaya"
+  description="Art from the Himalayas — the gallery at Kaaya."
+>
+  <Hero
+    heading={heroHeading ?? 'Art from the Himalayas'}
+    subheading={heroSubheading ?? 'The gallery at Kaaya'}
+    image={heroImage ?? undefined}
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16">
+    <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+      {introPs.map((p) => <p>{p}</p>)}
+    </div>
+    <div class="mt-10">
+      <ContactBlock />
+    </div>
+  </div>
+</Base>

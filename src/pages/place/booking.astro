@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import ContactBlock from '../../components/ui/ContactBlock.astro';
+import { url } from '../../lib/url';
+
+const pageData = await getEntry('pages', 'place-booking');
+const {
+  heroImage, heroHeading, heroSubheading,
+  introParagraphs,
+  bookingNote,
+} = pageData?.data ?? {};
+
+const introPs = introParagraphs ?? [
+  'Tell us who is coming, when, and what you hope to do while you are here. We will come back to you with what the campus can hold on those dates.',
+];
+---
+
+<Base
+  title="Booking | Kaaya Learning Centre"
+  description="Arrange a stay at Kaaya Learning Centre in Tilwari, Dehradun."
+>
+  <Hero
+    heading={heroHeading ?? 'Booking'}
+    subheading={heroSubheading ?? 'How to arrange a stay'}
+    image={heroImage ?? undefined}
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        {introPs.map((p) => <p>{p}</p>)}
+      </div>
+      <p class="mt-6 max-w-2xl text-sm text-(--color-text-muted)">
+        {bookingNote ?? 'An advance of 50% is required on booking confirmation.'}
+        {' '}Rates and room types are on
+        <a href={url('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Stay</a>.
+      </p>
+    </section>
+
+    {/* The booking enquiry form is built on the shared EnquiryForm shell in T4.4
+        and routes to info@kaaya.org. Until that inbox exists and the shell
+        lands, the page carries the printed contact rather than a form that
+        would post nowhere. */}
+    <section>
+      <SectionHeader title="Get in touch" />
+      <ContactBlock />
+    </section>
+
+  </div>
+</Base>

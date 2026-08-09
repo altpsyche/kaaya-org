@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import QuoteBlock from '../../components/ui/QuoteBlock.astro';
+import { url } from '../../lib/url';
+
+const pageData = await getEntry('pages', 'community');
+const {
+  heroImage, heroHeading, heroSubheading,
+  introParagraphs,
+  sections: cmsSections,
+  marketParagraphs,
+  marketQuote,
+} = pageData?.data ?? {};
+
+const introPs = introParagraphs ?? [
+  'Kaaya is not a campus with a village next to it. The two are the same economy. Local soil built the huts, local cooks feed the camps, local resource persons lead the sessions, and the money a visitor spends here moves outward through the neighbourhood rather than out of it.',
+  'This is the section for the parts of Kaaya that face that circle — the learning programmes, the ideas being incubated on the campus, and the exchange arrangements that hold it all together.',
+];
+
+const sections = cmsSections ?? [
+  {
+    title: 'Learn',
+    body: "Short immersions, project residencies, live projects and internships, and summer detox camps. Not courses — a shared inquiry.",
+    href: '/community/learn',
+  },
+  {
+    title: 'Incubate',
+    body: "Space, mentorship and ground conditions for seedling ideas, through the Plug 'n' Play model.",
+    href: '/community/incubate',
+  },
+  {
+    title: 'Exchange',
+    body: 'The Value Exchange System, live institutional partnerships, and the five strategic pillars.',
+    href: '/community/exchange',
+  },
+];
+
+const marketPs = marketParagraphs ?? [
+  "The Sunday market is a window Kaaya opens to the surrounding community. Farmers and kitchen gardeners bring their surplus, and neighbours buy from neighbours. Kaaya's part is small and practical — helping process surplus through solar drying, dehydration and pickling, so that less of it is wasted.",
+];
+---
+
+<Base
+  title="Community | Kaaya Learning Centre"
+  description="Learning, incubation and exchange at Kaaya — the circular economy the campus sits inside."
+>
+  <Hero
+    heading={heroHeading ?? 'Community'}
+    subheading={heroSubheading ?? 'The circular economy Kaaya sits inside, and the people it runs on'}
+    image={heroImage ?? undefined}
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        {introPs.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader title="What is here" />
+      <ul class="grid gap-4 sm:grid-cols-3">
+        {sections.map((s) => (
+          <li>
+            <a
+              href={url(s.href)}
+              class="group block h-full rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6 transition-all hover:border-(--color-primary) hover:shadow-md"
+            >
+              <h3 class="text-lg font-semibold text-(--color-text) transition-colors group-hover:text-(--color-primary)">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-(--color-text-muted)">{s.body}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* Build doc §9: the farmer's market is never described in commercial terms,
+        on any host. */}
+    <section>
+      <SectionHeader title="The Sunday market" />
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        {marketPs.map((p) => <p>{p}</p>)}
+      </div>
+      {marketQuote?.quote && (
+        <QuoteBlock quote={marketQuote.quote} attribution={marketQuote.attribution} />
+      )}
+    </section>
+
+  </div>
+</Base>

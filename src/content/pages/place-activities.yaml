@@ -1,0 +1,26 @@
+heroImage: /uploads/16.jpg
+heroHeading: Activities
+heroSubheading: Things to make, walk, and eat while you are here
+introParagraphs:
+  - These are not demonstrations. They are sessions for people who want to make
+    something, learn something, or pay closer attention to the world around
+    them.
+activities:
+  - title: Hands-on pottery
+    description: Working with clay, wheel, and kiln under local guidance.
+    detail: 3 hr · groups up to 12 participants
+  - title: Workshop
+    description: Wood working and tools, for visitors creating their own designs
+      and installations.
+  - title: Forest & eco trails
+    description: Guided walks through the surrounding landscape — streams, canopy,
+      soil, and what lives in all of them.
+    detail: 3 hr
+  - title: Nature art classes
+    description: In collaboration with visiting practitioners. Making things from
+      materials the land provides.
+    detail: 3 hr session
+  - title: Farm day picnics
+    description: Outdoor-cooked meals in the mountains. Food grown nearby, prepared
+      in the open air.
+    detail: Half day · excludes travel

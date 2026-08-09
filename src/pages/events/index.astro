@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import Hero from '../../components/ui/Hero.astro';
+import ContactBlock from '../../components/ui/ContactBlock.astro';
+
+// Shell only, and deliberately with no dependency on the `events` collection —
+// that collection is defined in T7.1 and populated in E8, and its three source
+// events carry Wix placeholder dates that are a hard gate on publishing. So
+// this renders a real empty state rather than fabricated listings.
+const pageData = await getEntry('pages', 'events');
+const {
+  heroImage, heroHeading, heroSubheading,
+  emptyStateHeading, emptyStateBody,
+} = pageData?.data ?? {};
+---
+
+<Base
+  title="Events | Kaaya"
+  description="Exhibitions, workshops, talks and markets at Kaaya."
+>
+  <Hero
+    heading={heroHeading ?? 'Events'}
+    subheading={heroSubheading ?? 'What is on at Kaaya'}
+    image={heroImage ?? undefined}
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16">
+    <div class="rounded-(--radius-card) border border-dashed border-(--color-border) bg-(--color-surface) p-10 text-center">
+      <h2 class="text-lg font-semibold text-(--color-text)">
+        {emptyStateHeading ?? 'Nothing scheduled just yet'}
+      </h2>
+      <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-(--color-text-muted)">
+        {emptyStateBody ?? 'When there is an exhibition, a workshop, a talk or a market on the campus, it will be listed here. Write to us if you would like to hear when the next one is announced.'}
+      </p>
+    </div>
+    <div class="mt-10">
+      <ContactBlock />
+    </div>
+  </div>
+</Base>

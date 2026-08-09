@@ -1,19 +1,19 @@
 ---
-import Base from '../layouts/Base.astro';
+import Base from '../../layouts/Base.astro';
 import { getEntry } from 'astro:content';
-import Hero from '../components/ui/Hero.astro';
-import SectionHeader from '../components/ui/SectionHeader.astro';
-import PriceTable from '../components/ui/PriceTable.astro';
-import ContactBlock from '../components/ui/ContactBlock.astro';
+import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import PriceTable from '../../components/ui/PriceTable.astro';
+import { url } from '../../lib/url';
 
-const pageData = await getEntry('pages', 'visit');
+const pageData = await getEntry('pages', 'place-stay');
 const {
   heroImage, heroHeading, heroSubheading,
   accommodation: cmsAccommodation,
+  stayNote,
   priceRange, priceNote,
   mealPlans: cmsMealPlans,
   facilities: cmsFacilities,
-  directionsNote,
 } = pageData?.data ?? {};
 
 const accommodation = cmsAccommodation ?? [
@@ -28,7 +28,7 @@ const accommodation = cmsAccommodation ?? [
     capacity: 'Max 6 beds',
   },
   {
-    type: 'Studio Rooms',
+    type: 'Garden Rooms',
     details: '2 units · one double + floor beds',
     capacity: 'Max 8 beds',
   },
@@ -47,20 +47,16 @@ const mealPlans = cmsMealPlans ?? [
 const facilities = cmsFacilities ?? [
   'Conference hall with audio-visual facility',
   'Natural outdoor informal sit-outs for group discussions',
-  'Hands-on pottery (3 hr, max 12 participants)',
-  'Forest / eco trail (3 hr)',
-  'Nature art class (3 hr session)',
-  'Farm day picnic — Half day (excludes travel)',
 ];
 ---
 
 <Base
-  title="Visit | Kaaya Learning Centre"
-  description="Accommodation, pricing, facilities, and directions to Kaaya Learning Centre in Tilwari, Dehradun."
+  title="Stay | Kaaya Learning Centre"
+  description="Accommodation, rates, meal plans and campus facilities at Kaaya Learning Centre in Tilwari, Dehradun."
 >
   <Hero
-    heading={heroHeading ?? 'Visit'}
-    subheading={heroSubheading ?? "Come and see what's happening here"}
+    heading={heroHeading ?? 'Stay'}
+    subheading={heroSubheading ?? 'Where you sleep, what it costs, and what is on the campus'}
     image={heroImage ?? undefined}
   />
 
@@ -70,8 +66,7 @@ const facilities = cmsFacilities ?? [
       <SectionHeader title="Staying at Kaaya" />
       <PriceTable rows={accommodation} />
       <p class="mt-4 text-sm text-(--color-text-muted)">
-        Accommodation is on a shared, eco-oriented basis. Please carry your own personal hygiene items;
-        towels are available on request. An advance of 50% is required on booking confirmation.
+        {stayNote ?? 'Accommodation is on a shared, eco-oriented basis. Please carry your own personal hygiene items; towels are available on request.'}
       </p>
     </section>
 
@@ -87,7 +82,7 @@ const facilities = cmsFacilities ?? [
           <div class="grid gap-3 sm:grid-cols-2">
             {mealPlans.map((plan) => (
               <div class="rounded-(--radius-card) border border-(--color-border) p-4">
-                <p class="font-medium text-(--color-text) text-sm">{plan.name}</p>
+                <p class="text-sm font-medium text-(--color-text)">{plan.name}</p>
                 <p class="mt-1 text-xs text-(--color-text-muted)">{plan.description}</p>
               </div>
             ))}
@@ -97,7 +92,7 @@ const facilities = cmsFacilities ?? [
     </section>
 
     <section>
-      <SectionHeader title="Facilities & Experiences" />
+      <SectionHeader title="Campus facilities" />
       <ul class="space-y-2">
         {facilities.map((f) => (
           <li class="flex items-start gap-2 text-sm text-(--color-text-muted)">
@@ -106,11 +101,17 @@ const facilities = cmsFacilities ?? [
           </li>
         ))}
       </ul>
+      <p class="mt-4 text-sm text-(--color-text-muted)">
+        Pottery, trails, nature art and farm picnics are listed on
+        <a href={url('/place/activities')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Activities</a>.
+      </p>
     </section>
 
     <section>
-      <SectionHeader title="Come and see" subtitle={directionsNote ?? 'We are approximately 20 km from Dehradun city'} />
-      <ContactBlock />
+      <SectionHeader title="Ready to come" />
+      <p class="max-w-2xl text-sm text-(--color-text-muted)">
+        <a href={url('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Arrange a stay →</a>
+      </p>
     </section>
 
   </div>

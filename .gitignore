@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # firebase local cache
 .firebase/
+
+# playwright
+test-results/
+playwright-report/

@@ -35,20 +35,4 @@ programs:
 programsQuote:
   quote: We also value unstructured time. We let children feel bored. Boredom, we
     have found, is where the roots of imagination lie dormant
-sessions:
-  - title: Hands-on pottery
-    description: 3-hour sessions for groups up to 12. Working with clay, wheel, and
-      kiln under local guidance.
-    href: /visit
-  - title: Forest & eco trails
-    description: Guided walks through the surrounding landscape — streams, canopy,
-      soil, and what lives in all of them.
-    href: /visit
-  - title: Nature art classes
-    description: In collaboration with visiting practitioners. Making things from
-      materials the land provides.
-    href: /visit
-  - title: Farm day picnics
-    description: Outdoor-cooked meals in the mountains. Food grown nearby, prepared
-      in the open air.
-    href: /visit
+

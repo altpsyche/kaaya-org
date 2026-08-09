@@ -13,15 +13,19 @@ backend:
     openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
 
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
-site_url: https://altpsyche.github.io/kaaya-org
+site_url: https://kaaya.org
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
+  # One build serves six hostnames. The file names below carry the section
+  # prefix that the page route sits under — `community-learn.yaml` renders at
+  # community.kaaya.org/learn, and so on.
   - name: pages
     label: Pages
     files:
+      # ---- kaaya.org ----
       - label: Home
         name: home
         file: src/content/pages/home.yaml
@@ -32,18 +36,46 @@ collections:
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
           - {label: "Intro Heading", name: "introHeading", widget: "string", required: false}
           - {label: "Intro Text", name: "introText", widget: "text", required: false}
-          - label: "Nav Cards"
-            name: "navCards"
+          - {label: "Directions Note", name: "directionsNote", widget: "string", required: false}
+
+      # ---- gallery.kaaya.org ----
+      - label: Gallery — Home
+        name: gallery
+        file: src/content/pages/gallery.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Intro Paragraphs"
+            name: "introParagraphs"
+            widget: "list"
+            required: false
+
+      # ---- place.kaaya.org ----
+      - label: Place — Home
+        name: place
+        file: src/content/pages/place.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Neighbourhoods"
+            name: "neighbourhoods"
             widget: "list"
             required: false
             fields:
               - {label: "Title", name: "title", widget: "string"}
-              - {label: "Description", name: "description", widget: "text"}
-              - {label: "URL", name: "href", widget: "string"}
+              - {label: "Body", name: "body", widget: "text", required: false}
+              - {label: "Quote", name: "quote", widget: "text", required: false}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+              - {label: "Link Label", name: "linkLabel", widget: "string", required: false}
+              - {label: "Link URL", name: "linkHref", widget: "string", required: false}
 
-      - label: Place
-        name: place
-        file: src/content/pages/place.yaml
+      - label: Place — Story
+        name: place-story
+        file: src/content/pages/place-story.yaml
         format: yaml
         fields:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
@@ -74,21 +106,112 @@ collections:
               - {label: "Title", name: "title", widget: "string"}
               - {label: "Subtitle", name: "subtitle", widget: "string"}
               - {label: "Body", name: "body", widget: "text"}
-          - label: "Neighbourhoods"
-            name: "neighbourhoods"
+
+      # Canonical source for pottery / workshop / trails / nature art / farm
+      # picnics. Do not re-describe these on Learn — link to this page instead.
+      - label: Place — Activities
+        name: place-activities
+        file: src/content/pages/place-activities.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Intro Paragraphs"
+            name: "introParagraphs"
+            widget: "list"
+            required: false
+          - label: "Activities"
+            name: "activities"
             widget: "list"
             required: false
             fields:
               - {label: "Title", name: "title", widget: "string"}
-              - {label: "Body", name: "body", widget: "text", required: false}
-              - {label: "Quote", name: "quote", widget: "text", required: false}
-              - {label: "Attribution", name: "attribution", widget: "string", required: false}
-              - {label: "Link Label", name: "linkLabel", widget: "string", required: false}
-              - {label: "Link URL", name: "linkHref", widget: "string", required: false}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Duration / Capacity", name: "detail", widget: "string", required: false}
 
-      - label: Learn
-        name: learn
-        file: src/content/pages/learn.yaml
+      - label: Place — Stay
+        name: place-stay
+        file: src/content/pages/place-stay.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Accommodation"
+            name: "accommodation"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Type", name: "type", widget: "string"}
+              - {label: "Details", name: "details", widget: "string"}
+              - {label: "Capacity", name: "capacity", widget: "string"}
+          - {label: "Stay Note", name: "stayNote", widget: "text", required: false}
+          - {label: "Price Range", name: "priceRange", widget: "string", required: false}
+          - {label: "Price Note", name: "priceNote", widget: "string", required: false}
+          - label: "Meal Plans"
+            name: "mealPlans"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+          - label: "Campus Facilities"
+            name: "facilities"
+            widget: "list"
+            required: false
+
+      - label: Place — Booking
+        name: place-booking
+        file: src/content/pages/place-booking.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Intro Paragraphs"
+            name: "introParagraphs"
+            widget: "list"
+            required: false
+          - {label: "Booking Note", name: "bookingNote", widget: "text", required: false}
+
+      # ---- community.kaaya.org ----
+      - label: Community — Home
+        name: community
+        file: src/content/pages/community.yaml
+        format: yaml
+        fields:
+          - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
+          - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
+          - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Intro Paragraphs"
+            name: "introParagraphs"
+            widget: "list"
+            required: false
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Body", name: "body", widget: "text"}
+              - {label: "URL", name: "href", widget: "string"}
+          - label: "Sunday Market Paragraphs"
+            name: "marketParagraphs"
+            widget: "list"
+            required: false
+          - label: "Sunday Market Quote"
+            name: "marketQuote"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
+
+      - label: Community — Learn
+        name: community-learn
+        file: src/content/pages/community-learn.yaml
         format: yaml
         fields:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
@@ -114,18 +237,10 @@ collections:
             fields:
               - {label: "Quote", name: "quote", widget: "text"}
               - {label: "Attribution", name: "attribution", widget: "string", required: false}
-          - label: "Hands-on Sessions"
-            name: "sessions"
-            widget: "list"
-            required: false
-            fields:
-              - {label: "Title", name: "title", widget: "string"}
-              - {label: "Description", name: "description", widget: "text"}
-              - {label: "URL", name: "href", widget: "string"}
 
-      - label: Incubate
-        name: incubate
-        file: src/content/pages/incubate.yaml
+      - label: Community — Incubate
+        name: community-incubate
+        file: src/content/pages/community-incubate.yaml
         format: yaml
         fields:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
@@ -163,9 +278,9 @@ collections:
               - {label: "Quote", name: "quote", widget: "text"}
               - {label: "Attribution", name: "attribution", widget: "string", required: false}
 
-      - label: Exchange
-        name: exchange
-        file: src/content/pages/exchange.yaml
+      - label: Community — Exchange
+        name: community-exchange
+        file: src/content/pages/community-exchange.yaml
         format: yaml
         fields:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
@@ -228,38 +343,22 @@ collections:
               - {label: "Quote", name: "quote", widget: "text"}
               - {label: "Attribution", name: "attribution", widget: "string", required: false}
 
-      - label: Visit
-        name: visit
-        file: src/content/pages/visit.yaml
+      # ---- events.kaaya.org ----
+      # The listing itself comes from the `events` folder collection added in
+      # T8.4. These fields are the page chrome and the empty state.
+      - label: Events — Home
+        name: events
+        file: src/content/pages/events.yaml
         format: yaml
         fields:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
-          - label: "Accommodation"
-            name: "accommodation"
-            widget: "list"
-            required: false
-            fields:
-              - {label: "Type", name: "type", widget: "string"}
-              - {label: "Details", name: "details", widget: "string"}
-              - {label: "Capacity", name: "capacity", widget: "string"}
-          - {label: "Price Range", name: "priceRange", widget: "string", required: false}
-          - {label: "Price Note", name: "priceNote", widget: "string", required: false}
-          - label: "Meal Plans"
-            name: "mealPlans"
-            widget: "list"
-            required: false
-            fields:
-              - {label: "Name", name: "name", widget: "string"}
-              - {label: "Description", name: "description", widget: "text"}
-          - label: "Facilities"
-            name: "facilities"
-            widget: "list"
-            required: false
-          - {label: "Directions Note", name: "directionsNote", widget: "string", required: false}
+          - {label: "Empty State — Heading", name: "emptyStateHeading", widget: "string", required: false}
+          - {label: "Empty State — Body", name: "emptyStateBody", widget: "text", required: false}
 
-  # Blog posts — Markdown with YAML frontmatter
+  # Blog posts — Markdown with YAML frontmatter. Served at
+  # happenings.kaaya.org/blog/*.
   - name: blog
     label: Blog Posts
     folder: src/content/blog

@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import Hero from '../../components/ui/Hero.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import { url } from '../../lib/url';
+
+// Canonical home for the pottery / workshop / trails / nature art / farm picnic
+// copy (TDD decision 11). It previously existed twice — as `learn.yaml`'s
+// `sessions` and, in terser form, as `visit.yaml`'s `facilities`.
+const pageData = await getEntry('pages', 'place-activities');
+const {
+  heroImage, heroHeading, heroSubheading,
+  introParagraphs,
+  activities: cmsActivities,
+} = pageData?.data ?? {};
+
+const activities = cmsActivities ?? [
+  {
+    title: 'Hands-on pottery',
+    description: 'Working with clay, wheel, and kiln under local guidance.',
+    detail: '3 hr · groups up to 12 participants',
+  },
+  {
+    title: 'Workshop',
+    description: 'Wood working and tools, for visitors creating their own designs and installations.',
+  },
+  {
+    title: 'Forest & eco trails',
+    description: 'Guided walks through the surrounding landscape — streams, canopy, soil, and what lives in all of them.',
+    detail: '3 hr',
+  },
+  {
+    title: 'Nature art classes',
+    description: 'In collaboration with visiting practitioners. Making things from materials the land provides.',
+    detail: '3 hr session',
+  },
+  {
+    title: 'Farm day picnics',
+    description: 'Outdoor-cooked meals in the mountains. Food grown nearby, prepared in the open air.',
+    detail: 'Half day · excludes travel',
+  },
+];
+
+const introPs = introParagraphs ?? [
+  'These are not demonstrations. They are sessions for people who want to make something, learn something, or pay closer attention to the world around them.',
+];
+---
+
+<Base
+  title="Activities | Kaaya Learning Centre"
+  description="Pottery, wood workshop, forest and eco trails, nature art classes and farm day picnics on the Kaaya campus."
+>
+  <Hero
+    heading={heroHeading ?? 'Activities'}
+    subheading={heroSubheading ?? 'Things to make, walk, and eat while you are here'}
+    image={heroImage ?? undefined}
+  />
+
+  <div class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+
+    <section>
+      <div class="max-w-2xl space-y-4 leading-relaxed text-(--color-text-muted)">
+        {introPs.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+
+    <section>
+      <SectionHeader title="What you can do here" />
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {activities.map((a) => (
+          <li class="rounded-(--radius-card) border border-(--color-border) bg-(--color-surface) p-6">
+            <h3 class="text-lg font-semibold text-(--color-text)">{a.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-(--color-text-muted)">{a.description}</p>
+            {a.detail && (
+              <p class="mt-3 text-xs font-medium text-(--color-accent)">{a.detail}</p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section>
+      <SectionHeader title="Staying over" />
+      <p class="max-w-2xl text-sm leading-relaxed text-(--color-text-muted)">
+        Most of these run as part of a stay on the campus.
+        <a href={url('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">See what a stay involves</a>, or
+        <a href={url('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">arrange one</a>.
+      </p>
+    </section>
+
+  </div>
+</Base>

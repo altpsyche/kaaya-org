@@ -1,0 +1,9 @@
+# One build serves six hostnames (kaaya.org + gallery/place/community/events/happenings).
+# This file is served from the root of every one of them.
+# Nothing is disallowed: the middleware's leak guards mean each host serves
+# distinct content, so there is no duplicate content to hide from crawlers.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://kaaya.org/sitemap-index.xml

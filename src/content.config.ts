@@ -29,11 +29,6 @@ const pages = defineCollection({
     // Home
     introHeading: z.string().optional(),
     introText: z.string().optional(),
-    navCards: z.array(z.object({
-      title: z.string(),
-      description: z.string(),
-      href: z.string(),
-    })).optional(),
 
     // Place
     section1Paragraphs: z.array(z.string()).optional(),
@@ -54,8 +49,32 @@ const pages = defineCollection({
       linkHref: z.string().optional(),
     })).optional(),
 
-    // Learn + Incubate (shared field name)
+    // Learn + Incubate + Place sub-pages (shared field name)
     introParagraphs: z.array(z.string()).optional(),
+
+    // Place → Activities. The single canonical home for the pottery / trails /
+    // nature art / farm picnic copy that used to be split between `learn.yaml`'s
+    // `sessions` and `visit.yaml`'s `facilities` (TDD decision 11).
+    activities: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+      detail: z.string().optional(),
+    })).optional(),
+
+    // Place → Stay / Booking
+    stayNote: z.string().optional(),
+    bookingNote: z.string().optional(),
+
+    // Events — the empty state shown until the `events` collection lands (E8).
+    emptyStateHeading: z.string().optional(),
+    emptyStateBody: z.string().optional(),
+
+    // Section homes — the sub-routes a section index points at.
+    sections: z.array(z.object({
+      title: z.string(),
+      body: z.string(),
+      href: z.string(),
+    })).optional(),
 
     // Learn
     programs: z.array(z.object({
@@ -64,11 +83,6 @@ const pages = defineCollection({
       description: z.string(),
     })).optional(),
     programsQuote: quoteSchema.optional(),
-    sessions: z.array(z.object({
-      title: z.string(),
-      description: z.string(),
-      href: z.string(),
-    })).optional(),
 
     // Incubate
     stat1Value: z.string().optional(),

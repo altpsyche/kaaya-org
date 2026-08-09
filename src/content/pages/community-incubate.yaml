@@ -1,4 +1,4 @@
-heroImage: public/uploads/18.jpg
+heroImage: /uploads/18.jpg
 heroHeading: Incubate
 heroSubheading: A place for ideas that are still becoming
 introParagraphs:
@@ -26,11 +26,6 @@ incubations:
       living reality for promoting arts and artists in the region. In the
       process, the Bangani Art Foundation has been established to continue
       supporting arts and artists in the Himalayan region.
-    links:
-      - label: Read about Padav Fellowship 2026
-        href: /blog/a-reflection-on-padav-2026
-      - label: About the Padav programme
-        href: /blog/padav-fellowships
   - name: Anutraaya
     by: Asambhava
     description: Asambhava is an entrepreneur concerned with what happens to
@@ -41,9 +36,6 @@ incubations:
       to translate ancestral wisdom into resilient pathways for the future. Step
       into Anutraaya's journey of rethinking food, language and craft so
       everyday life in the hills can stay rooted and resilient.
-    links:
-      - label: Read the story
-        href: /blog/aritram
 incubationsQuote:
   quote: Kaaya does not incubate ideas for you. It incubates them with you — and
     sometimes, in spite of you, the place itself becomes part of what you are
