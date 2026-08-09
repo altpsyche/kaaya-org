@@ -577,10 +577,15 @@ Page loads; nav hrefs are the expected absolute cross-subdomain URLs; each host 
 - **The negative assertion is the one that would catch a regression:** the header must contain no `href="/gallery…"`-style bare path, which is what `link()` emits when it takes its dev branch. A bare path renders and navigates fine on the apex, so nothing else in the repo notices it on a section host.
 - **Asserted over fetched HTML, not through a browser page.** `Host` is a forbidden header for a browser fetch, and every behaviour here depends on which host asked.
 
-- [ ] **T10.4 — Form tests**
+- [x] **T10.4 — Form tests**
 Each of the four forms renders, carries its honeypot and redirect, and posts the right subject.
 - AC: markup asserted per form; at least one real submission per inbox verified manually (T4.3).
 - Depends on: T4.4, T7.5, T10.1
+- **Landed:** `e2e/forms.spec.ts`, one test per form plus one for the homepage. Playwright 40 → **45 passed, 0 skipped**. Each form is fetched on its own host and asserted for the Web3Forms action, its subject, its access key, its on-site redirect, its honeypot and its full field set — Incubate's five decision-12 fields, Exchange's four, Booking's eight including the structured date and number inputs, Shop's four plus the two hidden work references.
+- **The suite bites, checked by mutation:** changing Booking's subject to `Stay Enquiry` failed exactly one test and left the other four passing.
+- **The homepage test is the inverse assertion.** Decision 16 gives `kaaya.org` no form, so the test asserts `api.web3forms.com` appears nowhere in it — a form there would also be a fifth destination nobody has a key for.
+- **The access-key assertion is real code and currently vacuous**, and that is worth writing down: all three inbox names resolve to the same live key until T4.3 step 2, so it cannot yet tell them apart. It imports `ACCESS_KEYS` rather than restating the values, so it starts discriminating the moment the real keys land — which is the failure it exists for, since a form pointing at the wrong key does not fail, it delivers somewhere else silently.
+- **The AC's second line stays open** — at least one real submission per inbox, which is T4.3 step 2 and needs mailboxes that do not exist. The markup half is done.
 
 - [ ] **T10.5 — Banned-vocabulary check in CI**
 - AC: a PR introducing a banned term into page content *or* shared chrome fails CI; a clean PR passes.
