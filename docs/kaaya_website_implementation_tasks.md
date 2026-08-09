@@ -217,10 +217,12 @@ Owns the Web3Forms POST, access key, subject, honeypot, success redirect, valida
 - AC: both existing forms behave identically after refactor, verified by a real submission landing in the right inbox; honeypot present; submission returns to an on-site thank-you page, not Web3Forms' branded page; no `<form action="https://api.web3forms.com">` outside the component.
 - Depends on: T1.1
 
-- [ ] **T4.2 — Thank-you page**
+- [x] **T4.2 — Thank-you page**
 The on-site destination T4.1's redirect targets. One page, reached from every host.
 - AC: reachable on all six hosts; states which enquiry was received.
 - Depends on: T2.1
+- **The AC's first line needed a design call, now TDD decision 19.** "Reachable on all six hosts" cannot mean six URLs: the middleware rewrites any unprefixed path on a section host into that section's folder, so `gallery.kaaya.org/thank-you` resolves to `dist/gallery/thank-you`. Measured under `wrangler pages dev dist`: `kaaya.org/thank-you/` 200, `gallery.kaaya.org/thank-you/` 404, `place.kaaya.org/thank-you/` 404. The page is the one on the apex, carries `noindex`, and every form reaches it because a redirect is an absolute URL — which is the sense of "reached from every host" this task ships.
+- **Landed:** `src/pages/thank-you.astro`, 17 → 18 routes. `noindex, nofollow` present and no canonical, since T2.4 stopped emitting one for a noindex page. "States which enquiry was received" reads `?enquiry=` client-side against a four-key map — incubate, exchange, booking, shop — because the build is static and `Astro.url.searchParams` is empty at build time. The unparameterised heading reads correctly on its own, which is what a visitor sees if the parameter is missing. `gate:links` 0 dead 0 misrouted, 462 → 487 hrefs on 19 pages.
 
 - [ ] **T4.3 — Provision three access keys**
 A Web3Forms access key binds to one verified destination, so `connect@`, `info@` and `gallery@` need one each, held in a single map beside the component. `art@` receives no submissions (decision 16) and needs no key.

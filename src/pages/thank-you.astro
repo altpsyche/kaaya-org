@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { link } from '../lib/links';
+
+/**
+ * The on-site destination every enquiry form redirects to (decision 19). One
+ * page on the apex, `noindex`, reached from all six hosts because a form's
+ * redirect is an absolute URL.
+ *
+ * The enquiry's name arrives as `?enquiry=` and is resolved in the browser:
+ * the build is static, so `Astro.url.searchParams` is empty here and a page
+ * that named the form in its HTML would need one build per form. The heading
+ * below is what a visitor sees when the parameter is missing or unrecognised,
+ * so it has to read correctly on its own.
+ */
+const ENQUIRIES = {
+  incubate: 'your idea',
+  exchange: 'your partnership enquiry',
+  booking: 'your booking enquiry',
+  shop: 'your enquiry about the work',
+};
+---
+
+<Base
+  title="Thank you"
+  description="Your enquiry has reached Kaaya. Someone will be in touch."
+  noIndex
+>
+  <section class="mx-auto max-w-2xl px-6 py-24 text-center">
+    <h1 class="text-3xl font-semibold text-(--color-text)">Thank you</h1>
+    <p id="enquiry-line" class="mt-4 text-(--color-text-muted)">
+      We have received your enquiry.
+    </p>
+    <p class="mt-2 text-sm text-(--color-text-muted)">
+      Someone from Kaaya will get back to you. Nothing else is needed from you now.
+    </p>
+    <div class="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
+      <a href={link('/')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Back to Kaaya</a>
+      <a href={link('/gallery')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Gallery</a>
+      <a href={link('/place')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place</a>
+      <a href={link('/community')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Community</a>
+    </div>
+  </section>
+</Base>
+
+<script is:inline define:vars={{ ENQUIRIES }}>
+  const key = new URLSearchParams(window.location.search).get('enquiry');
+  const what = ENQUIRIES[key];
+  if (what) {
+    document.getElementById('enquiry-line').textContent = `We have received ${what}.`;
+  }
+</script>
