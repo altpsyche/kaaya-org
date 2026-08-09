@@ -83,7 +83,7 @@ Numbers a session can check against. Update them in the same commit that moves t
 | banned-vocab hits |   0 across 10 files | `npm run gate:vocab` |
 | dead internal links | 0 dead, 0 misrouted across 678 internal hrefs on 26 pages | `npm run gate:links` |
 | content leaf strings | 202 across 12 YAML files | `npm run gate:content HEAD` |
-| Playwright tests | 0 | `npm test` — suite lands in T10.1 |
+| Playwright tests | 2 | `npm test` — harness only; the routing table is T10.2 |
 
 ## Commits
 

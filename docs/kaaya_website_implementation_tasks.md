@@ -452,9 +452,12 @@ Delete `.github/workflows/deploy.yml`, disable GitHub Pages in repo settings.
 
 *TDD §16. Trails the other epics rather than following them.*
 
-- [ ] **T10.1 — Configure Playwright**
+- [x] **T10.1 — Configure Playwright**
 - AC: `npx playwright test` runs against the local dev server.
 - Depends on: T0.4
+- **Landed:** `playwright.config.ts` plus `e2e/harness.spec.ts`. `npx playwright test` and `npm test` both run 2 tests and both pass. Playwright baseline 0 → 2.
+- **It runs against `wrangler pages dev dist`, not `astro dev`, and the AC's wording should be read that way.** Neither thing this repo has to test exists under `astro dev`: the middleware never runs there, so every row of TDD §6.2 is unassertable, and `link()` returns bare paths in dev, so nav hrefs are not the absolute cross-subdomain URLs production serves. The `webServer` command therefore runs `npm run build` and then wrangler, with `--compatibility-date` pinned, since wrangler refuses to start when the date is newer than its binary supports.
+- **The two tests prove the harness rather than the site**, which is what makes T10.2 and T10.3 cheap: the build is served, an explicit `Host` header reaches the worker, and the middleware is in front of the build — asserted by `kaaya.org/place` returning `301` to `place.kaaya.org/`, which serving `dist/` alone would answer with the page.
 
 - [ ] **T10.2 — Routing test suite**
 One assertion per row of TDD §6.2's behaviour table — status plus `Location`, with an explicit `Host` header against `wrangler pages dev dist`. Must include the two asset rows (`/_astro/*` and `/uploads/*` served unrewritten on a section host), since that is the exact failure the previous routing design shipped with.
