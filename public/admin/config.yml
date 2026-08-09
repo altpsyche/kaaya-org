@@ -37,6 +37,18 @@ collections:
           - {label: "Intro Heading", name: "introHeading", widget: "string", required: false}
           - {label: "Intro Text", name: "introText", widget: "text", required: false}
           - {label: "Directions Note", name: "directionsNote", widget: "string", required: false}
+          - label: "Kaaya Story Teaser"
+            name: "storyParagraphs"
+            widget: "list"
+            required: false
+          - label: "Kaaya Story Links"
+            name: "storyLinks"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Prompt", name: "prompt", widget: "string"}
+              - {label: "Label", name: "label", widget: "string"}
+              - {label: "Path", name: "href", widget: "string", hint: "Route path such as /place — rendered through link()"}
 
       # ---- gallery.kaaya.org ----
       - label: Gallery — Home

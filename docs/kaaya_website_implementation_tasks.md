@@ -198,10 +198,13 @@ Artist highlights appear before any mention of Place or Community, per build doc
 - AC: scroll order matches spec.
 - Depends on: T3.1. **Soft dependency on T7.3** for real works — a placeholder is acceptable short-term and the page must not break on an empty collection.
 
-- [ ] **T3.3 — Footer-weight Kaaya Story teaser**
+- [x] **T3.3 — Footer-weight Kaaya Story teaser**
 Exact copy block from build doc §8, ending in "Know the place" / "Know the community".
 - AC: copy matches build doc §8 verbatim; links go through `link()` and resolve to the right subdomains in a production build.
 - Depends on: T3.1
+- **Landed:** verbatim checked mechanically rather than by eye — the four paragraphs and two closing links are parsed out of build doc §8's blockquote and compared to `home.yaml` with whitespace normalised: 6 spec lines, 6 shipped, 6 identical. §8's body says "Know the ecosystem" and then instructs the rename; the shipped copy is "Know the community". Links resolve to `https://place.kaaya.org/` and `https://community.kaaya.org/` in the production build.
+- **Landed ahead of its dependency, deliberately.** T3.1 is unticked only because the exhibition photograph is owed; its hero structure landed, and this task needs none of the missing image.
+- **The copy lives in `home.yaml` with a hardcoded fallback**, matching every other page in this repo — `storyParagraphs` and `storyLinks` added to the `pages` schema and to `config.yml` as a bare list and a three-field list, the same widgets `introParagraphs` and `neighbourhoods` already use. Content leaf strings 190 → 200 across 12 YAML files: 4 paragraphs plus 2 links × 3 fields.
 
 ---
 

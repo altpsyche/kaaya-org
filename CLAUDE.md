@@ -80,8 +80,8 @@ Numbers a session can check against. Update them in the same commit that moves t
 | --- | --- | --- |
 | routes built | 17 | `npm run build` after E1 |
 | banned-vocab hits | 0 across 3 files | `npm run gate:vocab` |
-| dead internal links | 0 dead, 0 misrouted across 460 internal hrefs on 18 pages | `npm run gate:links` |
-| content leaf strings | 190 across 12 YAML files | `npm run gate:content HEAD` |
+| dead internal links | 0 dead, 0 misrouted across 462 internal hrefs on 18 pages | `npm run gate:links` |
+| content leaf strings | 200 across 12 YAML files | `npm run gate:content HEAD` |
 | Playwright tests | 0 | `npm test` — suite lands in T10.1 |
 
 ## Commits

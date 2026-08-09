@@ -10,3 +10,21 @@ introText: >-
 
   Kaaya exists to see if it is possible that rural landscapes can become places of learning, living and innovation—not by replacing tradition, but by building upon it.
 directionsNote: We are approximately 20 km from Dehradun city
+storyParagraphs:
+  - Kaaya isn't a gallery built for art alone.
+  - >-
+    It sits on a campus that has spent years quietly practicing a different way
+    of living — testing what it means to grow food, build shelter, and share
+    resources without taking more than the land can give back.
+  - >-
+    The art here didn't arrive from elsewhere. It grew out of that same ground —
+    shaped by the people who've lived, worked, and stayed on this land, in
+    exchange with it and with each other.
+  - What you're seeing is one visible layer of something larger.
+storyLinks:
+  - prompt: See how it's built, and where →
+    label: Know the place
+    href: /place
+  - prompt: Understand the wider circle →
+    label: Know the community
+    href: /community

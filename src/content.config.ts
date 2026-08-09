@@ -30,6 +30,16 @@ const pages = defineCollection({
     introHeading: z.string().optional(),
     introText: z.string().optional(),
 
+    // Home — the Kaaya Story teaser (build doc §8), footer-weight. Its two
+    // closing links are the only route off the homepage into Place and
+    // Community, so `href` is a route path and renders through `link()`.
+    storyParagraphs: z.array(z.string()).optional(),
+    storyLinks: z.array(z.object({
+      prompt: z.string(),
+      label: z.string(),
+      href: z.string(),
+    })).optional(),
+
     // Place
     section1Paragraphs: z.array(z.string()).optional(),
     section2Paragraphs: z.array(z.string()).optional(),

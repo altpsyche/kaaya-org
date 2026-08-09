@@ -18,7 +18,23 @@ const {
   heroImage, heroHeading, heroSubheading,
   introHeading, introText,
   directionsNote,
+  storyParagraphs, storyLinks,
 } = pageData?.data ?? {};
+
+/* Build doc §8's teaser, verbatim, duplicated here as the fallback every page
+   in this repo carries — clearing the field in the CMS falls through to it, so
+   the two must move together. */
+const story = storyParagraphs?.length ? storyParagraphs : [
+  "Kaaya isn't a gallery built for art alone.",
+  'It sits on a campus that has spent years quietly practicing a different way of living — testing what it means to grow food, build shelter, and share resources without taking more than the land can give back.',
+  "The art here didn't arrive from elsewhere. It grew out of that same ground — shaped by the people who've lived, worked, and stayed on this land, in exchange with it and with each other.",
+  "What you're seeing is one visible layer of something larger.",
+];
+
+const storyExits = storyLinks?.length ? storyLinks : [
+  { prompt: "See how it's built, and where →", label: 'Know the place', href: '/place' },
+  { prompt: 'Understand the wider circle →', label: 'Know the community', href: '/community' },
+];
 ---
 
 {/* INTERIM copy — this title and `introHeading` previously carried "sustainable
@@ -59,6 +75,25 @@ const {
       </div>
     </section>
   )}
+
+  {/* Footer-weight Kaaya Story teaser (build doc §8). Deliberately quiet: it
+      sits last before the Visit block, and its two links are the first mention
+      of Place and Community anywhere on the page. */}
+  <section class="mx-auto max-w-5xl px-6 pb-16">
+    <div class="max-w-2xl border-t border-(--color-border) pt-10">
+      {story.map((paragraph) => (
+        <p class="mt-4 text-sm leading-relaxed text-(--color-text-muted) first:mt-0">{paragraph}</p>
+      ))}
+      <div class="mt-8 flex flex-col gap-2 text-sm">
+        {storyExits.map(({ prompt, label, href }) => (
+          <p class="text-(--color-text-muted)">
+            <em>{prompt}</em>{' '}
+            <a href={link(href)} class="font-semibold text-(--color-primary) hover:underline underline-offset-2">{label}</a>
+          </p>
+        ))}
+      </div>
+    </div>
+  </section>
 
   {/* Footer-weight Visit info, folded in from the deleted /visit route (build
       doc §8). The middleware 301s the old /visit URL to this anchor, so the id
