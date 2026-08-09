@@ -124,10 +124,15 @@ Repoint `learn`/`incubate`/`exchange`; add the four Place sub-page files; remove
 
 *TDD §5, §6.2, §8, §9. Application code — lands well before the Cloudflare project exists. Verify against the existing pages before the gallery is built: a wrong rewrite rule is far easier to find with six pages than sixty.*
 
-- [ ] **T2.1 — Write `functions/_middleware.js`**
+- [x] **T2.1 — Write `functions/_middleware.js`**
 Per TDD §6.2 verbatim: host rewrite for `gallery`/`place`/`community`/`events`, `/blog`-only scoping for `happenings`, `www` → apex, legacy map, section-prefix leak guards, and the `PASSTHROUGH`/`ROOT_FILE` asset guard the dropped Transform Rule design lacked.
 - AC: every row of TDD §6.2's behaviour table passes under `wrangler pages dev dist` with an explicit `Host` header — including the two asset rows, which are the whole reason this file exists.
 - Depends on: E1
+- **Landed:** 36 of 36 assertions green under `wrangler pages dev dist --compatibility-date=2026-08-08`, one per row of TDD §6.2 that has a built route today, driven with an explicit `Host` header. Redirect rows assert status and `Location`; serve rows assert the body is byte-identical to the `dist/` file the row names, so a rewrite landing on the wrong page cannot pass. Both asset rows green: `gallery.kaaya.org/_astro/Base.DdaE4qad.css` and `/uploads/13.jpg` serve the root files unrewritten, as do `/favicon.svg`, `/robots.txt` and `/sitemap-index.xml`. Build 17 routes, `gate:vocab` 0 hits, `gate:links` 0 dead.
+- **Four rows are not yet assertable** — `gallery.kaaya.org/shop`, `/shop/chromatic-metanoia`, `/artist/tenzin-norbu` and `events.kaaya.org/artistry-weekend` have no built route until E7 and E8. The rewrite they exercise is the same branch `place.kaaya.org/booking` and `community.kaaya.org/learn` already prove, and T10.2 re-runs the full table once the routes exist.
+- **§6.2's code is one row short of its own table, and this is the correction.** Verbatim, `place.kaaya.org/stay` did not serve — it rewrote to `/place/stay`, which Pages answers with a 308 to `/place/stay/`, **putting the internal section prefix in a public URL**, the exact leak §6.3 exists to prevent. The chain terminated (308 → 301 → 200) rather than looping, so a build would have shipped it green. Fixed in-file with `asDirectory()`: an extensionless path is rewritten straight to its slash form, so the prefix never leaves the origin and the row serves 200 in one hop. Applied to the `happenings` branch for the same reason.
+- **A second §6.2 gap, same commit:** `PASSTHROUGH` required a trailing slash, so `/admin` (no slash) fell through to the section rewrite and 404'd as `/gallery/admin` — the CMS unreachable on four of the six hosts by one character. The regex now matches `(\/|$)`. `/admin` 308s to `/admin/` and serves; `/admin/` serves directly.
+- **Correct TDD §6.2's code block if that document is ever revised.** The behaviour table is right; the code under it is what was wrong.
 
 - [ ] **T2.2 — Write `src/lib/links.ts`, delete `src/lib/url.ts` (D5)**
 TDD §9. Two exports: `toCanonical()` with no environment check, and `link()` wrapping it for dev. Replace every hand-written internal `href`.

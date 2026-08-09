@@ -29,3 +29,6 @@ pnpm-debug.log*
 # playwright
 test-results/
 playwright-report/
+
+# wrangler local state, written by `wrangler pages dev dist`
+.wrangler/
