@@ -1,6 +1,6 @@
 ---
 import { SITE } from '../../data/site';
-import { link, SECTIONS } from '../../lib/links';
+import { link, asset, SECTIONS } from '../../lib/links';
 import ThemeToggle from './ThemeToggle.astro';
 
 /**
@@ -16,7 +16,7 @@ const section = first === 'blog' ? 'happenings' : SECTIONS.includes(first) ? fir
 
 // Gallery first and emphasised per build doc §8. Five is the ceiling — §5.
 const row1 = [
-  { label: 'Gallery', section: 'gallery', path: '/gallery', lead: true },
+  { label: 'Art Gallery', section: 'gallery', path: '/gallery', lead: true },
   { label: 'Place', section: 'place', path: '/place' },
   { label: 'Community', section: 'community', path: '/community' },
   { label: 'Events', section: 'events', path: '/events' },
@@ -63,7 +63,15 @@ const itemClass = (active: boolean, lead = false) => [
   class="border-b border-(--color-border) bg-(--color-bg)/90 backdrop-blur sticky top-0 z-20"
 >
   <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 gap-4">
-    <a href={link('/')} class="text-base font-bold text-(--color-primary) shrink-0">{SITE.title}</a>
+    {section === 'gallery' ? (
+      <a href={link('/')} class="shrink-0">
+        <img src={asset('/kaaya-art-gallery-logo.png')} alt="Kaaya Art Gallery" class="h-8 w-auto" />
+      </a>
+    ) : (
+      <a href={link('/')} class="shrink-0">
+        <img src={asset('/kaaya-logo.png')} alt={SITE.title} class="h-8 w-auto" />
+      </a>
+    )}
 
     <div class="flex items-center gap-2">
       {/* Row 1 — hidden on mobile, shown from md up */}
