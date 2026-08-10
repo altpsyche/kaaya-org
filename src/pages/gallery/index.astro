@@ -4,7 +4,6 @@ import { getCollection, getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
-import ContactBlock from '../../components/ui/ContactBlock.astro';
 import { link } from '../../lib/links';
 import ResponsiveImage from '../../components/ui/ResponsiveImage.astro';
 
@@ -128,9 +127,5 @@ const upcoming = (await getCollection('events'))
     )}
 
     {finalQuote && <QuoteBlock quote={finalQuote.quote} attribution={finalQuote.attribution} />}
-
-    <section>
-      <ContactBlock />
-    </section>
   </div>
 </Base>

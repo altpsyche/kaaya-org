@@ -4,7 +4,6 @@ import { getCollection, getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import CategoryFilter from '../../components/ui/CategoryFilter.astro';
-import ContactBlock from '../../components/ui/ContactBlock.astro';
 import { link } from '../../lib/links';
 
 const pageData = await getEntry('pages', 'events');
@@ -121,9 +120,5 @@ const when = (e: (typeof all)[number]) =>
         )}
       </div>
     )}
-
-    <div class="mt-10">
-      <ContactBlock />
-    </div>
   </div>
 </Base>

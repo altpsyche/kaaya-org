@@ -3,7 +3,6 @@ import Base from '../../layouts/Base.astro';
 import { getEntry } from 'astro:content';
 import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
-import ContactBlock from '../../components/ui/ContactBlock.astro';
 import EnquiryForm from '../../components/ui/EnquiryForm.astro';
 import { link } from '../../lib/links';
 
@@ -84,11 +83,6 @@ const introPs = introParagraphs ?? [
           },
         ]}
       />
-    </section>
-
-    <section>
-      <SectionHeader title="Or reach us directly" />
-      <ContactBlock />
     </section>
 
   </div>

@@ -5,7 +5,6 @@ import Hero from '../../../components/ui/Hero.astro';
 import SectionHeader from '../../../components/ui/SectionHeader.astro';
 import CategoryFilter from '../../../components/ui/CategoryFilter.astro';
 import ResponsiveImage from '../../../components/ui/ResponsiveImage.astro';
-import ContactBlock from '../../../components/ui/ContactBlock.astro';
 import { link } from '../../../lib/links';
 
 const works = (await getCollection('works')).sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -99,9 +98,5 @@ const artistNames = new Map(
         />
       </section>
     )}
-
-    <section>
-      <ContactBlock />
-    </section>
   </div>
 </Base>
