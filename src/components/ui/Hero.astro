@@ -9,9 +9,11 @@ interface Props {
   image?: string;
   /** Homepage scale: build doc §8 gives the hero 50-70% of the viewport. */
   prominent?: boolean;
+  /** Pale/high-key photos wash the heading out under the default scrim. */
+  strongOverlay?: boolean;
 }
 
-const { heading, subheading, cta, image, prominent = false } = Astro.props;
+const { heading, subheading, cta, image, prominent = false, strongOverlay = false } = Astro.props;
 
 /**
  * The hero paints a CSS `background-image`, which can carry no `srcset`, so the
@@ -34,7 +36,9 @@ const wide = image ? derivativeAt(image, 1920) : undefined;
   ]}
   style={image ? `--hero-narrow: url('${asset(narrow!)}'); --hero-wide: url('${asset(wide!)}')` : undefined}
 >
-  {image && <div class="absolute inset-0 bg-(--color-hero-overlay)" />}
+  {image && (
+    <div class:list={['absolute inset-0', strongOverlay ? 'bg-(--color-hero-overlay-strong)' : 'bg-(--color-hero-overlay)']} />
+  )}
   <div class="relative mx-auto max-w-4xl">
     <h1 class="text-4xl font-bold text-(--color-on-hero) sm:text-5xl lg:text-6xl">{heading}</h1>
     {subheading && <p class="mt-4 text-lg text-(--color-on-hero)/85 sm:text-xl">{subheading}</p>}

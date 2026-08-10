@@ -63,6 +63,7 @@
 
   --color-on-primary:    var(--sand-50);   /* text/icon on terracotta or accent fills */
   --color-hero-overlay:  oklch(23% 0.016 52 / 0.55); /* warm scrim over hero photos */
+  --color-hero-overlay-strong: oklch(23% 0.016 52 / 0.72); /* pale/high-key hero photos */
   --color-on-hero:       var(--sand-50);   /* hero text over gradient/photo */
 
   /* texture grain strength per mode */
@@ -87,6 +88,7 @@
 
   --color-on-primary:    var(--sand-950);  /* dark text on lifted terracotta/accent in dark */
   --color-hero-overlay:  oklch(16% 0.012 50 / 0.62);
+  --color-hero-overlay-strong: oklch(16% 0.012 50 / 0.78);
   --color-on-hero:       var(--sand-50);
 
   --grain-opacity: 0.07;
