@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import { getCollection, getEntry } from 'astro:content';
 import Hero from '../components/ui/Hero.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
-import ContactBlock from '../components/ui/ContactBlock.astro';
 import PostList from '../components/ui/PostList.astro';
 import Button from '../components/ui/Button.astro';
 import { link } from '../lib/links';
@@ -142,19 +141,18 @@ const storyExits = storyLinks?.length ? storyLinks : [
 
   {/* Footer-weight Visit info, folded in from the deleted /visit route (build
       doc §8). The middleware 301s the old /visit URL to this anchor, so the id
-      is load-bearing — do not rename it. */}
+      is load-bearing — do not rename it. No ContactBlock here: the Footer
+      immediately below already renders one, and back-to-back on the homepage
+      it just read as the same card twice. */}
   <section id="visit" class="border-t border-(--color-border) bg-(--color-surface)">
     <div class="mx-auto max-w-5xl px-6 py-14">
       <SectionHeader title="Visit" subtitle={directionsNote ?? 'We are approximately 20 km from Dehradun city'} />
-      <div class="grid gap-8 sm:grid-cols-2">
-        <ContactBlock />
-        <p class="text-sm leading-relaxed text-(--color-text-muted)">
-          Rooms, rates, meal plans and campus facilities are on
-          <a href={link('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Stay</a>,
-          and stays are arranged through
-          <a href={link('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Booking</a>.
-        </p>
-      </div>
+      <p class="max-w-2xl text-sm leading-relaxed text-(--color-text-muted)">
+        Rooms, rates, meal plans and campus facilities are on
+        <a href={link('/place/stay')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Stay</a>,
+        and stays are arranged through
+        <a href={link('/place/booking')} class="font-medium text-(--color-primary) hover:underline underline-offset-2">Place → Booking</a>.
+      </p>
     </div>
   </section>
 </Base>
