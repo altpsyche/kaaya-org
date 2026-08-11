@@ -41,6 +41,8 @@ const pages = defineCollection({
     })).optional(),
 
     // Place
+    locationParagraphs: z.array(z.string()).optional(),
+    locationQuote: quoteSchema.optional(),
     section1Paragraphs: z.array(z.string()).optional(),
     section2Paragraphs: z.array(z.string()).optional(),
     section2Quote: quoteSchema.optional(),

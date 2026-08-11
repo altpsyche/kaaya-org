@@ -84,6 +84,18 @@ collections:
           - {label: "Hero Image", name: "heroImage", widget: "image", required: false}
           - {label: "Hero Heading", name: "heroHeading", widget: "string", required: false}
           - {label: "Hero Subheading", name: "heroSubheading", widget: "string", required: false}
+          - label: "Location Paragraphs"
+            name: "locationParagraphs"
+            widget: "list"
+            required: false
+          - label: "Location Quote"
+            name: "locationQuote"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Quote", name: "quote", widget: "text"}
+              - {label: "Attribution", name: "attribution", widget: "string", required: false}
           - label: "Neighbourhoods"
             name: "neighbourhoods"
             widget: "list"
