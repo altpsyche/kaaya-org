@@ -1,7 +1,7 @@
 ---
 import { SITE } from '../../data/site';
 import ContactBlock from '../ui/ContactBlock.astro';
-import { link } from '../../lib/links';
+import { link, asset } from '../../lib/links';
 
 const year = new Date().getFullYear();
 
@@ -24,7 +24,8 @@ const crossSite = [
 <footer class="border-t border-(--color-border) bg-(--color-surface) mt-auto">
   <div class="mx-auto max-w-5xl px-6 py-10">
     <div class="grid gap-8 sm:grid-cols-2">
-      <div>
+      <div class="flex items-start gap-4">
+        <img src={asset('/kaaya-badge.png')} alt="" class="h-14 w-14 shrink-0" />
         <ContactBlock />
       </div>
       <div class="flex flex-col justify-between sm:items-end">
