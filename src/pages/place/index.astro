@@ -5,6 +5,9 @@ import Hero from '../../components/ui/Hero.astro';
 import SectionHeader from '../../components/ui/SectionHeader.astro';
 import QuoteBlock from '../../components/ui/QuoteBlock.astro';
 import { link } from '../../lib/links';
+import { SITE } from '../../data/site';
+
+const mapQuery = encodeURIComponent(`${SITE.title}, ${SITE.address}`);
 
 const pageData = await getEntry('pages', 'place');
 const {
@@ -103,6 +106,29 @@ const sections = [
           </div>
         ))}
       </div>
+    </section>
+
+    <section>
+      <SectionHeader title="Location" subtitle={SITE.address} />
+      <div class="overflow-hidden rounded-(--radius-card) border border-(--color-border)">
+        <iframe
+          src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+          title="Kaaya Learning Centre on Google Maps"
+          width="100%"
+          height="400"
+          style="border:0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        />
+      </div>
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-4 inline-block text-sm font-medium text-(--color-primary) hover:underline underline-offset-2"
+      >
+        Get directions →
+      </a>
     </section>
 
   </div>
